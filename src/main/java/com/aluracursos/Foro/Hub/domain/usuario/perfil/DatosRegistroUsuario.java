@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
-public record DatosRespuestaUsuario(
+public record DatosRegistroUsuario(
 
         @NotBlank(message = "{nombre.obligatorio}")
         String nombre,
@@ -35,7 +35,7 @@ public record DatosRespuestaUsuario(
         return nombreNormalizado.replaceAll(" ", "") + "@example.com";
     }
 
-    public static Usuario respuesta(String nombre){
+    public static Usuario registro(String nombre){
         String correoElectronico = convertirCorreo(nombre);
         String contrasena = "defaultPassword";
         return new Usuario(null, nombre, correoElectronico, contrasena,
