@@ -3,10 +3,12 @@ package com.aluracursos.Foro.Hub.domain.topico;
 import com.aluracursos.Foro.Hub.domain.curso.Curso;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class Topico {
     private String mensaje;
 
     @Column(name = "fecha_creacion")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime fechaCreacion;
 
     @Enumerated(EnumType.STRING)
@@ -44,4 +47,15 @@ public class Topico {
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas = new ArrayList<>();
 
+    private Boolean activo; //  para mostrar en listado solo topicos activos
+
+    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor) {
+        this.activo = true;
+        this.titulo = datosRegistroTopico.titulo();
+        this.mensaje = datosRegistroTopico.mensaje();
+        this.curso = curso;
+        this.autor = autor;
+        this.fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        this.status = TopicoStatus.ACTIVO;
+    }
 }
