@@ -2,9 +2,9 @@ package com.aluracursos.Foro.Hub.domain.topico;
 
 public enum TopicoStatus {
 
-    ACTIVO("Tópico activo"),
-    INACTIVO("Tópico inactivo"),
-    PENDIENTE("Tópico pendiente");
+    ACTIVO("activo"),
+    INACTIVO("inactivo"),
+    PENDIENTE("pendiente");
 
     private final String descripcion;
 
@@ -12,9 +12,15 @@ public enum TopicoStatus {
         this.descripcion = descripcion;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+    //para cuando se deba ingresar valores string para escoger status
+//    public static TopicoStatus fromString(String status) {
+//        for (TopicoStatus c : TopicoStatus.values()) {
+//            if (c.name().equalsIgnoreCase(status)) {
+//                return c;
+//            }
+//        }
+//        return ACTIVO; // Valor por defecto en caso de que no se encuentre
+//    }
 
 }
 

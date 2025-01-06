@@ -13,6 +13,7 @@ public record DatosRegistroCurso(
       String categoria
 ) {
     public static Curso registro(String nombre){
-        return new Curso(null, nombre, "General",new ArrayList<>());
+        Categoria categoria = Categoria.GENERAL;
+        return new Curso(null, nombre, categoria,new ArrayList<>());
     }
 }

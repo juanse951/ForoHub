@@ -22,7 +22,8 @@ public class Curso {
 
     private String nombre;
 
-    private String categoria;
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
