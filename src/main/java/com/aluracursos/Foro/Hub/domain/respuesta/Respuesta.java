@@ -2,6 +2,7 @@ package com.aluracursos.Foro.Hub.domain.respuesta;
 
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,8 @@ public class Respuesta {
     @JoinColumn(name = "topico_id")
     private Topico topico;
 
+    @Column(name = "fecha_creacion")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime fechaCreacion;
 
     @ManyToOne
