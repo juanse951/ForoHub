@@ -89,4 +89,11 @@ public class TopicoController {
        // Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.desc("fechaCreacion")));
         return ResponseEntity.ok(topicoRepository.findAll(paginacion).map(DatosListadoTopico::new));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosRespuestaTopico> retornarDatosTopico(@PathVariable Long id){
+        Topico topico = topicoRepository.getReferenceById(id);
+        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
+        return ResponseEntity.ok(datosRespuestaTopico);
+    }
 }
