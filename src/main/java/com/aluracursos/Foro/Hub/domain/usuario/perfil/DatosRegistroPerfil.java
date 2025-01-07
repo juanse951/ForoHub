@@ -1,12 +1,12 @@
 package com.aluracursos.Foro.Hub.domain.usuario.perfil;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 
 public record DatosRegistroPerfil(
 
-        @NotBlank(message = "{nombre.obligatorio}")
+        @NotNull(message = "{nombre.obligatorio}")
         TipoPerfil nombre
 ) {
     public static Perfil registro(TipoPerfil nombre){
