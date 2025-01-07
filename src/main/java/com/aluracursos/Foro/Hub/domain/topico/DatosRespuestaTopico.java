@@ -20,7 +20,19 @@ public record DatosRespuestaTopico(
         DatosRespuestaUsuario autor,
 
         DatosRespuestaCurso curso
-
-//        List<Respuesta> respuestas
 ) {
+    public DatosRespuestaTopico(Topico topico){
+        this(
+                topico.getId(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getFechaCreacion(),
+                topico.getStatus().toString(),
+                new DatosRespuestaUsuario(
+                        topico.getAutor().getNombre()
+                ),
+                new DatosRespuestaCurso(
+                        topico.getCurso().getNombre()
+                ));
+    }
 }

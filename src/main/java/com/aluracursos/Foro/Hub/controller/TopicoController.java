@@ -3,12 +3,10 @@ package com.aluracursos.Foro.Hub.controller;
 import com.aluracursos.Foro.Hub.domain.curso.Curso;
 import com.aluracursos.Foro.Hub.domain.curso.CursoRepository;
 import com.aluracursos.Foro.Hub.domain.curso.DatosRegistroCurso;
-import com.aluracursos.Foro.Hub.domain.curso.DatosRespuestaCurso;
 import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.Foro.Hub.domain.topico.*;
-import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
 import com.aluracursos.Foro.Hub.domain.usuario.DatosRegistroUsuario;
@@ -52,7 +50,6 @@ public class TopicoController {
                 .orElseGet(() -> cursoRepository.save(DatosRegistroCurso.
                         registro(datosRegistroTopico.curso())));
 
-
         Usuario autor = usuarioRepository.findByNombre(datosRegistroTopico.autor())
                 .orElseGet(() -> {
                     Usuario nuevoUsuario = DatosRegistroUsuario.registro(datosRegistroTopico.autor());
@@ -63,7 +60,6 @@ public class TopicoController {
 
                     return usuarioRepository.save(nuevoUsuario);
                 });
-
 
         var topico = topicoRepository.save(new Topico(
                 datosRegistroTopico,
@@ -77,21 +73,9 @@ public class TopicoController {
                     respuesta.setTopico(topico);
 
         topico.getRespuestas().add(respuesta);
-
         respuestaRepository.save(respuesta);
 
-        DatosRespuestaTopico datosRespuestaTopico =new DatosRespuestaTopico(
-                topico.getId(),
-                topico.getTitulo(),
-                topico.getMensaje(),
-                topico.getFechaCreacion(),
-                topico.getStatus().name(),
-                new DatosRespuestaUsuario(
-                        topico.getAutor().getNombre()
-                ),
-                new DatosRespuestaCurso(
-                        topico.getCurso().getNombre()
-                ));
+        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
 
         URI url = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaTopico);
