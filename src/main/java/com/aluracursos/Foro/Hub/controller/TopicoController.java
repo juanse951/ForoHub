@@ -13,6 +13,9 @@ import com.aluracursos.Foro.Hub.domain.topico.TopicoRepository;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
 import com.aluracursos.Foro.Hub.domain.usuario.DatosRegistroUsuario;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosRegistroPerfil;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.Perfil;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.PerfilRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +27,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,6 +45,9 @@ public class TopicoController {
     @Autowired
     private RespuestaRepository respuestaRepository;
 
+    @Autowired
+    private PerfilRepository perfilRepository;
+
     @PostMapping
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
                                                                 UriComponentsBuilder uriComponentsBuilder){
@@ -51,9 +56,17 @@ public class TopicoController {
                 .orElseGet(() -> cursoRepository.save(DatosRegistroCurso.
                         registro(datosRegistroTopico.curso())));
 
+
         Usuario autor = usuarioRepository.findByNombre(datosRegistroTopico.autor())
-                .orElseGet(() -> usuarioRepository.save(DatosRegistroUsuario.
-                        registro(datosRegistroTopico.autor())));
+                .orElseGet(() -> {
+                    Usuario nuevoUsuario = DatosRegistroUsuario.registro(datosRegistroTopico.autor());
+
+                    Perfil perfil = DatosRegistroPerfil.registro(null);
+                    perfil = perfilRepository.save(perfil);
+                    nuevoUsuario.setPerfil(perfil);
+
+                    return usuarioRepository.save(nuevoUsuario);
+                });
 
 
         var topico = topicoRepository.save(new Topico(
@@ -67,10 +80,8 @@ public class TopicoController {
                     respuesta.setAutor(autor);
                     respuesta.setTopico(topico);
 
-        // Agregar la respuesta al tópico
         topico.getRespuestas().add(respuesta);
 
-        // Guardar la respuesta (esto se guardará con la relación con el tópico ya definida)
         respuestaRepository.save(respuesta);
 
         DatosRespuestaTopico datosRespuestaTopico =new DatosRespuestaTopico(

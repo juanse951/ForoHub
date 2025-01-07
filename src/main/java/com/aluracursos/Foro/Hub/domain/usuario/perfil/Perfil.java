@@ -20,7 +20,8 @@ public class Perfil {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    @Enumerated(EnumType.STRING)
+    private TipoPerfil nombre;
 
     @OneToMany(mappedBy = "perfil")
     private List<Usuario> usuarios = new ArrayList<>();
@@ -28,4 +29,5 @@ public class Perfil {
     public Perfil(DatosRegistroPerfil datos){
         this.nombre = datos.nombre();
     }
+
 }
