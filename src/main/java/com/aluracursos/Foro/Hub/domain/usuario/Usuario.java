@@ -38,7 +38,10 @@ public class Usuario {
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas = new ArrayList<>();
 
-    public Usuario(DatosRegistroUsuario datos){
+    public Usuario(DatosRegistroUsuario datos) {
+        if (!datos.nombre().matches("[a-zA-Z ]+")) {
+            throw new IllegalArgumentException("El nombre solo debe contener letras y espacios");
+        }
         this.nombre = datos.nombre();
         this.correoElectronico = datos.correoElectronico();
         this.contrasena = datos.contrasena();

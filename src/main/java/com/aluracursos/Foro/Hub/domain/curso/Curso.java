@@ -31,9 +31,9 @@ public class Curso {
     public Curso(DatosRegistroCurso datos) {
         this.nombre = datos.nombre();
         try {
-            this.categoria = Categoria.valueOf(datos.categoria());
+            this.categoria = Categoria.valueOf(datos.categoria().toUpperCase());
         } catch (IllegalArgumentException e) {
-            this.categoria = Categoria.GENERAL;
+            throw new IllegalArgumentException("Categoría no válida: " + datos.categoria());
         }
     }
 }
