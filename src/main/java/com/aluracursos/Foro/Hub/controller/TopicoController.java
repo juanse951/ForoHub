@@ -3,6 +3,7 @@ package com.aluracursos.Foro.Hub.controller;
 import com.aluracursos.Foro.Hub.domain.curso.Curso;
 import com.aluracursos.Foro.Hub.domain.curso.CursoRepository;
 import com.aluracursos.Foro.Hub.domain.curso.DatosRegistroCurso;
+import com.aluracursos.Foro.Hub.domain.curso.DatosRespuestaCurso;
 import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
@@ -10,6 +11,7 @@ import com.aluracursos.Foro.Hub.domain.topico.DatosRegistroTopico;
 import com.aluracursos.Foro.Hub.domain.topico.DatosRespuestaTopico;
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.topico.TopicoRepository;
+import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
 import com.aluracursos.Foro.Hub.domain.usuario.DatosRegistroUsuario;
@@ -19,15 +21,12 @@ import com.aluracursos.Foro.Hub.domain.usuario.perfil.PerfilRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RestController
 @RequestMapping("/topicos")
@@ -90,14 +89,20 @@ public class TopicoController {
                 topico.getMensaje(),
                 topico.getFechaCreacion(),
                 topico.getStatus().name(),
-                topico.getAutor().getNombre(),
-                topico.getCurso().getNombre(),
-                topico.getRespuestas().stream()
-                        .map(Respuesta::getMensaje)
-                        .collect(Collectors.toList()));
+                new DatosRespuestaUsuario(
+                        topico.getAutor().getNombre()
+                ),
+                new DatosRespuestaCurso(
+                        topico.getCurso().getNombre()
+                ));
 
         URI url = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaTopico);
 
+    }
+
+    @GetMapping
+    public List<Topico> topicoList(){
+        return topicoRepository.findAll();
     }
 }

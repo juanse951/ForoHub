@@ -1,7 +1,9 @@
 package com.aluracursos.Foro.Hub.domain.topico;
 
+import com.aluracursos.Foro.Hub.domain.curso.DatosRespuestaCurso;
+import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
+
 import java.time.LocalDateTime;
-import java.util.List;
 
 public record DatosRespuestaTopico(
 
@@ -15,10 +17,10 @@ public record DatosRespuestaTopico(
 
         String status,
 
-        String autor,
+        DatosRespuestaUsuario autor,
 
-        String curso,
+        DatosRespuestaCurso curso
 
-        List<String> respuestas
+//        List<Respuesta> respuestas
 ) {
 }
