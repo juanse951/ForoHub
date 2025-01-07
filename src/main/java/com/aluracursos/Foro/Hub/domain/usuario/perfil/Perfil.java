@@ -23,7 +23,7 @@ public class Perfil {
     @Enumerated(EnumType.STRING)
     private TipoPerfil nombre;
 
-    @OneToMany(mappedBy = "perfil")
+    @OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Usuario> usuarios = new ArrayList<>();
 
     public Perfil(DatosRegistroPerfil datos){

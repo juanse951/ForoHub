@@ -28,7 +28,7 @@ public class Usuario {
 
     private String contrasena;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "perfil_id")
     private Perfil perfil;
 
