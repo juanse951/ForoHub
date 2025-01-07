@@ -25,11 +25,7 @@ public class Perfil {
     @OneToMany(mappedBy = "perfil")
     private List<Usuario> usuarios = new ArrayList<>();
 
-//    // Nueva propiedad para agregar una descripción del perfil
-//    private String descripcion;
-//
-//    // Constructor adicional para inicializar sin descripción si no se necesita
-//    public Perfil(String nombre) {
-//        this.nombre = nombre;
-//    }
+    public Perfil(DatosRegistroPerfil datos){
+        this.nombre = datos.nombre();
+    }
 }

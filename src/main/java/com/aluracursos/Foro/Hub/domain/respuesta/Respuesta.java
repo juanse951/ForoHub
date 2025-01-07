@@ -37,4 +37,9 @@ public class Respuesta {
 
     private Boolean solucion;
 
+    public Respuesta(DatosRegistroRespuesta datos){
+        this.mensaje = datos.mensaje();
+        this.fechaCreacion = datos.fechaCreacion();
+    }
+
 }

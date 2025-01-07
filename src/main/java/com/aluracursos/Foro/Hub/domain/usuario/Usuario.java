@@ -37,4 +37,10 @@ public class Usuario {
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas = new ArrayList<>();
+
+    public Usuario(DatosRegistroUsuario datos){
+        this.nombre = datos.nombre();
+        this.correoElectronico = datos.correoElectronico();
+        this.contrasena = datos.contrasena();
+    }
 }

@@ -28,5 +28,12 @@ public class Curso {
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
 
-
+    public Curso(DatosRegistroCurso datos) {
+        this.nombre = datos.nombre();
+        try {
+            this.categoria = Categoria.valueOf(datos.categoria());
+        } catch (IllegalArgumentException e) {
+            this.categoria = Categoria.GENERAL;
+        }
+    }
 }
