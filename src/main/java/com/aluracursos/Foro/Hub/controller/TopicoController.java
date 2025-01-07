@@ -3,14 +3,16 @@ package com.aluracursos.Foro.Hub.controller;
 import com.aluracursos.Foro.Hub.domain.curso.Curso;
 import com.aluracursos.Foro.Hub.domain.curso.CursoRepository;
 import com.aluracursos.Foro.Hub.domain.curso.DatosRegistroCurso;
+import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
+import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.Foro.Hub.domain.topico.DatosRegistroTopico;
 import com.aluracursos.Foro.Hub.domain.topico.DatosRespuestaTopico;
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.topico.TopicoRepository;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
-import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosRegistroUsuario;
+import com.aluracursos.Foro.Hub.domain.usuario.DatosRegistroUsuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,6 +39,9 @@ public class TopicoController {
 
     @Autowired
     private CursoRepository cursoRepository;
+
+    @Autowired
+    private RespuestaRepository respuestaRepository;
 
     @PostMapping
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
@@ -52,7 +59,19 @@ public class TopicoController {
         var topico = topicoRepository.save(new Topico(
                 datosRegistroTopico,
                 curso,
-                autor));
+                autor,
+                new ArrayList<>())
+        );
+
+        Respuesta respuesta = DatosRegistroRespuesta.registro(null);
+                    respuesta.setAutor(autor);
+                    respuesta.setTopico(topico);
+
+        // Agregar la respuesta al tópico
+        topico.getRespuestas().add(respuesta);
+
+        // Guardar la respuesta (esto se guardará con la relación con el tópico ya definida)
+        respuestaRepository.save(respuesta);
 
         DatosRespuestaTopico datosRespuestaTopico =new DatosRespuestaTopico(
                 topico.getId(),

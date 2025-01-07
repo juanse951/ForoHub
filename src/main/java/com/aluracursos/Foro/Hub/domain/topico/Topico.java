@@ -49,7 +49,7 @@ public class Topico {
 
     private Boolean activo; //  para mostrar en listado solo topicos activos
 
-    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor) {
+    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor, List<Respuesta> respuestas) {
         this.activo = true;
         this.titulo = datosRegistroTopico.titulo();
         this.mensaje = datosRegistroTopico.mensaje();
@@ -57,5 +57,6 @@ public class Topico {
         this.autor = autor;
         this.fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         this.status = TopicoStatus.ACTIVO;
+        this.respuestas = respuestas != null ? respuestas : new ArrayList<>();
     }
 }
