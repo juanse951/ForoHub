@@ -7,10 +7,7 @@ import com.aluracursos.Foro.Hub.domain.curso.DatosRespuestaCurso;
 import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
-import com.aluracursos.Foro.Hub.domain.topico.DatosRegistroTopico;
-import com.aluracursos.Foro.Hub.domain.topico.DatosRespuestaTopico;
-import com.aluracursos.Foro.Hub.domain.topico.Topico;
-import com.aluracursos.Foro.Hub.domain.topico.TopicoRepository;
+import com.aluracursos.Foro.Hub.domain.topico.*;
 import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
@@ -102,7 +99,7 @@ public class TopicoController {
     }
 
     @GetMapping
-    public List<Topico> topicoList(){
-        return topicoRepository.findAll();
+    public List<DatosListadoTopico> listadoTopicos(){
+        return topicoRepository.findAll().stream().map(DatosListadoTopico::new).toList();
     }
 }
