@@ -47,10 +47,7 @@ public class Topico {
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas = new ArrayList<>();
 
-    private Boolean activo; //  para mostrar en listado solo topicos activos
-
     public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor, List<Respuesta> respuestas) {
-        this.activo = true;
         this.titulo = datosRegistroTopico.titulo();
         this.mensaje = datosRegistroTopico.mensaje();
         this.curso = curso;
