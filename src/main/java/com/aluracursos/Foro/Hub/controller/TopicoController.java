@@ -27,6 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -94,11 +95,18 @@ public class TopicoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DatosRespuestaTopico> retornarDatosTopico(@PathVariable Long id){
-        Topico topico = topicoRepository.getReferenceById(id);
+    public ResponseEntity<DatosRespuestaTopico> retornarDatosTopico(@PathVariable Long id) {
+        Optional<Topico> optionalTopico = topicoRepository.findById(id);
+
+        if (optionalTopico.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Topico topico = optionalTopico.get();
         DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
         return ResponseEntity.ok(datosRespuestaTopico);
     }
+
 
     @PutMapping("/{id}")
     @Transactional
@@ -106,7 +114,7 @@ public class TopicoController {
 
         var optionalTopico = topicoRepository.findById(id);
         if (optionalTopico.isEmpty()) {
-            return ResponseEntity.notFound().build(); // Retorna 404 si no se encuentra el tópico
+            return ResponseEntity.notFound().build();
         }
 
         Topico topico = optionalTopico.get();
@@ -115,4 +123,19 @@ public class TopicoController {
         DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
         return ResponseEntity.ok(datosRespuestaTopico);
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> eliminarTopico(@PathVariable Long id) {
+
+        var optionalTopico = topicoRepository.findById(id);
+
+        if (optionalTopico.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        topicoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
