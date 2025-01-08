@@ -17,27 +17,46 @@ public record DatosRegistroUsuario(
         String correoElectronico,
 
         @NotBlank(message = "{password.obligatorio}")
-        @Pattern(
-                regexp = "^(defaultPassword|(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,})$",
+        @Pattern(regexp = "^(defaultPassword|(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,})$",
                 message = "{password.invalido}")
         String contrasena
 ) {
-    private static String convertirCorreo(String nombre) {
+
+    private static String convertirNombre(String nombre) {
+
         // Eliminar tildes y caracteres especiales
         String nombreNormalizado = Normalizer.normalize(nombre, Normalizer.Form.NFD);
         nombreNormalizado = nombreNormalizado.replaceAll("[^\\p{ASCII}]", ""); // Elimina caracteres no ASCII
 
-        // Eliminar caracteres no permitidos para un correo (como @* que no son válidos)
-        nombreNormalizado = nombreNormalizado.replaceAll("[^a-zA-Z0-9._%+-]", "");  // Permite letras, números, '.', '_', '%', '+', '-'
+        // Eliminar caracteres no permitidos: &, =, _, ', -, +, ',', <, >, :, @, *
+        nombreNormalizado = nombreNormalizado.replaceAll("[&=_'\\-+,.<>:@*]", ""); // Excluye también @ y *
+        nombreNormalizado = nombreNormalizado.replaceAll("\\.{2,}", ""); // Elimina puntos dobles consecutivos
 
-        // Convertir el nombre a correo electrónico
-        return nombreNormalizado.replaceAll(" ", "") + "@example.com";
+        // Eliminar espacios
+        nombreNormalizado = nombreNormalizado.replaceAll("\\s", "");
+
+        // Convertir a minúsculas
+        nombreNormalizado = nombreNormalizado.toLowerCase();
+
+        return nombreNormalizado;
+    }
+
+    private static String convertirCorreo(String nombre) {
+
+        String nombreUsuario = convertirNombre(nombre);
+
+        // Agregar un dominio genérico para construir el correo
+        return nombreUsuario + "@example.com";
     }
 
     public static Usuario registro(String nombre){
-        String correoElectronico = convertirCorreo(nombre);
-        String contrasena = "defaultPassword";
-        return new Usuario(null, nombre, correoElectronico, contrasena,
-                null, new ArrayList<>(),new ArrayList<>());
+
+        return new Usuario(null,
+                convertirNombre(nombre),
+                convertirCorreo(nombre),
+                "defaultPassword",
+                null,
+                new ArrayList<>(),
+                new ArrayList<>());
     }
 }

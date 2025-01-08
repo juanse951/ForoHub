@@ -15,7 +15,6 @@ public record DatosRegistroTopico(
         String mensaje,
 
         @NotBlank(message = "{autor.obligatorio}")
-        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$", message = "{autor.error}")
         String autor, // Nombre del autor como string
 
         @NotBlank(message = "{curso.obligatorio}")
