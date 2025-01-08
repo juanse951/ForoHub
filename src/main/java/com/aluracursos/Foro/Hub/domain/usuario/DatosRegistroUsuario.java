@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Pattern;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public record DatosRegistroUsuario(
 
@@ -22,41 +25,49 @@ public record DatosRegistroUsuario(
         String contrasena
 ) {
 
+    private static final Set<String> nombresExistentes = new HashSet<>();
+    private static final Set<String> correosExistentes = new HashSet<>();
+    private static final Random random = new Random();
+
+    private static String generarCadenaRandom() {
+        int randomInt = random.nextInt(10000);
+        return String.format("%04d", randomInt);
+    }
+
+    private static String asegurarUnicidad(String valor, Set<String> existentes) {
+        String unico = valor;
+        while (existentes.contains(unico)) {
+            unico = valor + generarCadenaRandom();
+        }
+        existentes.add(unico);
+        return unico;
+    }
+
     private static String convertirNombre(String nombre) {
-
-        // Eliminar tildes y caracteres especiales
-        String nombreNormalizado = Normalizer.normalize(nombre, Normalizer.Form.NFD);
-        nombreNormalizado = nombreNormalizado.replaceAll("[^\\p{ASCII}]", ""); // Elimina caracteres no ASCII
-
-        // Eliminar caracteres no permitidos: &, =, _, ', -, +, ',', <, >, :, @, *
-        nombreNormalizado = nombreNormalizado.replaceAll("[&=_'\\-+,.<>:@*]", ""); // Excluye también @ y *
-        nombreNormalizado = nombreNormalizado.replaceAll("\\.{2,}", ""); // Elimina puntos dobles consecutivos
-
-        // Eliminar espacios
-        nombreNormalizado = nombreNormalizado.replaceAll("\\s", "");
-
-        // Convertir a minúsculas
-        nombreNormalizado = nombreNormalizado.toLowerCase();
-
-        return nombreNormalizado;
+        String nombreNormalizado = Normalizer.normalize(nombre, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "")
+                .replaceAll("[&=_'\\-+,.<>:@*]", "")
+                .replaceAll("\\.{2,}", "")
+                .replaceAll("\\s", "")
+                .toLowerCase();
+        return asegurarUnicidad(nombreNormalizado, nombresExistentes);
     }
 
     private static String convertirCorreo(String nombre) {
-
         String nombreUsuario = convertirNombre(nombre);
-
-        // Agregar un dominio genérico para construir el correo
-        return nombreUsuario + "@example.com";
+        String correo = nombreUsuario + "@example.com";
+        return asegurarUnicidad(correo, correosExistentes);
     }
 
-    public static Usuario registro(String nombre){
-
-        return new Usuario(null,
+    public static Usuario registro(String nombre) {
+        return new Usuario(
+                null,
                 convertirNombre(nombre),
                 convertirCorreo(nombre),
                 "defaultPassword",
                 null,
                 new ArrayList<>(),
-                new ArrayList<>());
+                new ArrayList<>()
+        );
     }
 }
