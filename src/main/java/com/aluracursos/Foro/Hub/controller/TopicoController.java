@@ -13,6 +13,7 @@ import com.aluracursos.Foro.Hub.domain.usuario.DatosRegistroUsuario;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosRegistroPerfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.Perfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.PerfilRepository;
+import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -99,7 +101,7 @@ public class TopicoController {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
 
         if (optionalTopico.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new TopicoNotFoundByIdException("No se encontró el tópico con ID " + id);
         }
 
         Topico topico = optionalTopico.get();
@@ -116,7 +118,7 @@ public class TopicoController {
 
         var optionalTopico = topicoRepository.findById(id);
         if (optionalTopico.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new TopicoNotFoundByIdException("No se encontró el tópico con ID " + id);
         }
 
         Topico topico = optionalTopico.get();
@@ -128,16 +130,17 @@ public class TopicoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> eliminarTopico(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarTopico(@PathVariable Long id) {
 
         var optionalTopico = topicoRepository.findById(id);
 
         if (optionalTopico.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró el tópico con ID " + id + ".");
         }
 
         topicoRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("El tópico con ID " + id + " fue eliminado exitosamente.");
     }
 
 }

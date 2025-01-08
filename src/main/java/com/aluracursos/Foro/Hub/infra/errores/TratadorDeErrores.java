@@ -1,5 +1,6 @@
-package com.aluracursos.Foro.Hub.infra;
+package com.aluracursos.Foro.Hub.infra.errores;
 
+import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,21 +18,20 @@ public class TratadorDeErrores {
 
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Void> tratarError404() {
+    public ResponseEntity tratarError404() {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<DatosErrorValidacion>> tratarError400(MethodArgumentNotValidException e) {
+    public ResponseEntity tratarError400(MethodArgumentNotValidException e) {
         var errores = e.getFieldErrors().stream()
-                .map(DatosErrorValidacion::new)
-                .toList();
+                .map(DatosErrorValidacion::new).toList();
 
         return ResponseEntity.badRequest().body(errores);
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<String> tratarErrorDeIntegridad(SQLIntegrityConstraintViolationException e) {
+    public ResponseEntity tratarErrorDeIntegridad(SQLIntegrityConstraintViolationException e) {
         String mensajeOriginal = e.getMessage();
         String detalle = analizarErrorDeIntegridad(mensajeOriginal);
 
@@ -66,6 +66,11 @@ public class TratadorDeErrores {
         } catch (Exception e) {
             return "Error al procesar el mensaje de entrada duplicada.";
         }
+    }
+
+    @ExceptionHandler(TopicoNotFoundByIdException.class)
+    public ResponseEntity tratarErrorTopicoNoEncontrado(TopicoNotFoundByIdException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     public record DatosErrorValidacion(String campo, String error) {
