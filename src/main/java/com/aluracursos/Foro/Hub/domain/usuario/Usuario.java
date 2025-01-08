@@ -46,4 +46,10 @@ public class Usuario {
         this.correoElectronico = datos.correoElectronico();
         this.contrasena = datos.contrasena();
     }
+
+    public void actualizarDatos(DatosActualizarUsuario datosActualizarUsuario) {
+        if (datosActualizarUsuario.nombre() != null) {
+            this.nombre = datosActualizarUsuario.nombre();
+        }
+    }
 }

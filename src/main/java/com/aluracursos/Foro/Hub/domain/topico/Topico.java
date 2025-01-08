@@ -59,4 +59,19 @@ public class Topico {
         this.status = TopicoStatus.ACTIVO;
         this.respuestas = respuestas != null ? respuestas : new ArrayList<>();
     }
+
+    public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
+        if(datosActualizarTopico.titulo() != null){
+            this.titulo = datosActualizarTopico.titulo();
+        }
+        if(datosActualizarTopico.mensaje() != null){
+            this.mensaje = datosActualizarTopico.mensaje();
+        }
+        if(datosActualizarTopico.autor() != null){
+            this.autor.actualizarDatos(datosActualizarTopico.autor());
+        }
+        if(datosActualizarTopico.curso() != null){
+            this.curso.actualizarDatos(datosActualizarTopico.curso());
+        }
+    }
 }
