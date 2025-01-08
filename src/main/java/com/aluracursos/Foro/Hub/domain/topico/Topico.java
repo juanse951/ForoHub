@@ -61,10 +61,10 @@ public class Topico {
     }
 
     public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
-        if(datosActualizarTopico.titulo() != null){
+        if(datosActualizarTopico.titulo() != null && !datosActualizarTopico.titulo().isEmpty()){
             this.titulo = datosActualizarTopico.titulo();
         }
-        if(datosActualizarTopico.mensaje() != null){
+        if(datosActualizarTopico.mensaje() != null && !datosActualizarTopico.mensaje().isEmpty()){
             this.mensaje = datosActualizarTopico.mensaje();
         }
         if(datosActualizarTopico.autor() != null){

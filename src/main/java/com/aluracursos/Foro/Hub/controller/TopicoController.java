@@ -110,7 +110,9 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<DatosRespuestaTopico> actualizarTopico(@PathVariable Long id, @RequestBody @Valid DatosActualizarTopico datosActualizarTopico){
+    public ResponseEntity<DatosRespuestaTopico> actualizarTopico(
+            @PathVariable Long id,
+            @RequestBody @Valid DatosActualizarTopico datosActualizarTopico){
 
         var optionalTopico = topicoRepository.findById(id);
         if (optionalTopico.isEmpty()) {

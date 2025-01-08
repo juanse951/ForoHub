@@ -14,7 +14,6 @@ public record DatosRegistroRespuesta(
         LocalDateTime fechaCreacion
 ) {
     public static Respuesta registro(String mensaje) {
-        // Asignar un valor predeterminado si el mensaje es nulo o vacío
         String mensajeFinal = (mensaje == null || mensaje.isBlank()) ? "aún sin respuesta" : mensaje;
 
         LocalDateTime fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
