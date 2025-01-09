@@ -29,6 +29,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -64,7 +65,7 @@ public class TopicoController {
 
                     Perfil perfil = DatosRegistroPerfil.registro(null);
                     perfil = perfilRepository.save(perfil);
-                    nuevoUsuario.setPerfil(perfil);
+                    nuevoUsuario.setPerfil(List.of(perfil));
 
                     return usuarioRepository.save(nuevoUsuario);
                 });

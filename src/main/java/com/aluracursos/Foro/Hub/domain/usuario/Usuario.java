@@ -28,9 +28,12 @@ public class Usuario {
 
     private String contrasena;
 
-    @ManyToOne
-    @JoinColumn(name = "perfil_id")
-    private Perfil perfil;
+    @ManyToMany
+    @JoinTable(
+            name = "usuario_perfil", //tabla intermedia
+            joinColumns = @JoinColumn(name = "usuario_id"), //fk a usuario
+            inverseJoinColumns = @JoinColumn(name = "perfil_id")) //fk a perfil
+    private List<Perfil> perfil = new ArrayList<>();
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
