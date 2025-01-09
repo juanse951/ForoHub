@@ -58,16 +58,20 @@ public class Topico {
     }
 
     public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
-        if(datosActualizarTopico.titulo() != null && !datosActualizarTopico.titulo().isEmpty()){
+        if(datosActualizarTopico.titulo() != null && !datosActualizarTopico.titulo().trim().isEmpty()){
             this.titulo = datosActualizarTopico.titulo();
         }
-        if(datosActualizarTopico.mensaje() != null && !datosActualizarTopico.mensaje().isEmpty()){
+        if(datosActualizarTopico.mensaje() != null && !datosActualizarTopico.mensaje().trim().isEmpty()){
             this.mensaje = datosActualizarTopico.mensaje();
         }
-        if(datosActualizarTopico.autor() != null){
+        if (datosActualizarTopico.autor() != null
+                && datosActualizarTopico.autor().nombre() != null
+                && !datosActualizarTopico.autor().nombre().trim().isEmpty()) {
             this.autor.actualizarDatos(datosActualizarTopico.autor());
         }
-        if(datosActualizarTopico.curso() != null){
+        if (datosActualizarTopico.curso() != null
+                && datosActualizarTopico.curso().nombre() != null
+                && !datosActualizarTopico.curso().nombre().trim().isEmpty()) {
             this.curso.actualizarDatos(datosActualizarTopico.curso());
         }
     }

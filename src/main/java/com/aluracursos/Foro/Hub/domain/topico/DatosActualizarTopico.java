@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 
 public record DatosActualizarTopico(
 
-        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$", message = "{titulo.error}")
+        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{titulo.error}")
         String titulo,
 
         String mensaje,
