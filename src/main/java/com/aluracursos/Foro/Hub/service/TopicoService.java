@@ -47,6 +47,9 @@ public class TopicoService {
     @Autowired
     private RespuestaService respuestaService;
 
+    @Autowired
+    private CursoService cursoService;
+
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
         // Validación independiente del título
         boolean existeTitulo = topicoRepository.existsByTitulo(datosRegistroTopico.titulo());
@@ -61,7 +64,7 @@ public class TopicoService {
         }
 
         Curso curso = cursoRepository.findByNombre(datosRegistroTopico.curso())
-                .orElseGet(() -> cursoRepository.save(DatosRegistroCurso.registro(datosRegistroTopico.curso())));
+                .orElseGet(() -> cursoService.crearCurso(new DatosRegistroCurso(datosRegistroTopico.curso())));
 
         Usuario autor = usuarioRepository.findByNombre(datosRegistroTopico.autor())
                 .orElseGet(() -> {
@@ -94,9 +97,29 @@ public class TopicoService {
         }
 
         Topico topico = optionalTopico.get();
-        topico.actualizarDatos(datosActualizarTopico);
-        return topico;
+
+        // Actualización de los datos del tópico
+        if (datosActualizarTopico.titulo() != null && !datosActualizarTopico.titulo().trim().isEmpty()) {
+            topico.setTitulo(datosActualizarTopico.titulo());
+        }
+        if (datosActualizarTopico.mensaje() != null && !datosActualizarTopico.mensaje().trim().isEmpty()) {
+            topico.setMensaje(datosActualizarTopico.mensaje());
+        }
+        if (datosActualizarTopico.autor() != null
+                && datosActualizarTopico.autor().nombre() != null
+                && !datosActualizarTopico.autor().nombre().trim().isEmpty()) {
+            topico.getAutor().actualizarDatos(datosActualizarTopico.autor());
+        }
+        if (datosActualizarTopico.curso() != null
+                && datosActualizarTopico.curso().nombre() != null
+                && !datosActualizarTopico.curso().nombre().trim().isEmpty()) {
+            Curso cursoActualizado = cursoService.actualizarCurso(topico.getCurso().getId(), datosActualizarTopico.curso());
+            topico.setCurso(cursoActualizado);
+        }
+
+        return topicoRepository.save(topico);
     }
+
 
     public void eliminarTopico(Long id) {
         var optionalTopico = topicoRepository.findById(id);
