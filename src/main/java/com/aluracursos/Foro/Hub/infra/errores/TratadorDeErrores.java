@@ -16,7 +16,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @RestControllerAdvice
 public class TratadorDeErrores {
 
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity tratarError404() {
         return ResponseEntity.notFound().build();
@@ -33,12 +32,33 @@ public class TratadorDeErrores {
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity tratarErrorDeIntegridad(SQLIntegrityConstraintViolationException e) {
         String mensajeOriginal = e.getMessage();
-        String detalle = analizarErrorDeIntegridad(mensajeOriginal);
+        String mensaje = analizarErrorDeIntegridad(mensajeOriginal);
 
         // Log del error
         System.err.println("Error de integridad en la base de datos: " + mensajeOriginal);
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(detalle);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(mensaje);
+    }
+
+    @ExceptionHandler(TopicoAlreadyExistsException.class)
+    public ResponseEntity tratarErrorTopicoDuplicado(TopicoAlreadyExistsException e) {
+        String mensaje = procesarMensajeError(e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(mensaje);
+    }
+
+    @ExceptionHandler(TopicoNotFoundByIdException.class)
+    public ResponseEntity tratarErrorTopicoNoEncontrado(TopicoNotFoundByIdException e) {
+        String mensaje = procesarMensajeError(e.getMessage());
+        return ResponseEntity.badRequest().body(mensaje);
+    }
+
+    private String procesarMensajeError(String mensaje) {
+        if (mensaje.contains("título")) {
+            return "El título del tópico ya existe.";
+        } else if (mensaje.contains("mensaje")) {
+            return "El mensaje del tópico ya existe.";
+        }
+        return mensaje;
     }
 
     private String analizarErrorDeIntegridad(String mensaje) {
@@ -68,19 +88,8 @@ public class TratadorDeErrores {
         }
     }
 
-    @ExceptionHandler(TopicoAlreadyExistsException.class)
-    public ResponseEntity tratarErrorTopicoDuplicado(TopicoAlreadyExistsException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body((e.getMessage()));
-    }
-
-    @ExceptionHandler(TopicoNotFoundByIdException.class)
-    public ResponseEntity tratarErrorTopicoNoEncontrado(TopicoNotFoundByIdException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
     public record DatosErrorValidacion(String campo, String error) {
         public DatosErrorValidacion(FieldError error) {
-
             this(error.getField(), error.getDefaultMessage());
         }
     }
