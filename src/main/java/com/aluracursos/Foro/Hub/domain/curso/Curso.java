@@ -30,17 +30,5 @@ public class Curso {
 
     public Curso(DatosRegistroCurso datos) {
         this.nombre = datos.nombre();
-        try {
-            this.categoria = datos.categoria();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Categoría no válida: " + datos.categoria());
-        }
-    }
-
-    public void actualizarDatos(DatosActualizarCurso datosActualizarCurso){
-        if (datosActualizarCurso.nombre() != null
-        && !datosActualizarCurso.nombre().trim().isEmpty()) {
-            this.nombre = datosActualizarCurso.nombre();
-        }
     }
 }
