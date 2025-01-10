@@ -44,6 +44,9 @@ public class TopicoService {
     @Autowired
     private PerfilRepository perfilRepository;
 
+    @Autowired
+    private RespuestaService respuestaService;
+
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
         // Validación independiente del título
         boolean existeTitulo = topicoRepository.existsByTitulo(datosRegistroTopico.titulo());
@@ -78,12 +81,8 @@ public class TopicoService {
                 new ArrayList<>()))
                 ;
 
-        Respuesta respuesta = DatosRegistroRespuesta.registro(null);
-        respuesta.setAutor(autor);
-        respuesta.setTopico(topico);
-
+        Respuesta respuesta = respuestaService.crearRespuesta(new DatosRegistroRespuesta(null), autor, topico);
         topico.getRespuestas().add(respuesta);
-        respuestaRepository.save(respuesta);
 
         return topico;
     }

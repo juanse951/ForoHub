@@ -39,7 +39,6 @@ public class Respuesta {
 
     public Respuesta(DatosRegistroRespuesta datos){
         this.mensaje = datos.mensaje();
-        this.fechaCreacion = datos.fechaCreacion();
     }
 
 }
