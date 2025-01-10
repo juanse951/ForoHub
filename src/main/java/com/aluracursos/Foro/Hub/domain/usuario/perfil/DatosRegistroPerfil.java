@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public record DatosRegistroPerfil(
 
         @NotNull(message = "{nombre.obligatorio}")
-        TipoPerfil nombre
+        String nombre
 ) {
-    public static Perfil registro(TipoPerfil nombre){
+    public static Perfil registro(String nombre){
         if (nombre == null) {
-            nombre = TipoPerfil.USER;  // Valor predeterminado
+            nombre = "prueba";  // Valor predeterminado
         }
         return new Perfil(null,nombre, new ArrayList<>());
     }
