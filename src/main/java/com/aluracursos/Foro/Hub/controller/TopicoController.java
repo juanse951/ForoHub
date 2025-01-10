@@ -13,6 +13,7 @@ import com.aluracursos.Foro.Hub.domain.usuario.DatosRegistroUsuario;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosRegistroPerfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.Perfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.PerfilRepository;
+import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -54,6 +55,10 @@ public class TopicoController {
     @PostMapping
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
                                                                 UriComponentsBuilder uriComponentsBuilder){
+        boolean existeTopico = topicoRepository.existsByTituloAndMensaje(datosRegistroTopico.titulo(), datosRegistroTopico.mensaje());
+        if (existeTopico) {
+            throw new TopicoAlreadyExistsException("El título y el mensaje del tópico ya existen.");
+        }
 
         Curso curso = cursoRepository.findByNombre(datosRegistroTopico.curso())
                 .orElseGet(() -> cursoRepository.save(DatosRegistroCurso.

@@ -1,5 +1,6 @@
 package com.aluracursos.Foro.Hub.infra.errores;
 
+import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
 
 @RestControllerAdvice
 public class TratadorDeErrores {
@@ -68,6 +68,11 @@ public class TratadorDeErrores {
         }
     }
 
+    @ExceptionHandler(TopicoAlreadyExistsException.class)
+    public ResponseEntity tratarErrorTopicoDuplicado(TopicoAlreadyExistsException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body((e.getMessage()));
+    }
+
     @ExceptionHandler(TopicoNotFoundByIdException.class)
     public ResponseEntity tratarErrorTopicoNoEncontrado(TopicoNotFoundByIdException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
@@ -75,6 +80,7 @@ public class TratadorDeErrores {
 
     public record DatosErrorValidacion(String campo, String error) {
         public DatosErrorValidacion(FieldError error) {
+
             this(error.getField(), error.getDefaultMessage());
         }
     }
