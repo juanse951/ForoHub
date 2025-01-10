@@ -55,9 +55,16 @@ public class TopicoController {
     @PostMapping
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
                                                                 UriComponentsBuilder uriComponentsBuilder){
-        boolean existeTopico = topicoRepository.existsByTituloAndMensaje(datosRegistroTopico.titulo(), datosRegistroTopico.mensaje());
-        if (existeTopico) {
-            throw new TopicoAlreadyExistsException("El título y el mensaje del tópico ya existen.");
+        // Validación independiente del título
+        boolean existeTitulo = topicoRepository.existsByTitulo(datosRegistroTopico.titulo());
+        if (existeTitulo) {
+            throw new TopicoAlreadyExistsException("El título del tópico ya existe.");
+        }
+
+        // Validación independiente del mensaje
+        boolean existeMensaje = topicoRepository.existsByMensaje(datosRegistroTopico.mensaje());
+        if (existeMensaje) {
+            throw new TopicoAlreadyExistsException("El mensaje del tópico ya existe.");
         }
 
         Curso curso = cursoRepository.findByNombre(datosRegistroTopico.curso())
