@@ -38,9 +38,9 @@ public class Curso {
     }
 
     public void actualizarDatos(DatosActualizarCurso datosActualizarCurso){
-        if (datosActualizarCurso.nombre() != null) {
+        if (datosActualizarCurso.nombre() != null
+        && !datosActualizarCurso.nombre().trim().isEmpty()) {
             this.nombre = datosActualizarCurso.nombre();
         }
     }
-
 }

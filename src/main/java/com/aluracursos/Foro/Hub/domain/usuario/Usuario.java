@@ -48,7 +48,8 @@ public class Usuario {
     }
 
     public void actualizarDatos(DatosActualizarUsuario datosActualizarUsuario) {
-        if (datosActualizarUsuario.nombre() != null) {
+        if (datosActualizarUsuario.nombre() != null
+        && !datosActualizarUsuario.nombre().trim().isEmpty()) {
             this.nombre = datosActualizarUsuario.nombre();
         }
     }
