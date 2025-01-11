@@ -51,6 +51,9 @@ public class TopicoService {
     @Autowired
     private CursoService cursoService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @Transactional
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
 
@@ -69,11 +72,11 @@ public class TopicoService {
 
         Usuario autor = usuarioRepository.findByNombre(datosRegistroTopico.autor())
                 .orElseGet(() -> {
-                    Usuario nuevoUsuario = DatosRegistroUsuario.registro(datosRegistroTopico.autor(),usuarioRepository);
+                    Usuario nuevoUsuario = usuarioService.crearUsuario(new DatosRegistroUsuario(datosRegistroTopico.autor()));
 
                     Perfil perfil = DatosRegistroPerfil.registro(null);
                     perfil = perfilRepository.save(perfil);
-                    nuevoUsuario.setPerfil(List.of(perfil));
+                    nuevoUsuario.setPerfil(new ArrayList<>(List.of(perfil)));
 
                     return usuarioRepository.save(nuevoUsuario);
                 });
@@ -110,7 +113,8 @@ public class TopicoService {
         if (datosActualizarTopico.autor() != null
                 && datosActualizarTopico.autor().nombre() != null
                 && !datosActualizarTopico.autor().nombre().trim().isEmpty()) {
-            topico.getAutor().actualizarDatos(datosActualizarTopico.autor());
+            Usuario usuarioActualizado = usuarioService.actualizarUsuario(topico.getAutor().getId(), datosActualizarTopico.autor());
+            topico.setAutor(usuarioActualizado);
         }
         if (datosActualizarTopico.curso() != null
                 && datosActualizarTopico.curso().nombre() != null

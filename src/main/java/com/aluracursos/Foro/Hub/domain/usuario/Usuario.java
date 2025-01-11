@@ -43,14 +43,6 @@ public class Usuario {
 
     public Usuario(DatosRegistroUsuario datos) {
         this.nombre = datos.nombre();
-        this.correoElectronico = datos.correoElectronico();
-        this.contrasena = datos.contrasena();
     }
 
-    public void actualizarDatos(DatosActualizarUsuario datosActualizarUsuario) {
-        if (datosActualizarUsuario.nombre() != null
-        && !datosActualizarUsuario.nombre().trim().isEmpty()) {
-            this.nombre = datosActualizarUsuario.nombre();
-        }
-    }
 }
