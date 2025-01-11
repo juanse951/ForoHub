@@ -53,13 +53,12 @@ public class TopicoService {
 
     @Transactional
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
-        // Validación independiente del título
+
         boolean existeTitulo = topicoRepository.existsByTitulo(datosRegistroTopico.titulo());
         if (existeTitulo) {
             throw new TopicoAlreadyExistsException("El título del tópico ya existe.");
         }
 
-        // Validación independiente del mensaje
         boolean existeMensaje = topicoRepository.existsByMensaje(datosRegistroTopico.mensaje());
         if (existeMensaje) {
             throw new TopicoAlreadyExistsException("El mensaje del tópico ya existe.");
@@ -70,7 +69,7 @@ public class TopicoService {
 
         Usuario autor = usuarioRepository.findByNombre(datosRegistroTopico.autor())
                 .orElseGet(() -> {
-                    Usuario nuevoUsuario = DatosRegistroUsuario.registro(datosRegistroTopico.autor());
+                    Usuario nuevoUsuario = DatosRegistroUsuario.registro(datosRegistroTopico.autor(),usuarioRepository);
 
                     Perfil perfil = DatosRegistroPerfil.registro(null);
                     perfil = perfilRepository.save(perfil);

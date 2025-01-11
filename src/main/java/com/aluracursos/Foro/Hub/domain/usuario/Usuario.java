@@ -30,9 +30,9 @@ public class Usuario {
 
     @ManyToMany
     @JoinTable(
-            name = "usuario_perfil", //tabla intermedia
-            joinColumns = @JoinColumn(name = "usuario_id"), //fk a usuario
-            inverseJoinColumns = @JoinColumn(name = "perfil_id")) //fk a perfil
+            name = "usuario_perfil",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
     private List<Perfil> perfil = new ArrayList<>();
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)

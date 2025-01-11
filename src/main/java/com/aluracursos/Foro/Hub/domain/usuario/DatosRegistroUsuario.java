@@ -25,8 +25,6 @@ public record DatosRegistroUsuario(
         String contrasena
 ) {
 
-    private static final Set<String> nombresExistentes = new HashSet<>();
-    private static final Set<String> correosExistentes = new HashSet<>();
     private static final Random random = new Random();
 
     private static String generarCadenaRandom() {
@@ -34,36 +32,37 @@ public record DatosRegistroUsuario(
         return String.format("%04d", randomInt);
     }
 
-    private static String asegurarUnicidad(String valor, Set<String> existentes) {
+    private static String asegurarUnicidad(String valor, UsuarioRepository usuarioRepository) {
         String unico = valor;
-        while (existentes.contains(unico)) {
+        while (usuarioRepository.existsByCorreoElectronico(unico) || usuarioRepository.existsByNombre(unico)) {
             unico = valor + generarCadenaRandom();
         }
-        existentes.add(unico);
         return unico;
     }
 
-    private static String convertirNombre(String nombre) {
+    private static String convertirNombreParaCorreo(String nombre) {
         String nombreNormalizado = Normalizer.normalize(nombre, Normalizer.Form.NFD)
                 .replaceAll("[^\\p{ASCII}]", "")
                 .replaceAll("[&=_'\\-+,.<>:@*]", "")
                 .replaceAll("\\.{2,}", "")
                 .replaceAll("\\s", "")
                 .toLowerCase();
-        return asegurarUnicidad(nombreNormalizado, nombresExistentes);
+        return nombreNormalizado;
     }
 
-    private static String convertirCorreo(String nombre) {
-        String nombreUsuario = convertirNombre(nombre);
-        String correo = nombreUsuario + "@example.com";
-        return asegurarUnicidad(correo, correosExistentes);
+    private static String generarCorreoTemporal(String nombre, UsuarioRepository usuarioRepository) {
+        String nombreUsuario = convertirNombreParaCorreo(nombre);
+        String correoTemporal = nombreUsuario + (usuarioRepository.existsByCorreoElectronico(nombreUsuario) ? generarCadenaRandom() : "") + "@ForoHub.com";
+        return asegurarUnicidad(correoTemporal, usuarioRepository);
     }
 
-    public static Usuario registro(String nombre) {
+    public static Usuario registro(String nombre, UsuarioRepository usuarioRepository) {
+        String correoTemporal = generarCorreoTemporal(nombre, usuarioRepository);
+
         return new Usuario(
                 null,
-                convertirNombre(nombre),
-                convertirCorreo(nombre),
+                nombre,
+                correoTemporal,
                 "defaultPassword",
                 null,
                 new ArrayList<>(),
