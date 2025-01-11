@@ -13,6 +13,7 @@ import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosRegistroPerfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.Perfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.PerfilRepository;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.TipoPerfil;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
@@ -54,6 +55,9 @@ public class TopicoService {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private PerfilService perfilService;
+
     @Transactional
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
 
@@ -74,8 +78,7 @@ public class TopicoService {
                 .orElseGet(() -> {
                     Usuario nuevoUsuario = usuarioService.crearUsuario(new DatosRegistroUsuario(datosRegistroTopico.autor()));
 
-                    Perfil perfil = DatosRegistroPerfil.registro(null);
-                    perfil = perfilRepository.save(perfil);
+                    Perfil perfil = perfilService.crearPerfil(new DatosRegistroPerfil(TipoPerfil.USER));
                     nuevoUsuario.setPerfil(new ArrayList<>(List.of(perfil)));
 
                     return usuarioRepository.save(nuevoUsuario);
