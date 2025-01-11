@@ -52,7 +52,7 @@ public class UsuarioService {
         }
 
     public Usuario actualizarUsuario(Long id, DatosActualizarUsuario datosActualizarUsuario) {
-        Usuario usuario = usuarioRepository.getReferenceById(id);
+        Usuario usuario = usuarioRepository.findById(id).orElse(new Usuario());
 
         if (datosActualizarUsuario.nombre() != null && !datosActualizarUsuario.nombre().trim().isEmpty()) {
             usuario.setNombre(datosActualizarUsuario.nombre());
