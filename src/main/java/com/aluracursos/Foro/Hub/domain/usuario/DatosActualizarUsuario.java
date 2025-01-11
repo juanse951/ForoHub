@@ -16,5 +16,4 @@ public record DatosActualizarUsuario(
 //                message = "{password.invalido}")
 //        String contrasena
 
-        ) {
-}
+        ) { }

@@ -20,9 +20,13 @@ public record DatosActualizarTopico(
 ) {
     public DatosActualizarTopico(Topico topico){
         this(
-                topico.getTitulo(),
-                topico.getMensaje(),
-                new DatosActualizarUsuario(topico.getAutor().getNombre()),
-                new DatosActualizarCurso(topico.getCurso().getNombre()));
+        topico.getTitulo(),
+        topico.getMensaje(),
+                new DatosActualizarUsuario(
+                        topico.getAutor().getNombre()
+                ),
+                new DatosActualizarCurso(
+                        topico.getCurso().getNombre()
+                ));
     }
 }

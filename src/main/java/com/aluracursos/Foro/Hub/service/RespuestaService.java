@@ -21,7 +21,15 @@ public class RespuestaService {
             String mensaje = (datos.mensaje() == null || datos.mensaje().isBlank()) ? "aún sin respuesta" : datos.mensaje();
             LocalDateTime fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
-            Respuesta respuesta = new Respuesta(null, mensaje, topico, fechaCreacion, autor, false);
+            Respuesta respuesta =
+                    new Respuesta(
+                            null,
+                            mensaje,
+                            topico,
+                            fechaCreacion,
+                            autor,
+                            false);
+
             return respuestaRepository.save(respuesta);
         }
     }

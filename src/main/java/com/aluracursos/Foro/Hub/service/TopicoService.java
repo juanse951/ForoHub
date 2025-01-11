@@ -81,14 +81,19 @@ public class TopicoService {
                     return usuarioRepository.save(nuevoUsuario);
                 });
 
-        var topico = topicoRepository.save(new Topico(
+        var topico = topicoRepository.save(
+                new Topico(
                 datosRegistroTopico,
                 curso,
                 autor,
-                new ArrayList<>()))
-                ;
+                new ArrayList<>())
+        );
 
-        Respuesta respuesta = respuestaService.crearRespuesta(new DatosRegistroRespuesta(null), autor, topico);
+        Respuesta respuesta = respuestaService.crearRespuesta
+                (new DatosRegistroRespuesta
+                        (null),
+                        autor,
+                        topico);
         topico.getRespuestas().add(respuesta);
 
         return topico;
@@ -103,7 +108,6 @@ public class TopicoService {
 
         Topico topico = optionalTopico.get();
 
-        // Actualización de los datos del tópico
         if (datosActualizarTopico.titulo() != null && !datosActualizarTopico.titulo().trim().isEmpty()) {
             topico.setTitulo(datosActualizarTopico.titulo());
         }

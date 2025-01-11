@@ -16,7 +16,13 @@ public class CursoService {
     public Curso crearCurso(DatosRegistroCurso datos) {
         Categoria categoria = Categoria.GENERAL;
 
-        Curso curso = new Curso(null, datos.nombre(), categoria, new ArrayList<>());
+        Curso curso =
+                new Curso(
+                        null,
+                        datos.nombre(),
+                        categoria,
+                        new ArrayList<>());
+
         return cursoRepository.save(curso);
     }
 

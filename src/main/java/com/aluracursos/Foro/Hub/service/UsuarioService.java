@@ -24,13 +24,14 @@ public class UsuarioService {
             return String.format("%04d", randomInt);
         }
 
-        private static String asegurarUnicidad(String valor, UsuarioRepository usuarioRepository) {
-            String unico = valor;
-            while (usuarioRepository.existsByCorreoElectronico(unico) || usuarioRepository.existsByNombre(unico)) {
-                unico = valor + generarCadenaRandom();
-            }
-            return unico;
+    private static String asegurarUnicidad(String correo, UsuarioRepository usuarioRepository) {
+        String correoUnico = correo;
+        while (usuarioRepository.existsByCorreoElectronico(correoUnico)) {
+            String base = correo.split("@")[0];
+            correoUnico = base + generarCadenaRandom() + "@ForoHub.com";
         }
+        return correoUnico;
+    }
 
         private static String convertirNombreParaCorreo(String nombre) {
             String nombreNormalizado = Normalizer.normalize(nombre, Normalizer.Form.NFD)
@@ -44,8 +45,10 @@ public class UsuarioService {
 
         private static String generarCorreoTemporal(String nombre, UsuarioRepository usuarioRepository) {
             String nombreUsuario = convertirNombreParaCorreo(nombre);
-            String correoTemporal = nombreUsuario + (usuarioRepository.existsByCorreoElectronico(nombreUsuario) ? generarCadenaRandom() : "") + "@ForoHub.com";
-            return asegurarUnicidad(correoTemporal, usuarioRepository);
+            String correoBase = nombreUsuario + "@ForoHub.com";
+            String correoUnico = asegurarUnicidad(correoBase, usuarioRepository);
+
+            return correoUnico;
         }
 
     public Usuario actualizarUsuario(Long id, DatosActualizarUsuario datosActualizarUsuario) {
