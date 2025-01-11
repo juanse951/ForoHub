@@ -16,6 +16,7 @@ import com.aluracursos.Foro.Hub.domain.usuario.perfil.PerfilRepository;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +51,7 @@ public class TopicoService {
     @Autowired
     private CursoService cursoService;
 
+    @Transactional
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
         // Validación independiente del título
         boolean existeTitulo = topicoRepository.existsByTitulo(datosRegistroTopico.titulo());
@@ -90,6 +92,7 @@ public class TopicoService {
         return topico;
     }
 
+    @Transactional
     public Topico actualizarTopico(Long id, DatosActualizarTopico datosActualizarTopico) {
         var optionalTopico = topicoRepository.findById(id);
         if (optionalTopico.isEmpty()) {
@@ -120,7 +123,7 @@ public class TopicoService {
         return topicoRepository.save(topico);
     }
 
-
+    @Transactional
     public void eliminarTopico(Long id) {
         var optionalTopico = topicoRepository.findById(id);
         if (optionalTopico.isEmpty()) {
