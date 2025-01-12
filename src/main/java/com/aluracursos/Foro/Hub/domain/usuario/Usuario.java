@@ -2,12 +2,12 @@ package com.aluracursos.Foro.Hub.domain.usuario;
 
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
-import com.aluracursos.Foro.Hub.domain.usuario.perfil.Perfil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,12 +32,8 @@ public class Usuario implements UserDetails {
 
     private String contrasena;
 
-    @ManyToMany
-    @JoinTable(
-            name = "usuario_perfil",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
-    private List<Perfil> perfil = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private TipoPerfil perfil;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
@@ -47,7 +43,13 @@ public class Usuario implements UserDetails {
 
     public Usuario(DatosRegistroUsuario datos) {
         this.nombre = datos.nombre();
+        this.correoElectronico = datos.correoElectronico();
+        this.contrasena = new BCryptPasswordEncoder().encode(datos.contrasena());
+        this.perfil = TipoPerfil.USER;
     }
+
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

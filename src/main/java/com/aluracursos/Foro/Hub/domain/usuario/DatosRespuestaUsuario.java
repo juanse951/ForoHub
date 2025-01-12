@@ -2,6 +2,13 @@ package com.aluracursos.Foro.Hub.domain.usuario;
 
 public record DatosRespuestaUsuario(
 
-        String nombre
+        Long id,
+
+        String nombre,
+
+        String correoElectronico,
+
+        TipoPerfil perfil
+
 ) {
 }

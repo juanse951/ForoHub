@@ -1,4 +1,4 @@
-package com.aluracursos.Foro.Hub.domain.usuario.perfil;
+package com.aluracursos.Foro.Hub.domain.usuario;
 
 public enum TipoPerfil {
     USER("user"),
