@@ -1,6 +1,7 @@
 package com.aluracursos.Foro.Hub.domain.topico;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 //título, mensaje, autor y curso
@@ -14,12 +15,10 @@ public record DatosRegistroTopico(
         @NotBlank(message = "{mensaje.obligatorio}")
         String mensaje,
 
-        @NotBlank(message = "{autor.obligatorio}")
-        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$", message = "{autor.error}")
-        String autor,
+        @NotNull(message = "{autor.obligatorio}")
+        Long autor_id,
 
-        @NotBlank(message = "{curso.obligatorio}")
-        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{curso.error}")
-        String curso
+        @NotNull(message = "{curso.obligatorio}")
+        Long curso_id
 ) {
 }

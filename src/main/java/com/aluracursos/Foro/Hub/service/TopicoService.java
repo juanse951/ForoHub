@@ -2,18 +2,12 @@ package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.curso.Curso;
 import com.aluracursos.Foro.Hub.domain.curso.CursoRepository;
-import com.aluracursos.Foro.Hub.domain.curso.DatosRegistroCurso;
 import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.Foro.Hub.domain.topico.*;
-import com.aluracursos.Foro.Hub.domain.usuario.DatosRegistroUsuario;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
-import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosRegistroPerfil;
-import com.aluracursos.Foro.Hub.domain.usuario.perfil.Perfil;
-import com.aluracursos.Foro.Hub.domain.usuario.perfil.PerfilRepository;
-import com.aluracursos.Foro.Hub.domain.usuario.perfil.TipoPerfil;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
@@ -27,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicoService {
@@ -44,9 +39,6 @@ public class TopicoService {
     private RespuestaRepository respuestaRepository;
 
     @Autowired
-    private PerfilRepository perfilRepository;
-
-    @Autowired
     private RespuestaService respuestaService;
 
     @Autowired
@@ -55,11 +47,11 @@ public class TopicoService {
     @Autowired
     private UsuarioService usuarioService;
 
-    @Autowired
-    private PerfilService perfilService;
-
     @Transactional
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
+
+        Curso curso = new Curso();
+        Usuario autor = new Usuario();
 
         boolean existeTitulo = topicoRepository.existsByTitulo(datosRegistroTopico.titulo());
         if (existeTitulo) {
@@ -71,18 +63,15 @@ public class TopicoService {
             throw new TopicoAlreadyExistsException("El mensaje del tópico ya existe.");
         }
 
-        Curso curso = cursoRepository.findByNombre(datosRegistroTopico.curso())
-                .orElseGet(() -> cursoService.crearCurso(new DatosRegistroCurso(datosRegistroTopico.curso())));
+        Optional<Curso> cursoOptional = cursoRepository.findById(datosRegistroTopico.curso_id());
+        if(cursoOptional.isPresent()){
+             curso = cursoOptional.get();
+        }
 
-        Usuario autor = usuarioRepository.findByNombre(datosRegistroTopico.autor())
-                .orElseGet(() -> {
-                    Usuario nuevoUsuario = usuarioService.crearUsuario(new DatosRegistroUsuario(datosRegistroTopico.autor()));
-
-                    Perfil perfil = perfilService.crearPerfil(new DatosRegistroPerfil(TipoPerfil.USER));
-                    nuevoUsuario.setPerfil(new ArrayList<>(List.of(perfil)));
-
-                    return usuarioRepository.save(nuevoUsuario);
-                });
+        Optional<Usuario> autorOptional = usuarioRepository.findById(datosRegistroTopico.autor_id());
+                if(autorOptional.isPresent()){
+                    autor = autorOptional.get();
+                }
 
         var topico = topicoRepository.save(
                 new Topico(
@@ -92,12 +81,12 @@ public class TopicoService {
                 new ArrayList<>())
         );
 
-        Respuesta respuesta = respuestaService.crearRespuesta
-                (new DatosRegistroRespuesta
-                        (null),
-                        autor,
-                        topico);
-        topico.getRespuestas().add(respuesta);
+//        Respuesta respuesta = respuestaService.crearRespuesta
+//                (new DatosRegistroRespuesta
+//                        (null),
+//                        autor,
+//                        topico);
+//        topico.getRespuestas().add(respuesta);
 
         return topico;
     }
