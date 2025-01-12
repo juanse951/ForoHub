@@ -4,7 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public record DatosRespuestaCurso(
 
-        @NotBlank(message = "{nombre.obligatorio}")
-        String nombre
+        Long id,
+
+        String nombre,
+
+        Categoria categoria
 ) {
 }

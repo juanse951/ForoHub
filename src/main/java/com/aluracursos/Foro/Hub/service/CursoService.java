@@ -13,17 +13,14 @@ public class CursoService {
     @Autowired
     private CursoRepository cursoRepository;
 
-    public Curso crearCurso(DatosRegistroCurso datos) {
-        Categoria categoria = Categoria.GENERAL;
+    public DatosRespuestaCurso registrarCurso(DatosRegistroCurso datosRegistroCurso) {
+        Curso curso = new Curso(datosRegistroCurso);
 
-        Curso curso =
-                new Curso(
-                        null,
-                        datos.nombre(),
-                        categoria,
-                        new ArrayList<>());
-
-        return cursoRepository.save(curso);
+        cursoRepository.save(curso);
+        return new DatosRespuestaCurso(
+                curso.getId(),
+                curso.getNombre(),
+                curso.getCategoria());
     }
 
     public Curso actualizarCurso(Long id, DatosActualizarCurso datosActualizarCurso) {

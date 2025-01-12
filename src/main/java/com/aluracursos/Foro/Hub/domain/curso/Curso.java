@@ -30,5 +30,6 @@ public class Curso {
 
     public Curso(DatosRegistroCurso datos) {
         this.nombre = datos.nombre();
+        this.categoria = Categoria.GENERAL;
     }
 }
