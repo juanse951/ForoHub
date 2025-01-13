@@ -43,4 +43,11 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios.map(DatosListadoUsuario::new));
     }
 
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<DatosRespuestaUsuario> retornarDatosUsuario(@PathVariable Long id) {
+        Usuario usuario = usuarioService.obtenerUsuario(id);
+        DatosRespuestaUsuario datosRespuestaUsuario = new DatosRespuestaUsuario(usuario);
+        return ResponseEntity.ok(datosRespuestaUsuario);
+    }
+
 }

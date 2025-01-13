@@ -1,7 +1,7 @@
 package com.aluracursos.Foro.Hub.service;
 
-import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.*;
+import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +75,6 @@ public class UsuarioService {
         if (datosActualizarUsuario.correoElectronico() != null && !datosActualizarUsuario.correoElectronico().trim().isEmpty()) {
             String correoLimpio = datosActualizarUsuario.correoElectronico().trim();
 
-            // Verificar si el correo pertenece a otro usuario
             Optional<Usuario> usuarioConCorreo = usuarioRepository.findUsuarioByCorreoElectronico(correoLimpio);
             if (usuarioConCorreo.isPresent() && !usuarioConCorreo.get().getId().equals(usuario.getId())) {
                 throw new IllegalArgumentException("El correo electrónico ingresado ya está registrado.");
@@ -102,6 +101,11 @@ public class UsuarioService {
     public Page<Usuario> obtenerListadoUsuario(Pageable paginacion) {
         Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.desc("nombre")));
         return usuarioRepository.findAll(paginacionConOrden);
+    }
+
+    public Usuario obtenerUsuario(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new TopicoNotFoundByIdException("No se encontró el Usuario con ID " + id));
     }
 
 
