@@ -1,8 +1,6 @@
 package com.aluracursos.Foro.Hub.infra.errores;
 
-import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
-import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
-import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
+import com.aluracursos.Foro.Hub.infra.exceptions.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -72,6 +70,15 @@ public class TratadorDeErrores {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());  // Cambié esta línea
     }
 
+    @ExceptionHandler(CursoNotFoundException.class)
+    public ResponseEntity<String> tratarErrorNotFounCurso(CursoNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UsuarioNotFoundException.class)
+    public ResponseEntity<String> tratarErrorNotFounUsuario(UsuarioNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 
     private String procesarMensajeError(String mensaje) {
         if (mensaje.contains("título")) {

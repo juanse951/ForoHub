@@ -8,9 +8,11 @@ import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.Foro.Hub.domain.topico.*;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
+import com.aluracursos.Foro.Hub.infra.exceptions.CursoNotFoundException;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
+import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -110,7 +112,7 @@ public class TopicoService {
         if (datosActualizarTopico.autor_id() != null && datosActualizarTopico.autor_id() > 0) {
             var optionalAutor = usuarioRepository.findById(datosActualizarTopico.autor_id());
             if (optionalAutor.isEmpty()) {
-                throw new IllegalArgumentException("El autor con ID " + datosActualizarTopico.autor_id() + " no existe.");
+                throw new UsuarioNotFoundException("El autor con ID " + datosActualizarTopico.autor_id() + " no existe.");
             }
             topico.setAutor(optionalAutor.get());
         }
@@ -119,7 +121,7 @@ public class TopicoService {
         if (datosActualizarTopico.curso_id() != null && datosActualizarTopico.curso_id() > 0) {
             var optionalCurso = cursoRepository.findById(datosActualizarTopico.curso_id());
             if (optionalCurso.isEmpty()) {
-                throw new IllegalArgumentException("El curso con ID " + datosActualizarTopico.curso_id() + " no existe.");
+                throw new CursoNotFoundException("El curso con ID " + datosActualizarTopico.curso_id() + " no existe.");
             }
             topico.setCurso(optionalCurso.get());
         }
