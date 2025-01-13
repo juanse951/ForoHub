@@ -3,6 +3,7 @@ package com.aluracursos.Foro.Hub.infra.errores;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -17,20 +18,21 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class TratadorDeErrores {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity tratarError404() {
+    public ResponseEntity<String> tratarError404() {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity tratarError400(MethodArgumentNotValidException e) {
+    public ResponseEntity<String> tratarError400(MethodArgumentNotValidException e) {
         var errores = e.getFieldErrors().stream()
-                .map(DatosErrorValidacion::new).toList();
+                .map(error -> error.getDefaultMessage()) // Solo extraemos el mensaje
+                .toList();
 
-        return ResponseEntity.badRequest().body(errores);
+        return ResponseEntity.badRequest().body(String.join(", ", errores));
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity tratarErrorDeIntegridad(SQLIntegrityConstraintViolationException e) {
+    public ResponseEntity<String> tratarErrorDeIntegridad(SQLIntegrityConstraintViolationException e) {
         String mensajeOriginal = e.getMessage();
         String mensaje = analizarErrorDeIntegridad(mensajeOriginal);
 
@@ -41,16 +43,23 @@ public class TratadorDeErrores {
     }
 
     @ExceptionHandler(TopicoAlreadyExistsException.class)
-    public ResponseEntity tratarErrorTopicoDuplicado(TopicoAlreadyExistsException e) {
+    public ResponseEntity<String> tratarErrorTopicoDuplicado(TopicoAlreadyExistsException e) {
         String mensaje = procesarMensajeError(e.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(mensaje);
     }
 
     @ExceptionHandler(TopicoNotFoundByIdException.class)
-    public ResponseEntity tratarErrorTopicoNoEncontrado(TopicoNotFoundByIdException e) {
+    public ResponseEntity<String> tratarErrorTopicoNoEncontrado(TopicoNotFoundByIdException e) {
         String mensaje = procesarMensajeError(e.getMessage());
         return ResponseEntity.badRequest().body(mensaje);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> manejarViolacionDeRestriccion(ConstraintViolationException e) {
+
+        return ResponseEntity.badRequest().body(e.getMessage().replace("\"", ""));
+    }
+
 
     private String procesarMensajeError(String mensaje) {
         if (mensaje.contains("título")) {
