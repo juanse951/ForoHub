@@ -3,6 +3,10 @@ package com.aluracursos.Foro.Hub.service;
 import com.aluracursos.Foro.Hub.domain.curso.*;
 import com.aluracursos.Foro.Hub.infra.exceptions.CursoNotFoundByIdException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,5 +46,8 @@ public class CursoService {
                 .orElseThrow(() -> new CursoNotFoundByIdException("No se encontró el Curso con ID " + id));
     }
 
-
+    public Page<Curso> obtenerListadoCurso(Pageable paginacion) {
+        Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.asc("nombre")));
+        return cursoRepository.findAll(paginacionConOrden);
+    }
 }

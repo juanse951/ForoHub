@@ -25,8 +25,8 @@ public record DatosListadoTopico(
         topico.getMensaje(),
         topico.getFechaCreacion(),
         topico.getStatus().toString(),
-                topico.getAutor().getNombre(),
-                topico.getCurso().getCategoria().toString()
+        topico.getAutor().getNombre(),
+        topico.getCurso().getCategoria().toString()
         );
     }
 }

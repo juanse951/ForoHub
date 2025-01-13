@@ -1,13 +1,14 @@
 package com.aluracursos.Foro.Hub.controller;
 
-import com.aluracursos.Foro.Hub.domain.curso.Curso;
-import com.aluracursos.Foro.Hub.domain.curso.DatosActualizarCurso;
-import com.aluracursos.Foro.Hub.domain.curso.DatosRegistroCurso;
-import com.aluracursos.Foro.Hub.domain.curso.DatosRespuestaCurso;
-import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
+import com.aluracursos.Foro.Hub.domain.curso.*;
+import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import com.aluracursos.Foro.Hub.service.CursoService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -43,5 +44,11 @@ public class CursoController {
         Curso curso = cursoService.actualizarCurso(id, datosActualizarCurso);
         DatosRespuestaCurso datosRespuestaCurso = new DatosRespuestaCurso(curso);
         return ResponseEntity.ok(datosRespuestaCurso);
+    }
+
+    @GetMapping("/listado")
+    public ResponseEntity<Page<DatosListadoCurso>> listadoCurso(@PageableDefault(size = 10) Pageable paginacion) {
+        Page<Curso> cursos = cursoService.obtenerListadoCurso(paginacion);
+        return ResponseEntity.ok(cursos.map(DatosListadoCurso::new));
     }
 }
