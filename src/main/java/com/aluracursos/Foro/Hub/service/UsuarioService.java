@@ -1,7 +1,7 @@
 package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.usuario.*;
-import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
+import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,14 +105,14 @@ public class UsuarioService {
 
     public Usuario obtenerUsuario(Long id) {
         return usuarioRepository.findById(id)
-                .orElseThrow(() -> new TopicoNotFoundByIdException("No se encontró el Usuario con ID " + id));
+                .orElseThrow(() -> new UsuarioNotFoundByIdException("No se encontró el Usuario con ID " + id));
     }
 
     @Transactional
     public void eliminarUsuario(Long id) {
         var optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isEmpty()) {
-            throw new TopicoNotFoundByIdException("No se encontró el Usuario con ID " + id);
+            throw new UsuarioNotFoundByIdException("No se encontró el Usuario con ID " + id);
         }
         usuarioRepository.deleteById(id);
     }

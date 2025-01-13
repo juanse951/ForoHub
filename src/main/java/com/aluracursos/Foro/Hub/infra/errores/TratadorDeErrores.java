@@ -2,6 +2,7 @@ package com.aluracursos.Foro.Hub.infra.errores;
 
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
 import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
+import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,12 @@ public class TratadorDeErrores {
 
     @ExceptionHandler(TopicoNotFoundByIdException.class)
     public ResponseEntity<String> tratarErrorTopicoNoEncontrado(TopicoNotFoundByIdException e) {
+        String mensaje = procesarMensajeError(e.getMessage());
+        return ResponseEntity.badRequest().body(mensaje);
+    }
+
+    @ExceptionHandler(UsuarioNotFoundByIdException.class)
+    public ResponseEntity<String> tratarErrorUsuarioNoEncontrado(UsuarioNotFoundByIdException e) {
         String mensaje = procesarMensajeError(e.getMessage());
         return ResponseEntity.badRequest().body(mensaje);
     }
