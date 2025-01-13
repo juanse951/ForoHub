@@ -91,20 +91,14 @@ public class TopicoService {
         }
         // Validar y actualizar el autor
         if (datosActualizarTopico.autor_id() != null && datosActualizarTopico.autor_id() > 0) {
-            var optionalAutor = usuarioRepository.findById(datosActualizarTopico.autor_id());
-            if (optionalAutor.isEmpty()) {
-                throw new UsuarioNotFoundException("El autor con ID " + datosActualizarTopico.autor_id() + " no existe.");
-            }
-            topico.setAutor(optionalAutor.get());
+            Usuario autor = usuarioService.obtenerUsuario(datosActualizarTopico.autor_id());
+            topico.setAutor(autor);
         }
 
         // Validar y actualizar el curso
         if (datosActualizarTopico.curso_id() != null && datosActualizarTopico.curso_id() > 0) {
-            var optionalCurso = cursoRepository.findById(datosActualizarTopico.curso_id());
-            if (optionalCurso.isEmpty()) {
-                throw new CursoNotFoundException("El curso con ID " + datosActualizarTopico.curso_id() + " no existe.");
-            }
-            topico.setCurso(optionalCurso.get());
+            Curso curso = cursoService.obtenerCurso(datosActualizarTopico.curso_id());
+            topico.setCurso(curso);
         }
 
         return topicoRepository.save(topico);

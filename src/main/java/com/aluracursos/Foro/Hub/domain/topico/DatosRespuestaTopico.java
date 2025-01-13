@@ -26,7 +26,7 @@ public record DatosRespuestaTopico(
                 topico.getFechaCreacion(),
                 topico.getStatus().toString(),
                 topico.getAutor().getNombre(),
-                topico.getCurso().getCategoria().toString()
+                topico.getCurso().getNombre()
         );
     }
 }
