@@ -1,6 +1,7 @@
 package com.aluracursos.Foro.Hub.controller;
 
 import com.aluracursos.Foro.Hub.domain.curso.Curso;
+import com.aluracursos.Foro.Hub.domain.curso.DatosActualizarCurso;
 import com.aluracursos.Foro.Hub.domain.curso.DatosRegistroCurso;
 import com.aluracursos.Foro.Hub.domain.curso.DatosRespuestaCurso;
 import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
@@ -32,6 +33,14 @@ public class CursoController {
     @GetMapping("/buscar/{id}")
     public ResponseEntity<DatosRespuestaCurso> retornarDatosCurso(@PathVariable Long id) {
         Curso curso = cursoService.obtenerCurso(id);
+        DatosRespuestaCurso datosRespuestaCurso = new DatosRespuestaCurso(curso);
+        return ResponseEntity.ok(datosRespuestaCurso);
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<DatosRespuestaCurso> actualizarCurso(@PathVariable Long id,
+                                                                   @RequestBody @Valid DatosActualizarCurso datosActualizarCurso) {
+        Curso curso = cursoService.actualizarCurso(id, datosActualizarCurso);
         DatosRespuestaCurso datosRespuestaCurso = new DatosRespuestaCurso(curso);
         return ResponseEntity.ok(datosRespuestaCurso);
     }

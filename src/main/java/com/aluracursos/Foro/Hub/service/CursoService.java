@@ -30,7 +30,8 @@ public class CursoService {
                 .orElseThrow(() -> new IllegalArgumentException("El curso con ID " + id + " no existe."));
 
         if (datosActualizarCurso.nombre() != null && !datosActualizarCurso.nombre().trim().isEmpty()) {
-            curso.setNombre(datosActualizarCurso.nombre());
+            String nombreLimpio = datosActualizarCurso.nombre().trim();
+            curso.setNombre(nombreLimpio);
         }
 
         return cursoRepository.save(curso);
