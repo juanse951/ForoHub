@@ -83,11 +83,22 @@ public class UsuarioService {
         }
 
         if (datosActualizarUsuario.contrasena() != null && !datosActualizarUsuario.contrasena().trim().isEmpty()) {
-            String contrasenaHasheada = passwordEncoder.encode(datosActualizarUsuario.contrasena());
+            String contrasena = datosActualizarUsuario.contrasena();
+            if (!validarContrasena(contrasena)) {
+                throw new ConstraintViolationException("La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número, un carácter especial, debe tener al menos 8 caracteres.NO Contener ESPACIOS, al principio en su longitud o al final", null);
+            }
+            String contrasenaHasheada = passwordEncoder.encode(contrasena);
             usuario.setContrasena(contrasenaHasheada);
         }
 
         return usuarioRepository.save(usuario);
+    }
+
+    private boolean validarContrasena(String contrasena) {
+        String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(contrasena);
+        return matcher.matches();
     }
 
     private boolean esCorreoValido(String correo) {

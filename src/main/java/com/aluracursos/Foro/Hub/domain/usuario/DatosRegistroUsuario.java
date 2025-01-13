@@ -16,8 +16,8 @@ public record DatosRegistroUsuario(
         @NotBlank(message = "{password.obligatorio}")
         @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
                 message = "{password.invalido}")
-        String contrasena,
+        String contrasena
 
-        TipoPerfil perfil
+       // TipoPerfil perfil
 
 ) { }

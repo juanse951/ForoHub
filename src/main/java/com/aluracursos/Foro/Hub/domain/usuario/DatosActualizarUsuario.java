@@ -9,8 +9,6 @@ public record DatosActualizarUsuario(
 
         String correoElectronico,
 
-        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-                message = "{password.invalido}")
         String contrasena
 
         ) {
