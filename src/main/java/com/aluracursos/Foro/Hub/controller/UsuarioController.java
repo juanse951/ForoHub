@@ -29,7 +29,7 @@ public class UsuarioController {
         return ResponseEntity.created(url).body(datosRespuestaUsuario);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<DatosRespuestaUsuario> actualizarUsuario(@PathVariable Long id,
                                                                  @RequestBody @Valid DatosActualizarUsuario datosActualizarUsuario) {
         Usuario usuario = usuarioService.actualizarUsuario(id, datosActualizarUsuario);
