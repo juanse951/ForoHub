@@ -1,11 +1,13 @@
 package com.aluracursos.Foro.Hub.infra.errores;
 
 import com.aluracursos.Foro.Hub.infra.exceptions.*;
+import com.fasterxml.jackson.core.JsonParseException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -84,6 +86,12 @@ public class TratadorDeErrores {
     @ExceptionHandler(UsuarioNotFoundException.class)
     public ResponseEntity<String> tratarErrorNotFounUsuario(UsuarioNotFoundException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(JsonParseException.class)
+    public ResponseEntity<String> manejarErrorJsonParse(JsonParseException e) {
+        String mensaje = "El formato del JSON enviado no es válido. Verifique que los números no tengan ceros iniciales y que los datos estén correctamente formateados.";
+        return ResponseEntity.badRequest().body(mensaje);
     }
 
     private String procesarMensajeError(String mensaje) {
