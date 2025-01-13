@@ -50,4 +50,9 @@ public class UsuarioController {
         return ResponseEntity.ok(datosRespuestaUsuario);
     }
 
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.ok("El Usuario con ID " + id + " fue eliminado exitosamente.");
+    }
 }

@@ -99,7 +99,7 @@ public class UsuarioService {
     }
 
     public Page<Usuario> obtenerListadoUsuario(Pageable paginacion) {
-        Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.desc("nombre")));
+        Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.asc("nombre")));
         return usuarioRepository.findAll(paginacionConOrden);
     }
 
@@ -108,6 +108,14 @@ public class UsuarioService {
                 .orElseThrow(() -> new TopicoNotFoundByIdException("No se encontró el Usuario con ID " + id));
     }
 
+    @Transactional
+    public void eliminarUsuario(Long id) {
+        var optionalUsuario = usuarioRepository.findById(id);
+        if (optionalUsuario.isEmpty()) {
+            throw new TopicoNotFoundByIdException("No se encontró el Usuario con ID " + id);
+        }
+        usuarioRepository.deleteById(id);
+    }
 
     private boolean validarContrasena(String contrasena) {
         String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
