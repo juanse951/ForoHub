@@ -11,4 +11,13 @@ public record DatosRespuestaUsuario(
         TipoPerfil perfil
 
 ) {
+
+    public DatosRespuestaUsuario(Usuario usuario){
+        this(
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getCorreoElectronico(),
+                usuario.getPerfil()
+        );
+    }
 }

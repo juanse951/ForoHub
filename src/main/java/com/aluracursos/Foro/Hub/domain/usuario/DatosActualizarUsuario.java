@@ -5,15 +5,21 @@ import jakarta.validation.constraints.Pattern;
 public record DatosActualizarUsuario(
 
         @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$", message = "{autor.error}")
-        String nombre
+        String nombre,
 
-        //        @NotBlank(message = "{email.obligatorio}")
-//        @Email(message = "{email.invalido}")
-//        String correoElectronico,
-//
-//        @NotBlank(message = "{password.obligatorio}")
-//        @Pattern(regexp = "^(defaultPassword|(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,})$",
-//                message = "{password.invalido}")
-//        String contrasena
+        String correoElectronico,
 
-        ) { }
+        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+                message = "{password.invalido}")
+        String contrasena
+
+        ) {
+
+        public DatosActualizarUsuario(Usuario usuario){
+              this(
+               usuario.getNombre(),
+               usuario.getCorreoElectronico(),
+               usuario.getContrasena()
+                );
+        }
+}
