@@ -2,6 +2,8 @@ package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.curso.*;
 import com.aluracursos.Foro.Hub.infra.exceptions.CursoNotFoundByIdException;
+import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,5 +51,14 @@ public class CursoService {
     public Page<Curso> obtenerListadoCurso(Pageable paginacion) {
         Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.asc("nombre")));
         return cursoRepository.findAll(paginacionConOrden);
+    }
+
+    @Transactional
+    public void eliminarCurso(Long id) {
+        var optionalCurso = cursoRepository.findById(id);
+        if (optionalCurso.isEmpty()) {
+            throw new CursoNotFoundByIdException("No se encontró el Usuario con ID " + id);
+        }
+        cursoRepository.deleteById(id);
     }
 }

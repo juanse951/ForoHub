@@ -51,4 +51,10 @@ public class CursoController {
         Page<Curso> cursos = cursoService.obtenerListadoCurso(paginacion);
         return ResponseEntity.ok(cursos.map(DatosListadoCurso::new));
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminarCurso(@PathVariable Long id) {
+        cursoService.eliminarCurso(id);
+        return ResponseEntity.ok("El Curso con ID " + id + " fue eliminado exitosamente.");
+    }
 }
