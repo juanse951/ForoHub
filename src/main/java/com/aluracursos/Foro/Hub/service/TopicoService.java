@@ -45,11 +45,14 @@ public class TopicoService {
     @Transactional
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
 
-        if (topicoRepository.existsByTitulo(datosRegistroTopico.titulo())) {
+        String tituloLimpio = datosRegistroTopico.titulo() != null ? datosRegistroTopico.titulo().trim() : null;
+        String mensajeLimpio = datosRegistroTopico.mensaje() != null ? datosRegistroTopico.mensaje().trim() : null;
+
+        if (topicoRepository.existsByTitulo(tituloLimpio)) {
             throw new TopicoAlreadyExistsException("El título del tópico ya existe.");
         }
 
-        if (topicoRepository.existsByMensaje(datosRegistroTopico.mensaje())) {
+        if (topicoRepository.existsByMensaje(mensajeLimpio)) {
             throw new TopicoAlreadyExistsException("El mensaje del tópico ya existe.");
         }
 
@@ -58,10 +61,11 @@ public class TopicoService {
 
         var topico = topicoRepository.save(
                 new Topico(
-                datosRegistroTopico,
-                curso,
-                autor,
-                new ArrayList<>())
+                        new DatosRegistroTopico(tituloLimpio, mensajeLimpio, datosRegistroTopico.curso_id(), datosRegistroTopico.autor_id()),
+                        curso,
+                        autor,
+                        new ArrayList<>()
+                )
         );
 
 //        Respuesta respuesta = respuestaService.crearRespuesta
