@@ -1,7 +1,5 @@
 package com.aluracursos.Foro.Hub.domain.curso;
 
-import jakarta.validation.constraints.NotBlank;
-
 public record DatosRespuestaCurso(
 
         Long id,
@@ -10,4 +8,11 @@ public record DatosRespuestaCurso(
 
         Categoria categoria
 ) {
+    public DatosRespuestaCurso(Curso curso){
+        this(
+                curso.getId(),
+                curso.getNombre(),
+                curso.getCategoria()
+        );
+    }
 }
