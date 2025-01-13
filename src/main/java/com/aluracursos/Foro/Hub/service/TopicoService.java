@@ -106,17 +106,22 @@ public class TopicoService {
         if (datosActualizarTopico.mensaje() != null && !datosActualizarTopico.mensaje().trim().isEmpty()) {
             topico.setMensaje(datosActualizarTopico.mensaje());
         }
-        if (datosActualizarTopico.autor() != null
-                && datosActualizarTopico.autor().nombre() != null
-                && !datosActualizarTopico.autor().nombre().trim().isEmpty()) {
-            Usuario usuarioActualizado = usuarioService.actualizarUsuario(topico.getAutor().getId(), datosActualizarTopico.autor());
-            topico.setAutor(usuarioActualizado);
+        // Validar y actualizar el autor
+        if (datosActualizarTopico.autor_id() != null && datosActualizarTopico.autor_id() > 0) {
+            var optionalAutor = usuarioRepository.findById(datosActualizarTopico.autor_id());
+            if (optionalAutor.isEmpty()) {
+                throw new IllegalArgumentException("El autor con ID " + datosActualizarTopico.autor_id() + " no existe.");
+            }
+            topico.setAutor(optionalAutor.get());
         }
-        if (datosActualizarTopico.curso() != null
-                && datosActualizarTopico.curso().nombre() != null
-                && !datosActualizarTopico.curso().nombre().trim().isEmpty()) {
-            Curso cursoActualizado = cursoService.actualizarCurso(topico.getCurso().getId(), datosActualizarTopico.curso());
-            topico.setCurso(cursoActualizado);
+
+        // Validar y actualizar el curso
+        if (datosActualizarTopico.curso_id() != null && datosActualizarTopico.curso_id() > 0) {
+            var optionalCurso = cursoRepository.findById(datosActualizarTopico.curso_id());
+            if (optionalCurso.isEmpty()) {
+                throw new IllegalArgumentException("El curso con ID " + datosActualizarTopico.curso_id() + " no existe.");
+            }
+            topico.setCurso(optionalCurso.get());
         }
 
         return topicoRepository.save(topico);

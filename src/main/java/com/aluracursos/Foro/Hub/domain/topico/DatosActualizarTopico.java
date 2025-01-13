@@ -1,8 +1,6 @@
 package com.aluracursos.Foro.Hub.domain.topico;
 
-import com.aluracursos.Foro.Hub.domain.curso.DatosActualizarCurso;
-import com.aluracursos.Foro.Hub.domain.usuario.DatosActualizarUsuario;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record DatosActualizarTopico(
@@ -12,21 +10,17 @@ public record DatosActualizarTopico(
 
         String mensaje,
 
-        @Valid
-        DatosActualizarUsuario autor,
+        @NotNull(message = "{autor.obligatorio}")
+        Long autor_id,
 
-        @Valid
-        DatosActualizarCurso curso
+        @NotNull(message = "{curso.obligatorio}")
+        Long curso_id
 ) {
     public DatosActualizarTopico(Topico topico){
         this(
         topico.getTitulo(),
         topico.getMensaje(),
-                new DatosActualizarUsuario(
-                        topico.getAutor().getNombre()
-                ),
-                new DatosActualizarCurso(
-                        topico.getCurso().getNombre()
-                ));
+        topico.getAutor().getId(),
+        topico.getCurso().getId());
     }
 }
