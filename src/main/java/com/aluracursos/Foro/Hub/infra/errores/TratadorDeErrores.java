@@ -60,6 +60,11 @@ public class TratadorDeErrores {
         return ResponseEntity.badRequest().body(e.getMessage().replace("\"", ""));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> tratarErrorConflict(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());  // Cambié esta línea
+    }
+
 
     private String procesarMensajeError(String mensaje) {
         if (mensaje.contains("título")) {

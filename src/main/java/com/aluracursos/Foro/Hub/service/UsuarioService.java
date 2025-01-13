@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,15 +25,32 @@ public class UsuarioService {
 
     public DatosRespuestaUsuario registrarUsuario(DatosRegistroUsuario datosRegistroUsuario) {
 
+        String correoElectronico = datosRegistroUsuario.correoElectronico().trim();
+
+        Optional<Usuario> usuarioExistente = usuarioRepository.findUsuarioByCorreoElectronico(correoElectronico);
+        if (usuarioExistente.isPresent()) {
+            throw new IllegalArgumentException("El correo electrónico ya está registrado.");
+        }
+
+        String nombreLimpio = datosRegistroUsuario.nombre().trim();
+
+        if (!esCorreoValido(correoElectronico)) {
+            throw new ConstraintViolationException("El correo electrónico ingresado no es válido. Asegúrate de que tenga un formato correcto, como usuario@forohub.com", null);
+        }
+
         Usuario usuario = new Usuario(datosRegistroUsuario);
+        usuario.setNombre(nombreLimpio);
+        usuario.setCorreoElectronico(correoElectronico);
+        String contrasenaHasheada = passwordEncoder.encode(datosRegistroUsuario.contrasena());
+        usuario.setContrasena(contrasenaHasheada);
         usuarioRepository.save(usuario);
 
         return new DatosRespuestaUsuario(
-                        usuario.getId(),
-                        usuario.getNombre(),
-                        usuario.getCorreoElectronico(),
-                        usuario.getPerfil());
-
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getCorreoElectronico(),
+                usuario.getPerfil()
+        );
     }
 
     @Transactional
@@ -46,15 +64,20 @@ public class UsuarioService {
 
         if (datosActualizarUsuario.nombre() != null && !datosActualizarUsuario.nombre().trim().isEmpty()) {
             String nombreLimpio = datosActualizarUsuario.nombre().trim();
-
             usuario.setNombre(nombreLimpio);
         }
 
         if (datosActualizarUsuario.correoElectronico() != null && !datosActualizarUsuario.correoElectronico().trim().isEmpty()) {
             String correoLimpio = datosActualizarUsuario.correoElectronico().trim();
 
+            // Verificar si el correo pertenece a otro usuario
+            Optional<Usuario> usuarioConCorreo = usuarioRepository.findUsuarioByCorreoElectronico(correoLimpio);
+            if (usuarioConCorreo.isPresent() && !usuarioConCorreo.get().getId().equals(usuario.getId())) {
+                throw new IllegalArgumentException("El correo electrónico ingresado ya está registrado.");
+            }
+
             if (!esCorreoValido(correoLimpio)) {
-                throw new ConstraintViolationException("El correo electrónico ingresado no es válido. Asegúrate de que tenga un formato correcto, como usuario@forohub.com.", null);
+                throw new ConstraintViolationException("El correo electrónico ingresado no es válido. Asegúrate de que tenga un formato correcto, como usuario@forohub.com", null);
             }
             usuario.setCorreoElectronico(correoLimpio);
         }

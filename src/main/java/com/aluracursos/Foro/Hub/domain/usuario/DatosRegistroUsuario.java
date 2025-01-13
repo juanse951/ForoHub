@@ -1,6 +1,5 @@
 package com.aluracursos.Foro.Hub.domain.usuario;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -12,7 +11,6 @@ public record DatosRegistroUsuario(
         String nombre,
 
         @NotBlank(message = "{email.obligatorio}")
-        @Email(message = "{email.invalido}")
         String correoElectronico,
 
         @NotBlank(message = "{password.obligatorio}")

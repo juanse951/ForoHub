@@ -7,7 +7,6 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,7 +43,7 @@ public class Usuario implements UserDetails {
     public Usuario(DatosRegistroUsuario datos) {
         this.nombre = datos.nombre();
         this.correoElectronico = datos.correoElectronico();
-        this.contrasena = new BCryptPasswordEncoder().encode(datos.contrasena());
+        this.contrasena = datos.contrasena();
         this.perfil = TipoPerfil.USER;
     }
 
