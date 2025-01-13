@@ -1,9 +1,14 @@
 package com.aluracursos.Foro.Hub.service;
 
+import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +99,12 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    public Page<Usuario> obtenerListadoUsuario(Pageable paginacion) {
+        Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.desc("nombre")));
+        return usuarioRepository.findAll(paginacionConOrden);
+    }
+
+
     private boolean validarContrasena(String contrasena) {
         String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
         Pattern pattern = Pattern.compile(regex);
@@ -107,5 +118,6 @@ public class UsuarioService {
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches();
     }
+
 
 }
