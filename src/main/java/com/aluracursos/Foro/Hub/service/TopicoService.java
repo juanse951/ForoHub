@@ -2,17 +2,12 @@ package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.curso.Curso;
 import com.aluracursos.Foro.Hub.domain.curso.CursoRepository;
-import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
-import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.Foro.Hub.domain.topico.*;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
-import com.aluracursos.Foro.Hub.infra.exceptions.CursoNotFoundException;
-import com.aluracursos.Foro.Hub.infra.exceptions.TopicoAlreadyExistsException;
+import com.aluracursos.Foro.Hub.infra.exceptions.*;
 
-import com.aluracursos.Foro.Hub.infra.exceptions.TopicoNotFoundByIdException;
-import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,8 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TopicoService {
@@ -52,28 +45,16 @@ public class TopicoService {
     @Transactional
     public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
 
-        Curso curso = new Curso();
-        Usuario autor = new Usuario();
-
-        boolean existeTitulo = topicoRepository.existsByTitulo(datosRegistroTopico.titulo());
-        if (existeTitulo) {
+        if (topicoRepository.existsByTitulo(datosRegistroTopico.titulo())) {
             throw new TopicoAlreadyExistsException("El título del tópico ya existe.");
         }
 
-        boolean existeMensaje = topicoRepository.existsByMensaje(datosRegistroTopico.mensaje());
-        if (existeMensaje) {
+        if (topicoRepository.existsByMensaje(datosRegistroTopico.mensaje())) {
             throw new TopicoAlreadyExistsException("El mensaje del tópico ya existe.");
         }
 
-        Optional<Curso> cursoOptional = cursoRepository.findById(datosRegistroTopico.curso_id());
-        if(cursoOptional.isPresent()){
-             curso = cursoOptional.get();
-        }
-
-        Optional<Usuario> autorOptional = usuarioRepository.findById(datosRegistroTopico.autor_id());
-                if(autorOptional.isPresent()){
-                    autor = autorOptional.get();
-                }
+        Curso curso = cursoService.obtenerCurso(datosRegistroTopico.curso_id());
+        Usuario autor = usuarioService.obtenerUsuario(datosRegistroTopico.autor_id());
 
         var topico = topicoRepository.save(
                 new Topico(
@@ -95,12 +76,8 @@ public class TopicoService {
 
     @Transactional
     public Topico actualizarTopico(Long id, DatosActualizarTopico datosActualizarTopico) {
-        var optionalTopico = topicoRepository.findById(id);
-        if (optionalTopico.isEmpty()) {
-            throw new TopicoNotFoundByIdException("No se encontró el tópico con ID " + id);
-        }
 
-        Topico topico = optionalTopico.get();
+        Topico topico = obtenerTopico(id);
 
         if (datosActualizarTopico.titulo() != null && !datosActualizarTopico.titulo().trim().isEmpty()) {
             topico.setTitulo(datosActualizarTopico.titulo());

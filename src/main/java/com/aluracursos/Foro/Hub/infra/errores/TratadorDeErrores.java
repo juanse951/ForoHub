@@ -59,6 +59,12 @@ public class TratadorDeErrores {
         return ResponseEntity.badRequest().body(mensaje);
     }
 
+    @ExceptionHandler(CursoNotFoundByIdException.class)
+    public ResponseEntity<String> tratarErrorCursoNoEncontrado(CursoNotFoundByIdException e) {
+        String mensaje = procesarMensajeError(e.getMessage());
+        return ResponseEntity.badRequest().body(mensaje);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> manejarViolacionDeRestriccion(ConstraintViolationException e) {
 

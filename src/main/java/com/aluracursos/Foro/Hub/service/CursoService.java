@@ -1,6 +1,7 @@
 package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.curso.*;
+import com.aluracursos.Foro.Hub.infra.exceptions.CursoNotFoundByIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +35,11 @@ public class CursoService {
 
         return cursoRepository.save(curso);
     }
+
+    public Curso obtenerCurso(Long id) {
+        return cursoRepository.findById(id)
+                .orElseThrow(() -> new CursoNotFoundByIdException("No se encontró el Curso con ID " + id));
+    }
+
+
 }
