@@ -54,7 +54,7 @@ public class CursoService {
 
             Optional<Curso> cursoConNombre = cursoRepository.findByNombre(nombreCursoLimpio);
             if (cursoConNombre.isPresent() && !cursoConNombre.get().getId().equals(curso.getId())) {
-                throw new IllegalArgumentException("El nombre del curso ya está registrado, buscalo en el foro :) bajo el ID: " + id);
+                throw new IllegalArgumentException("El nombre del curso ya está registrado, buscalo en el foro :) bajo el ID: " + cursoConNombre.get().getId());
             }
 
             curso.setNombre(nombreCursoLimpio);
