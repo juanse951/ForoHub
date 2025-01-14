@@ -3,6 +3,10 @@ package com.aluracursos.Foro.Hub.domain.curso;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.text.Normalizer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum Categoria {
 
     GENERAL("General"),
@@ -28,17 +32,29 @@ public enum Categoria {
 
     @JsonCreator
     public static Categoria fromString(String value) {
+
+        String cleanedValue = normalizeString(value.trim());
+
         for (Categoria categoria : Categoria.values()) {
-            if (categoria.name().equalsIgnoreCase(value.replace(" ", "_"))) {
+            if (categoria.name().equalsIgnoreCase(cleanedValue.replace(" ", "_"))) {
                 return categoria;
             }
         }
-        throw new IllegalArgumentException("Categoría no válida: " + value);
+        String categoriasDisponibles = Stream.of(Categoria.values())
+                .map(Categoria::getDescripcion)
+                .collect(Collectors.joining(", "));
+        throw new IllegalArgumentException("Categoría no válida: '" + value + "'. Categorías disponibles: " + categoriasDisponibles);
     }
 
     @JsonValue
     public String getDescripcion() {
         return descripcion;
+    }
+
+    private static String normalizeString(String value) {
+        return Normalizer.normalize(value, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "")
+                .toLowerCase();
     }
 }
 

@@ -26,12 +26,8 @@ public class CursoService {
             throw new IllegalArgumentException("El nombre del curso ya está registrado, buscalo en el foro :) bajo el ID: " + cursoExistente.get().getId());
         }
 
-        Categoria categoriaValida;
-        try {
-            categoriaValida = Categoria.fromString(datosRegistroCurso.categoria().name());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("La categoría proporcionada no es válida.");
-        }
+        Categoria categoriaValida = datosRegistroCurso.categoria();
+
 
         Curso curso = new Curso(datosRegistroCurso);
         curso.setNombre(nombreCursoLimpio);
