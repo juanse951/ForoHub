@@ -6,13 +6,13 @@ import jakarta.validation.constraints.Pattern;
 public record DatosActualizarUsuario(
 
         @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*$", message = "{autor.error}")
-        @Schema(example = "{update.message}")
+        @Schema(example = "Déjalo en blanco para mantener o actualiza")
         String nombre,
 
-        @Schema(example = "{update.message}")
+        @Schema(example = "Déjalo en blanco para mantener o actualiza")
         String correoElectronico,
 
-        @Schema(example = "{update.message}")
+        @Schema(example = "Déjalo en blanco para mantener o actualiza")
         String contrasena
 
         ) {
