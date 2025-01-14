@@ -90,7 +90,7 @@ public class TratadorDeErrores {
 
     @ExceptionHandler(JsonParseException.class)
     public ResponseEntity<String> manejarErrorJsonParse(JsonParseException e) {
-        String mensaje = "El formato del JSON enviado no es válido. Verifique que los números no tengan ceros iniciales y que los datos estén correctamente formateados.";
+        String mensaje = "El formato del ID enviado no es válido. Verifique que los números no tengan ceros iniciales y que los datos estén correctamente formateados.";
         return ResponseEntity.badRequest().body(mensaje);
     }
 
@@ -105,12 +105,19 @@ public class TratadorDeErrores {
     }
 
     private String procesarMensajeError(String mensaje) {
-        if (mensaje.contains("título")) {
-            return "El título del tópico ya existe.";
+        if (mensaje.contains("título") && mensaje.contains("mensaje")) {
+            return "El título y el mensaje del tópico ya existen, en el ID: " + extraerId(mensaje);
+        } else if (mensaje.contains("título")) {
+            return "El título del tópico ya existe, en el ID:  " + extraerId(mensaje);
         } else if (mensaje.contains("mensaje")) {
-            return "El mensaje del tópico ya existe.";
+            return "El mensaje del tópico ya existe, en el ID:  " + extraerId(mensaje);
         }
         return mensaje;
+    }
+
+    private String extraerId(String mensaje) {
+        int startIndex = mensaje.indexOf("ID del tópico duplicado:") + "ID del tópico duplicado:".length();
+        return mensaje.substring(startIndex).trim();
     }
 
     private String analizarErrorDeIntegridad(String mensaje) {

@@ -6,4 +6,9 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
     boolean existsByTitulo(String titulo);
 
-    boolean existsByMensaje(String mensaje);}
+    boolean existsByMensaje(String mensaje);
+
+    Topico findByTitulo(String tituloLimpio);
+
+    Topico findByMensaje(String mensajeLimpio);
+}

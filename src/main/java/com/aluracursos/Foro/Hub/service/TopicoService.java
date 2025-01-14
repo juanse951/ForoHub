@@ -49,11 +49,13 @@ public class TopicoService {
         String mensajeLimpio = datosRegistroTopico.mensaje() != null ? datosRegistroTopico.mensaje().trim() : null;
 
         if (topicoRepository.existsByTitulo(tituloLimpio)) {
-            throw new TopicoAlreadyExistsException("El título del tópico ya existe.");
+            Long idDuplicado = topicoRepository.findByTitulo(tituloLimpio).getId();
+            throw new TopicoAlreadyExistsException("El título del tópico ya existe. ID del tópico duplicado: " + idDuplicado);
         }
 
         if (topicoRepository.existsByMensaje(mensajeLimpio)) {
-            throw new TopicoAlreadyExistsException("El mensaje del tópico ya existe.");
+            Long idDuplicado = topicoRepository.findByMensaje(mensajeLimpio).getId();
+            throw new TopicoAlreadyExistsException("El mensaje del tópico ya existe. ID del tópico duplicado: " + idDuplicado);
         }
 
         Curso curso = cursoService.obtenerCurso(datosRegistroTopico.curso_id());
