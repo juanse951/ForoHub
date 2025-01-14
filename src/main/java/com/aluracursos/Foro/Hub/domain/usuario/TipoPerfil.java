@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum TipoPerfil {
     USER("ROLE_USER"),
-    ADMIN("ROLE_ADMIN");
+    ADMIN("ROLE_ADMIN"),
+    MODERATOR("ROLE_MODERATOR");
 
     @Getter
     private final String role;
