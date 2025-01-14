@@ -30,5 +30,5 @@ public class Curso {
 
     public Curso(DatosRegistroCurso datos) {
         this.nombre = datos.nombre();
-        this.categoria = datos.categoria() != null ? datos.categoria() : Categoria.GENERAL;    }
+        this.categoria = datos.categoria();    }
 }
