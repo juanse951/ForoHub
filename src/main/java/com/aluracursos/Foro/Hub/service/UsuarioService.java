@@ -48,6 +48,13 @@ public class UsuarioService {
         usuario.setCorreoElectronico(correoElectronico);
         String contrasenaHasheada = passwordEncoder.encode(datosRegistroUsuario.contrasena());
         usuario.setContrasena(contrasenaHasheada);
+
+        if (usuarioRepository.count() == 0) {
+            usuario.setPerfil(TipoPerfil.ADMIN);
+        } else {
+            usuario.setPerfil(TipoPerfil.USER);
+        }
+
         usuarioRepository.save(usuario);
 
         return new DatosRespuestaUsuario(
