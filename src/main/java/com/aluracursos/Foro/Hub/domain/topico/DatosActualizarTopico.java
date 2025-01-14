@@ -1,13 +1,16 @@
 package com.aluracursos.Foro.Hub.domain.topico;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record DatosActualizarTopico(
 
         @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{titulo.error}")
+        @Schema(example = "{update.message}")
         String titulo,
 
+        @Schema(example = "{update.message}")
         String mensaje,
 
         @NotNull(message = "{autor.obligatorio}")
