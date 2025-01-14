@@ -63,10 +63,14 @@ public class TopicoService {
 
         var topico = topicoRepository.save(
                 new Topico(
-                        new DatosRegistroTopico(tituloLimpio, mensajeLimpio, datosRegistroTopico.curso_id(), datosRegistroTopico.autor_id()),
-                        curso,
-                        autor,
-                        new ArrayList<>()
+                        new DatosRegistroTopico(
+                                tituloLimpio,
+                                mensajeLimpio,
+                                datosRegistroTopico.curso_id(),
+                                datosRegistroTopico.autor_id()),
+                                curso,
+                                autor,
+                                new ArrayList<>()
                 )
         );
 

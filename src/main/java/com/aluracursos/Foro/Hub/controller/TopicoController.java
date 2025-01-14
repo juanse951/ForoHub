@@ -26,7 +26,7 @@ public class TopicoController {
         Topico topico = topicoService.crearTopico(datosRegistroTopico);
 
         DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
-        URI url = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaTopico);
     }
 

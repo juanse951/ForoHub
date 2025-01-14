@@ -8,20 +8,22 @@ public record DatosRespuestaRespuesta(
 
         String mensaje,
 
-
+        String topico,
 
         LocalDateTime fechaCreacion,
 
+        String autor,
 
-
-        RespuestaStatus solucion
+        String solucion
 ){
     public DatosRespuestaRespuesta(Respuesta respuesta){
         this(
                 respuesta.getId(),
                 respuesta.getMensaje(),
+                respuesta.getTopico().getTitulo(),
                 respuesta.getFechaCreacion(),
-                respuesta.getSolucion()
+                respuesta.getAutor().getNombre(),
+                respuesta.getSolucion().toString()
         );
     }
 }

@@ -38,8 +38,10 @@ public class Respuesta {
     @Enumerated(EnumType.STRING)
     private RespuestaStatus solucion;
 
-    public Respuesta(DatosRegistroRespuesta datos){
+    public Respuesta(DatosRegistroRespuesta datos, Topico topico,Usuario autor){
         this.mensaje = datos.mensaje();
+        this.topico = topico;
+        this.autor = autor;
     }
 
 }
