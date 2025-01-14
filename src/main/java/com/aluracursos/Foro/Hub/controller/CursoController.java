@@ -1,9 +1,7 @@
 package com.aluracursos.Foro.Hub.controller;
 
 import com.aluracursos.Foro.Hub.domain.curso.*;
-import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import com.aluracursos.Foro.Hub.service.CursoService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

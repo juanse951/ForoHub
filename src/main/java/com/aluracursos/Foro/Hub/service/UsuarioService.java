@@ -28,6 +28,7 @@ public class UsuarioService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    @Transactional
     public DatosRespuestaUsuario registrarUsuario(DatosRegistroUsuario datosRegistroUsuario) {
 
         String correoElectronico = datosRegistroUsuario.correoElectronico().trim().toLowerCase();

@@ -25,9 +25,7 @@ public class RespuestaController {
                                                                       UriComponentsBuilder uriBuilder) {
 
         Respuesta respuesta = respuestaService.agregarRespuesta(topicoId, datosRegistroRespuesta);
-
         DatosRespuestaRespuesta datosRespuesta = new DatosRespuestaRespuesta(respuesta);
-
         URI uri = uriBuilder.path("/respuesta/{id}").buildAndExpand(respuesta.getId()).toUri();
 
         return ResponseEntity.created(uri).body(datosRespuesta);

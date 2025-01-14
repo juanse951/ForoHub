@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-//título, mensaje, autor y curso
-//Dto representa la informacion que llega
 public record DatosRegistroTopico(
 
         @NotBlank(message = "{titulo.obligatorio}")

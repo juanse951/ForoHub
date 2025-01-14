@@ -20,6 +20,7 @@ public class CursoService {
     @Autowired
     private CursoRepository cursoRepository;
 
+    @Transactional
     public DatosRespuestaCurso registrarCurso(DatosRegistroCurso datosRegistroCurso) {
 
         String nombreCursoLimpio = datosRegistroCurso.nombre().trim();
@@ -41,6 +42,7 @@ public class CursoService {
                 curso.getCategoria());
     }
 
+    @Transactional
     public Curso actualizarCurso(Long id, DatosActualizarCurso datosActualizarCurso) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El ID del curso debe ser un número positivo.");
