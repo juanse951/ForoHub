@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CursoService {
@@ -27,7 +29,6 @@ public class CursoService {
         }
 
         Categoria categoriaValida = datosRegistroCurso.categoria();
-
 
         Curso curso = new Curso(datosRegistroCurso);
         curso.setNombre(nombreCursoLimpio);
@@ -59,6 +60,20 @@ public class CursoService {
             curso.setNombre(nombreCursoLimpio);
         }
 
+        if (datosActualizarCurso.categoria() != null && !datosActualizarCurso.categoria().name().trim().isEmpty()) {
+            try {
+                Categoria categoriaValida = Categoria.fromString(datosActualizarCurso.categoria().name());
+                curso.setCategoria(categoriaValida);
+            } catch (IllegalArgumentException e) {
+
+                String categoriasDisponibles = Stream.of(Categoria.values())
+                        .map(Categoria::getDescripcion)
+                        .collect(Collectors.joining(", "));
+
+                throw new IllegalArgumentException("Categoría no válida: " + datosActualizarCurso.categoria() +
+                        ". Verifica las categorías disponibles: " + categoriasDisponibles);
+            }
+        }
         return cursoRepository.save(curso);
     }
 

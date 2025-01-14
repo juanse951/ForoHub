@@ -47,9 +47,6 @@ public class Usuario implements UserDetails {
         this.perfil = TipoPerfil.USER;
     }
 
-
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

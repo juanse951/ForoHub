@@ -35,6 +35,10 @@ public enum Categoria {
 
         String cleanedValue = normalizeString(value.trim());
 
+        if (cleanedValue.isEmpty()) {
+            return null;
+        }
+
         for (Categoria categoria : Categoria.values()) {
             if (categoria.name().equalsIgnoreCase(cleanedValue.replace(" ", "_"))) {
                 return categoria;
