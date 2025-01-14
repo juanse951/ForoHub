@@ -35,6 +35,7 @@ public class Respuesta {
     @JoinColumn(name = "autor_id")
     private Usuario autor;
 
+    @Enumerated(EnumType.STRING)
     private RespuestaStatus solucion;
 
     public Respuesta(DatosRegistroRespuesta datos){

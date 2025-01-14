@@ -1,10 +1,6 @@
 package com.aluracursos.Foro.Hub.service;
 
-import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
-import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
-import com.aluracursos.Foro.Hub.domain.respuesta.RespuestaRepository;
-import com.aluracursos.Foro.Hub.domain.topico.Topico;
-import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
+import com.aluracursos.Foro.Hub.domain.respuesta.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,20 +13,24 @@ public class RespuestaService {
         @Autowired
         private RespuestaRepository respuestaRepository;
 
-        public Respuesta crearRespuesta(DatosRegistroRespuesta datos, Usuario autor, Topico topico) {
-            String mensaje = (datos.mensaje() == null || datos.mensaje().isBlank()) ? "aún sin respuesta" : datos.mensaje();
+        public DatosRespuestaRespuesta registroRespuesta(DatosRegistroRespuesta datosRegistroRespuesta) {
+            String mensaje = datosRegistroRespuesta.mensaje().trim().toLowerCase();
             LocalDateTime fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            RespuestaStatus respuestaStatus = RespuestaStatus.PENDIENTE;
 
-            Respuesta respuesta =
-                    new Respuesta(
-                            null,
-                            mensaje,
-                            topico,
-                            fechaCreacion,
-                            autor,
-                            null);
+            Respuesta respuesta = new Respuesta(datosRegistroRespuesta);
+            respuesta.setMensaje(mensaje);
+            respuesta.setFechaCreacion(fechaCreacion);
+            respuesta.setSolucion(respuestaStatus);
 
-            return respuestaRepository.save(respuesta);
+            respuestaRepository.save(respuesta);
+
+            return new DatosRespuestaRespuesta(
+                    respuesta.getId(),
+                    respuesta.getMensaje(),
+                    respuesta.getFechaCreacion(),
+                    respuesta.getSolucion()
+            );
         }
     }
 

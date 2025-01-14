@@ -54,6 +54,5 @@ public class Topico {
         this.autor = autor;
         this.fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         this.status = TopicoStatus.ACTIVO;
-        this.respuestas = respuestas != null ? respuestas : new ArrayList<>();
     }
 }
