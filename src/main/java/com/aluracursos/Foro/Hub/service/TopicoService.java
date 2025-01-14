@@ -34,9 +34,6 @@ public class TopicoService {
     private RespuestaRepository respuestaRepository;
 
     @Autowired
-    private RespuestaService respuestaService;
-
-    @Autowired
     private CursoService cursoService;
 
     @Autowired
@@ -70,17 +67,8 @@ public class TopicoService {
                                 datosRegistroTopico.autor_id()),
                                 curso,
                                 autor,
-                                new ArrayList<>()
-                )
+                                new ArrayList<>())
         );
-
-//        Respuesta respuesta = respuestaService.crearRespuesta
-//                (new DatosRegistroRespuesta
-//                        (null),
-//                        autor,
-//                        topico);
-//        topico.getRespuestas().add(respuesta);
-
         return topico;
     }
 

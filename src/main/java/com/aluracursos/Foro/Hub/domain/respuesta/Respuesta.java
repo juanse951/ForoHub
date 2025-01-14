@@ -2,6 +2,7 @@ package com.aluracursos.Foro.Hub.domain.respuesta;
 
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +26,7 @@ public class Respuesta {
 
     @ManyToOne
     @JoinColumn(name = "topico_id")
+    @JsonBackReference
     private Topico topico;
 
     @Column(name = "fecha_creacion")
@@ -38,9 +40,8 @@ public class Respuesta {
     @Enumerated(EnumType.STRING)
     private RespuestaStatus solucion;
 
-    public Respuesta(DatosRegistroRespuesta datos, Topico topico,Usuario autor){
+    public Respuesta(DatosRegistroRespuesta datos,Usuario autor){
         this.mensaje = datos.mensaje();
-        this.topico = topico;
         this.autor = autor;
     }
 

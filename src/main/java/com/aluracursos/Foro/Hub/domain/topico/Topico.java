@@ -4,6 +4,7 @@ import com.aluracursos.Foro.Hub.domain.curso.Curso;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,6 +46,7 @@ public class Topico {
     private Curso curso;
 
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Respuesta> respuestas = new ArrayList<>();
 
     public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor, List<Respuesta> respuestas) {
@@ -54,5 +56,10 @@ public class Topico {
         this.autor = autor;
         this.fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         this.status = TopicoStatus.ACTIVO;
+    }
+
+    public void agregarRespuesta(Respuesta respuesta) {
+        respuesta.setTopico(this);
+        this.respuestas.add(respuesta);
     }
 }

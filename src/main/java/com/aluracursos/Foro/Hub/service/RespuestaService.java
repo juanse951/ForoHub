@@ -3,11 +3,11 @@ package com.aluracursos.Foro.Hub.service;
 import com.aluracursos.Foro.Hub.domain.respuesta.*;
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Service
 public class RespuestaService {
@@ -18,33 +18,30 @@ public class RespuestaService {
         @Autowired
         private UsuarioService usuarioService;
 
-        public DatosRespuestaRespuesta registroRespuesta(DatosRegistroRespuesta datosRegistroRespuesta) {
-            String mensaje = datosRegistroRespuesta.mensaje().trim().toLowerCase();
-            LocalDateTime fechaCreacion = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-            RespuestaStatus respuestaStatus = RespuestaStatus.PENDIENTE;
+        @Autowired
+        private TopicoService topicoService;
 
 
-            Topico topico = new Topico();
-            topico.setId(datosRegistroRespuesta.topico_id());
+    @Transactional
+    public Respuesta agregarRespuesta(Long topicoId, DatosRegistroRespuesta datosRegistroRespuesta) {
 
-            Usuario autor = usuarioService.obtenerUsuario(datosRegistroRespuesta.autor_id());
+        Topico topico = topicoService.obtenerTopico(topicoId);
 
+        Usuario autor = usuarioService.obtenerUsuario(datosRegistroRespuesta.autor_id());
 
-            Respuesta respuesta = new Respuesta(datosRegistroRespuesta, topico ,autor);
-            respuesta.setMensaje(mensaje);
-            respuesta.setFechaCreacion(fechaCreacion);
-            respuesta.setSolucion(respuestaStatus);
+        String mensaje = datosRegistroRespuesta.mensaje().trim();
 
-            respuestaRepository.save(respuesta);
+        Respuesta respuesta = new Respuesta();
+        respuesta.setMensaje(mensaje);
+        respuesta.setFechaCreacion(LocalDateTime.now());
+        respuesta.setSolucion(RespuestaStatus.PENDIENTE);
+        respuesta.setAutor(autor);
+        respuesta.setTopico(topico);
 
-            return new DatosRespuestaRespuesta(
-                    respuesta.getId(),
-                    respuesta.getMensaje(),
-                    respuesta.getTopico().getTitulo(),
-                    respuesta.getFechaCreacion(),
-                    respuesta.getAutor().getNombre(),
-                    respuesta.getSolucion().toString()
-            );
-        }
+        topico.agregarRespuesta(respuesta);
+
+        return respuestaRepository.save(respuesta);
     }
+}
+
 

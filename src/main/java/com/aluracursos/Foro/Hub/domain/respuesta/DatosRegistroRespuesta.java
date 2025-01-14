@@ -10,9 +10,6 @@ public record DatosRegistroRespuesta(
         @Schema(example = "__")
         String mensaje,
 
-        @NotNull(message = "{topico.obligatorio}")
-        Long topico_id,
-
         @NotNull(message = "{autor.obligatorio}")
         Long autor_id
 ) { }
