@@ -28,7 +28,7 @@ public class RespuestaService {
                             topico,
                             fechaCreacion,
                             autor,
-                            false);
+                            null);
 
             return respuestaRepository.save(respuesta);
         }

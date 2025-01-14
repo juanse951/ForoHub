@@ -3,7 +3,7 @@ CREATE TABLE topicos (
     titulo VARCHAR(255) NOT NULL unique ,
     mensaje VARCHAR(500) NOT NULL unique ,
     fecha_creacion DATETIME NOT NULL,
-    status VARCHAR(255) DEFAULT 'ACTIVO',
+    status VARCHAR(255) NOT NULL,
     autor_id BIGINT,
     curso_id BIGINT,
     FOREIGN KEY (autor_id) REFERENCES usuarios(id),

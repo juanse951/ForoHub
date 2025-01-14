@@ -35,7 +35,7 @@ public class Respuesta {
     @JoinColumn(name = "autor_id")
     private Usuario autor;
 
-    private Boolean solucion;
+    private RespuestaStatus solucion;
 
     public Respuesta(DatosRegistroRespuesta datos){
         this.mensaje = datos.mensaje();
