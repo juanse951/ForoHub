@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/curso")
@@ -57,4 +59,13 @@ public class CursoController {
         cursoService.eliminarCurso(id);
         return ResponseEntity.ok("El Curso con ID " + id + " fue eliminado exitosamente.");
     }
+
+    @GetMapping("/categorias")
+    public ResponseEntity<List<String>> obtenerCategorias() {
+        List<String> categorias = Arrays.stream(Categoria.values())
+                .map(Enum::name)
+                .toList();
+        return ResponseEntity.ok(categorias);
+    }
+
 }

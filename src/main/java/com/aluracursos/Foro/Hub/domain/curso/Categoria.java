@@ -1,5 +1,8 @@
 package com.aluracursos.Foro.Hub.domain.curso;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Categoria {
 
     GENERAL("General"),
@@ -23,13 +26,20 @@ public enum Categoria {
         this.descripcion = descripcion;
     }
 
-    //para cuando se deba ingresar valores string para escoger cat
-//    public static Categoria fromString(String categoria) {
-//        for (Categoria c : Categoria.values()) {
-//            if (c.name().equalsIgnoreCase(categoria)) {
-//                return c;
-//            }
-//        }
-//        return GENERAL; // Valor por defecto en caso de que no se encuentre
-//    }
+    @JsonCreator
+    public static Categoria fromString(String value) {
+        for (Categoria categoria : Categoria.values()) {
+            if (categoria.name().equalsIgnoreCase(value.replace(" ", "_"))) {
+                return categoria;
+            }
+        }
+        throw new IllegalArgumentException("Categoría no válida: " + value);
+    }
+
+    @JsonValue
+    public String getDescripcion() {
+        return descripcion;
+    }
 }
+
+
