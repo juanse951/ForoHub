@@ -42,6 +42,31 @@ public class RespuestaService {
 
         return respuestaRepository.save(respuesta);
     }
+
+
+    @Transactional
+    public Respuesta actualizarRespuesta(Long respuestaId, DatosActualizarRespuesta datosActualizarRespuesta) {
+        if (respuestaId == null || respuestaId <= 0) {
+            throw new IllegalArgumentException("El ID de la respuesta debe ser un número positivo.");
+        }
+
+        Respuesta respuesta = respuestaRepository.findById(respuestaId)
+                .orElseThrow(() -> new IllegalArgumentException("La respuesta con ID " + respuestaId + " no existe."));
+
+        if (datosActualizarRespuesta.mensaje() != null && !datosActualizarRespuesta.mensaje().trim().isEmpty()) {
+            String mensajeLimpio = datosActualizarRespuesta.mensaje().trim();
+            respuesta.setMensaje(mensajeLimpio);
+        }
+
+        if (datosActualizarRespuesta.solucion() != null) {
+            respuesta.setSolucion(datosActualizarRespuesta.solucion());
+        }
+
+        respuesta.setFechaCreacion(LocalDateTime.now());
+
+        return respuestaRepository.save(respuesta);
+    }
 }
+
 
 

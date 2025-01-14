@@ -1,5 +1,6 @@
 package com.aluracursos.Foro.Hub.controller;
 
+import com.aluracursos.Foro.Hub.domain.respuesta.DatosActualizarRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.DatosRespuestaRespuesta;
 import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
@@ -29,6 +30,14 @@ public class RespuestaController {
         URI uri = uriBuilder.path("/respuesta/{id}").buildAndExpand(respuesta.getId()).toUri();
 
         return ResponseEntity.created(uri).body(datosRespuesta);
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<DatosRespuestaRespuesta> actualizarRespuesta(@PathVariable Long id,
+                                                                       @RequestBody @Valid DatosActualizarRespuesta datosActualizarRespuesta) {
+        Respuesta respuesta = respuestaService.actualizarRespuesta(id, datosActualizarRespuesta);
+        DatosRespuestaRespuesta datosRespuestaRespuesta = new DatosRespuestaRespuesta(respuesta);
+        return ResponseEntity.ok(datosRespuestaRespuesta);
     }
 
 }
