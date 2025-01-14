@@ -30,7 +30,7 @@ public class UsuarioService {
 
     public DatosRespuestaUsuario registrarUsuario(DatosRegistroUsuario datosRegistroUsuario) {
 
-        String correoElectronico = datosRegistroUsuario.correoElectronico().trim();
+        String correoElectronico = datosRegistroUsuario.correoElectronico().trim().toLowerCase();
 
         Optional<Usuario> usuarioExistente = usuarioRepository.findUsuarioByCorreoElectronico(correoElectronico);
         if (usuarioExistente.isPresent()) {
@@ -80,7 +80,7 @@ public class UsuarioService {
         }
 
         if (datosActualizarUsuario.correoElectronico() != null && !datosActualizarUsuario.correoElectronico().trim().isEmpty()) {
-            String correoLimpio = datosActualizarUsuario.correoElectronico().trim();
+            String correoLimpio = datosActualizarUsuario.correoElectronico().trim().toLowerCase();
 
             Optional<Usuario> usuarioConCorreo = usuarioRepository.findUsuarioByCorreoElectronico(correoLimpio);
             if (usuarioConCorreo.isPresent() && !usuarioConCorreo.get().getId().equals(usuario.getId())) {

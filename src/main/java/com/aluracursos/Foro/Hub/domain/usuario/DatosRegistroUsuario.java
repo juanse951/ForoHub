@@ -21,7 +21,4 @@ public record DatosRegistroUsuario(
                 message = "{password.invalido}")
         @Schema(example = "__")
         String contrasena
-
-       // TipoPerfil perfil
-
 ) { }

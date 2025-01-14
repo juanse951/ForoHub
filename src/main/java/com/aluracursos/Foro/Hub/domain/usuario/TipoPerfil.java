@@ -1,23 +1,16 @@
 package com.aluracursos.Foro.Hub.domain.usuario;
 
+import lombok.Getter;
+
 public enum TipoPerfil {
-    USER("user"),
-    ADMIN("admi");
+    USER("ROLE_USER"),
+    ADMIN("ROLE_ADMIN");
 
-    private final String descripcion;
+    @Getter
+    private final String role;
 
-    TipoPerfil(String descripcion) {
-        this.descripcion = descripcion;
+    TipoPerfil(String role) {
+        this.role = role;
     }
-
-    //para cuando se deba ingresar valores string para escoger status
-//    public static TipoPerfil fromString(String nombre) {
-//        for (TipoPerfil c : TipoPerfil.values()) {
-//            if (c.name().equalsIgnoreCase(nombre)) {
-//                return c;
-//            }
-//        }
-//        return USER; // Valor por defecto en caso de que no se encuentre
-//    }
-
 }
+

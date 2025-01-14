@@ -44,14 +44,11 @@ public class Usuario implements UserDetails {
         this.nombre = datos.nombre();
         this.correoElectronico = datos.correoElectronico();
         this.contrasena = datos.contrasena();
-        this.perfil = TipoPerfil.USER;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.perfil.name()));
-        return authorities;
+        return List.of(new SimpleGrantedAuthority(this.perfil.getRole()));
     }
 
     @Override
