@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.web.ErrorResponse;
+import org.hibernate.NonUniqueResultException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -92,6 +92,16 @@ public class TratadorDeErrores {
     public ResponseEntity<String> manejarErrorJsonParse(JsonParseException e) {
         String mensaje = "El formato del JSON enviado no es válido. Verifique que los números no tengan ceros iniciales y que los datos estén correctamente formateados.";
         return ResponseEntity.badRequest().body(mensaje);
+    }
+
+    @ExceptionHandler(NonUniqueResultException.class)
+    public ResponseEntity<String> manejarErrorNoUnico(NonUniqueResultException e) {
+
+        String mensaje = "Parece que ya existen registros con los mismos datos EN LA BASE DE DATOS. Por favor, verifica la información ingresada y asegúrate de que sea única.";
+
+        System.err.println("Error de resultado no único: " + e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(mensaje);
     }
 
     private String procesarMensajeError(String mensaje) {

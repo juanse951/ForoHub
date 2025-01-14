@@ -2,7 +2,6 @@ package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.curso.*;
 import com.aluracursos.Foro.Hub.infra.exceptions.CursoNotFoundByIdException;
-import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CursoService {
 
@@ -18,9 +19,17 @@ public class CursoService {
     private CursoRepository cursoRepository;
 
     public DatosRespuestaCurso registrarCurso(DatosRegistroCurso datosRegistroCurso) {
-        Curso curso = new Curso(datosRegistroCurso);
 
+        String nombreCursoLimpio = datosRegistroCurso.nombre().trim();
+        Optional<Curso> cursoExistente = cursoRepository.findByNombre(nombreCursoLimpio);
+        if (cursoExistente.isPresent()) {
+            throw new IllegalArgumentException("El nombre del curso ya está registrado, buscalo en el foro :) bajo el ID: " + cursoExistente.get().getId());
+        }
+
+        Curso curso = new Curso(datosRegistroCurso);
+        curso.setNombre(nombreCursoLimpio);
         cursoRepository.save(curso);
+
         return new DatosRespuestaCurso(
                 curso.getId(),
                 curso.getNombre(),
@@ -36,8 +45,14 @@ public class CursoService {
                 .orElseThrow(() -> new IllegalArgumentException("El curso con ID " + id + " no existe."));
 
         if (datosActualizarCurso.nombre() != null && !datosActualizarCurso.nombre().trim().isEmpty()) {
-            String nombreLimpio = datosActualizarCurso.nombre().trim();
-            curso.setNombre(nombreLimpio);
+            String nombreCursoLimpio = datosActualizarCurso.nombre().trim();
+
+            Optional<Curso> cursoConNombre = cursoRepository.findByNombre(nombreCursoLimpio);
+            if (cursoConNombre.isPresent() && !cursoConNombre.get().getId().equals(curso.getId())) {
+                throw new IllegalArgumentException("El nombre del curso ya está registrado, buscalo en el foro :) bajo el ID: " + id);
+            }
+
+            curso.setNombre(nombreCursoLimpio);
         }
 
         return cursoRepository.save(curso);
