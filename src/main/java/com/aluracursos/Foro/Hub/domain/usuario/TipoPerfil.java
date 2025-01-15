@@ -3,9 +3,9 @@ package com.aluracursos.Foro.Hub.domain.usuario;
 import lombok.Getter;
 
 public enum TipoPerfil {
-    USER("ROLE_USER"),
-    ADMIN("ROLE_ADMIN"),
-    MODERATOR("ROLE_MODERATOR");
+    USER("USER"),
+    ADMIN("ADMIN"),
+    MODERATOR("MODERATOR");
 
     @Getter
     private final String role;

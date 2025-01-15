@@ -1,7 +1,6 @@
 package com.aluracursos.Foro.Hub.controller;
 
 import com.aluracursos.Foro.Hub.domain.respuesta.*;
-import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
 import com.aluracursos.Foro.Hub.service.RespuestaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class RespuestaController {
     @Autowired
     private RespuestaService respuestaService;
 
-    @PostMapping("/{topicoId}")
+    @PostMapping("/registrar/{topicoId}")
     public ResponseEntity<DatosRespuestaRespuesta> registrarRespuesta(@PathVariable Long topicoId,
                                                                       @RequestBody @Valid DatosRegistroRespuesta datosRegistroRespuesta,
                                                                       UriComponentsBuilder uriBuilder) {

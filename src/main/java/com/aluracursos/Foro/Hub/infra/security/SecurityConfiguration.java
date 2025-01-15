@@ -1,11 +1,13 @@
 package com.aluracursos.Foro.Hub.infra.security;
 
+import com.aluracursos.Foro.Hub.domain.usuario.TipoPerfil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
     @Autowired
@@ -28,6 +31,16 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/topico/listado", "/respuesta/listado", "/curso/listado", "/usuario/listado")
+                                .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
+                                .requestMatchers(HttpMethod.POST, "/usuario/registrar", "/topico/registrar", "/respuesta/registrar", "/curso/registrar")
+                                .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
+                                .requestMatchers(HttpMethod.PUT, "/topico/actualizar/**", "/respuesta/actualizar/**", "/usuario/actualizar/**", "/curso/actualizar/**")
+                                .hasAnyAuthority(TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
+                                .requestMatchers(HttpMethod.DELETE, "/topico/eliminar/**", "/respuesta/eliminar/**", "/usuario/eliminar/**", "/curso/eliminar/**")
+                                .hasAuthority(TipoPerfil.ADMIN.getRole())
+                                .requestMatchers(HttpMethod.GET, "/usuario/buscar/**", "/topico/buscar/**", "/respuesta/buscar/**", "/curso/buscar/**")
+                                .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
                                 .anyRequest()
                                 .authenticated()
                 )
