@@ -1,4 +1,4 @@
-package com.aluracursos.Foro.Hub.controller;
+package com.aluracursos.Foro.Hub.infra.security;
 
 import com.aluracursos.Foro.Hub.domain.usuario.DatosAutenticacionUsuario;
 import jakarta.validation.Valid;
@@ -19,11 +19,15 @@ public class AutenticacionController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario){
-        Authentication token = new UsernamePasswordAuthenticationToken(
+        Authentication authToken = new UsernamePasswordAuthenticationToken(
                 datosAutenticacionUsuario.correoElectronico(),datosAutenticacionUsuario.contrasena());
-        authenticationManager.authenticate(token);
-        return ResponseEntity.ok().build();
+        authenticationManager.authenticate(authToken);
+        var JWTtoken = tokenService.generarToken();
+        return ResponseEntity.ok(JWTtoken);
     }
 }

@@ -1,4 +1,4 @@
-package com.aluracursos.Foro.Hub.service;
+package com.aluracursos.Foro.Hub.infra.security;
 
 import com.aluracursos.Foro.Hub.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
