@@ -31,11 +31,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/topico/listado", "/respuesta/listado", "/curso/listado", "/usuario/listado")
+                                .requestMatchers(HttpMethod.GET, "/topico/listado", "/respuesta/listado", "/curso/listado","/curso/categoria", "/usuario/listado")
                                 .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
-                                .requestMatchers(HttpMethod.POST, "/usuario/registrar", "/topico/registrar", "/respuesta/registrar", "/curso/registrar")
+                                .requestMatchers(HttpMethod.POST, "/usuario/registrar", "/topico/registrar", "/respuesta/registrar/**", "/curso/registrar",
+                                        "/usuario/actualizar/**")
                                 .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
-                                .requestMatchers(HttpMethod.PUT, "/topico/actualizar/**", "/respuesta/actualizar/**", "/usuario/actualizar/**", "/curso/actualizar/**")
+                                .requestMatchers(HttpMethod.PUT, "/topico/actualizar/**", "/respuesta/actualizar/**", "/curso/actualizar/**")
                                 .hasAnyAuthority(TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
                                 .requestMatchers(HttpMethod.DELETE, "/topico/eliminar/**", "/respuesta/eliminar/**", "/usuario/eliminar/**", "/curso/eliminar/**")
                                 .hasAuthority(TipoPerfil.ADMIN.getRole())
