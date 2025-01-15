@@ -9,27 +9,36 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Map;
+
 @Configuration
 public class SpringDocConfiguration {
 
     @Bean
     public OpenAPI customOpenAPI() {
+        Info info = new Info()
+                .title("Foro Hub API")
+                .description("API Rest del ForoHub, que contiene las funcionalidades CRUD necesarias para un óptimo desempeño.")
+                .contact(new Contact()
+                        .name("Juan Sebastian Giraldo Aguirre")
+                        .email("juanse951@gmail.com")
+                        .url("https://www.linkedin.com/in/juanse951/"))
+                .license(new License()
+                        .name("MIT License")
+                        .url("https://opensource.org/licenses/MIT"));
+
+        info.addExtension("x-social-media", Map.of(
+                "GitHub", "https://github.com/juanse951",
+                "Tiktok", "https://www.tiktok.com/@paghaninitv"
+        ));
+
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes("bearer-key",
-                                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
-                .info(new Info()
-                        .title("Foro Hub API")
-                        .description("API Rest del ForoHub, que contiene las funcionalidades CRUD necesarias para un optimo desempeño")
-                        .contact(new Contact()
-                                .name("Juan Sebastian Giraldo Aguirre")
-                                .email("juanse951@gmail.com"))
-                        .license(new License()
-                                .name("Linkedin")
-                                .url("https://www.linkedin.com/in/juanse951/")));
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")))
+                .info(info);
     }
-
-
 }
-
-
