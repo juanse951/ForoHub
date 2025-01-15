@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/topico/listado", "/respuesta/listado", "/curso/listado","/curso/categoria", "/usuario/listado")
+                                .requestMatchers(HttpMethod.GET, "/topico/listado", "/respuesta/listado", "/curso/listado","/curso/categoria", "/usuario/listado", "/perfil/listado")
                                 .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
                                 .requestMatchers(HttpMethod.POST, "/usuario/registrar", "/topico/registrar", "/respuesta/registrar/**", "/curso/registrar",
                                         "/usuario/actualizar/**")

@@ -1,6 +1,7 @@
 package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.usuario.*;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosPerfilRespuesta;
 import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
@@ -137,6 +138,11 @@ public class UsuarioService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches();
+    }
+
+    public Page<DatosPerfilRespuesta> obtenerIdNombresYPerfiles(Pageable paginacion) {
+        return usuarioRepository.findAll(paginacion)
+                .map(usuario -> new DatosPerfilRespuesta(usuario));
     }
 
 
