@@ -1,10 +1,7 @@
 # Foro Hub API - README
 
 ## Descripción
-Este proyecto es una API REST para la gestión de un foro. La API permite a los usuarios realizar operaciones CRUD sobre tópicos, respuestas, usuarios, cursos y perfiles. Además, incluye un sistema de autenticación y autorización basado en roles (TipoPerfil).
-
-### Nota Importante
-El primer usuario registrado en la base de datos será automáticamente asignado como **ADMIN**. Este usuario tendrá acceso completo a todas las funcionalidades del sistema.
+Este proyecto es una API REST para la gestión de un foro. La API permite a los usuarios realizar operaciones CRUD sobre tópicos, respuestas, usuarios, cursos y perfiles. Además, incluye un sistema de autenticación y autorización basado en roles (TipoPerfil) junto con un excelente manejo de errores.
 
 ## Autor
 **Juan Sebastian Giraldo Aguirre**
@@ -60,7 +57,43 @@ El primer usuario registrado en la base de datos será automáticamente asignado
 - **Nombre Base de Datos de MySQL:**
   Crea una variable de entorno `DB_NAME` con el nombre de la base de datos. En el archivo `application.properties`, configura:
   `spring.datasource.url=jdbc:mysql://${DB_HOST}/${DB_NAME}`
-  
+
+  # Estructura del Proyecto
+
+La organización del código sigue una arquitectura limpia y modular basada en buenas prácticas de desarrollo. A continuación, se describe la estructura principal del proyecto:
+
+## Paquetes principales
+
+### controller
+Contiene los controladores REST que gestionan las solicitudes HTTP y delegan la lógica de negocio a los servicios correspondientes.
+
+### domain
+Agrupa la lógica del dominio de la aplicación, organizada en subpaquetes:
+- *curso*: Incluye las entidades y clases relacionadas con los cursos.
+- *respuesta*: Contiene las entidades y lógica relacionadas con las respuestas en el foro.
+- *topico*: Maneja las entidades y operaciones relacionadas con los tópicos del foro.
+- *usuario*: Gestiona las entidades y datos de los usuarios registrados.
+
+### infra
+Contiene configuraciones e implementaciones específicas para la infraestructura del proyecto, organizado en subpaquetes:
+- *errores*: Define clases para el manejo de errores y excepciones personalizadas.
+- *exceptions*: Amplía las excepciones del sistema con clases específicas del dominio.
+- *security*: Implementa la configuración de seguridad, autenticación y manejo de tokens JWT.
+- *springdoc*: Gestiona la configuración de documentación de APIs utilizando SpringDoc.
+
+### service
+Contiene la lógica de negocio de la aplicación, encargándose de la interacción entre los controladores y las capas de acceso a datos.
+
+## Directorio resources
+- *db.migration*: Almacena los scripts de migración de la base de datos para la gestión de cambios en el esquema.
+- *static*: Archivos estáticos utilizados por la aplicación (imágenes, CSS, JavaScript, etc.).
+- *templates*: Plantillas HTML para la generación de contenido dinámico.
+- *application.properties*: Archivo de configuración principal del proyecto.
+
+---
+
+Esta estructura asegura la separación de responsabilidades, facilitando el mantenimiento y escalabilidad del sistema.
+
   # Dependencias Principales
 
 - **Spring Web**  
@@ -108,6 +141,9 @@ El primer usuario registrado en la base de datos será automáticamente asignado
 ## Configuración de Seguridad
 El sistema de seguridad utiliza Spring Security y JWT para autenticar y autorizar las solicitudes. Los accesos a los endpoints están restringidos según los roles definidos:
 
+### Nota Importante
+El primer usuario registrado en la base de datos será automáticamente asignado como **ADMIN**. Este usuario tendrá acceso completo a todas las funcionalidades del sistema.
+
 - **USER**: Acceso básico para crear, listar y buscar recursos.
 - **MODERATOR**: Permisos para actualizar ciertos recursos además de los permisos de USER.
 - **ADMIN**: Acceso total, incluyendo eliminación y configuración de perfiles.
@@ -116,6 +152,41 @@ La API utiliza un esquema de autenticación basado en tokens Bearer. Asegúrate 
 ```bash
 Authorization: Bearer <tu_token>
 ```
+
+## Autenticación
+
+- **POST** `http://localhost:8080/login` - Genera un token JWT para autenticar las solicitudes posteriores.
+
+### Requisitos Previos
+Para que el proceso de autenticación funcione correctamente, asegúrate de que:
+
+#### Correo electronico y Contraseña:
+- Se haya creado previamente un usuario en la tabla `usuarios` de la base de datos.
+- La contraseña debe estar almacenada de forma segura utilizando el algoritmo de hash **bcrypt**.
+
+**Ejemplo**: Puedes crear un usuario manualmente con una herramienta como **MySQL Workbench**, o hacerlo mediante un script en tu aplicación backend que utilice **bcrypt** para encriptar la contraseña.
+
+### Ejemplo de Solicitud de Autenticación
+
+A continuación se muestra un ejemplo de la solicitud de autenticación utilizando **Insomnia** o cualquier herramienta similar para hacer solicitudes HTTP:
+
+```json
+{
+    "correoElectronico": "usuario",
+    "contrasena": "contraseña@J"
+}
+```
+
+### Respuesta Esperada
+
+Si las credenciales son válidas, la API devolverá un token JWT que puedes usar para autenticar las solicitudes posteriores. Ejemplo de respuesta:
+
+```json
+{
+    "jwTtoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
 ## Endpoints
 ### Autenticación
 - **POST** `/login`: Permite a los usuarios autenticarse y obtener un token JWT. *Acceso público.*
@@ -294,9 +365,6 @@ Authorization: Bearer <tu_token>
 
 ## Contribuciones
 Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request con tus propuestas.
-
-## Licencia
-Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
 ¡Gracias por usar Foro Hub API!
 
