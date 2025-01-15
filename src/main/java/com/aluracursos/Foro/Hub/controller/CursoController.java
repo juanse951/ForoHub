@@ -2,6 +2,7 @@ package com.aluracursos.Foro.Hub.controller;
 
 import com.aluracursos.Foro.Hub.domain.curso.*;
 import com.aluracursos.Foro.Hub.service.CursoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/curso")
+@SecurityRequirement(name = "bearer-key")
 public class CursoController {
 
     @Autowired

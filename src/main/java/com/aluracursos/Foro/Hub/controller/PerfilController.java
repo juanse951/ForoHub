@@ -4,6 +4,7 @@ import com.aluracursos.Foro.Hub.domain.usuario.*;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosActualizarPerfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosPerfilRespuesta;
 import com.aluracursos.Foro.Hub.service.UsuarioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/perfil")
+@SecurityRequirement(name = "bearer-key")
 public class PerfilController {
 
     @Autowired

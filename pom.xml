@@ -89,6 +89,12 @@
 			<version>8.0.29</version> <!-- Asegúrate de usar la versión más reciente -->
 		</dependency>
 
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.14</version>  <!-- Use this stable version -->
+		</dependency>
+
 	</dependencies>
 
 	<build>
