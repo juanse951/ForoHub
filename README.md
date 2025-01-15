@@ -21,7 +21,7 @@ Este proyecto es una API REST para la gestión de un foro. La API permite a los 
 - [LinkedIn](https://www.linkedin.com/in/juanse951/)
 - [GitHub](https://github.com/juanse951)
 - [TikTok](https://www.tiktok.com/@paghaninitv)
-- Email: juanse951@gmail.com
+- juanse951@gmail.com
 
 ## Tecnologías Utilizadas
 - **Java 17** Versión 17 en adelante
