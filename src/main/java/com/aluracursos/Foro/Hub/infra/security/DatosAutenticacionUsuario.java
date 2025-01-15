@@ -1,4 +1,4 @@
-package com.aluracursos.Foro.Hub.domain.usuario;
+package com.aluracursos.Foro.Hub.infra.security;
 
 public record DatosAutenticacionUsuario(
 

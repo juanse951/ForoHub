@@ -1,6 +1,6 @@
 package com.aluracursos.Foro.Hub.infra.security;
 
-import com.aluracursos.Foro.Hub.domain.usuario.DatosAutenticacionUsuario;
+import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,8 @@ public class AutenticacionController {
     public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario){
         Authentication authToken = new UsernamePasswordAuthenticationToken(
                 datosAutenticacionUsuario.correoElectronico(),datosAutenticacionUsuario.contrasena());
-        authenticationManager.authenticate(authToken);
-        var JWTtoken = tokenService.generarToken();
-        return ResponseEntity.ok(JWTtoken);
+        var usuarioAutenticado = authenticationManager.authenticate(authToken);
+        var JWTtoken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
+        return ResponseEntity.ok(new DatosJWTToken(JWTtoken));
     }
 }
