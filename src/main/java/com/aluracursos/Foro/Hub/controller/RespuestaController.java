@@ -1,12 +1,13 @@
 package com.aluracursos.Foro.Hub.controller;
 
-import com.aluracursos.Foro.Hub.domain.respuesta.DatosActualizarRespuesta;
-import com.aluracursos.Foro.Hub.domain.respuesta.DatosRegistroRespuesta;
-import com.aluracursos.Foro.Hub.domain.respuesta.DatosRespuestaRespuesta;
-import com.aluracursos.Foro.Hub.domain.respuesta.Respuesta;
+import com.aluracursos.Foro.Hub.domain.respuesta.*;
+import com.aluracursos.Foro.Hub.domain.usuario.DatosListadoUsuario;
 import com.aluracursos.Foro.Hub.service.RespuestaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -38,6 +39,12 @@ public class RespuestaController {
         Respuesta respuesta = respuestaService.actualizarRespuesta(id, datosActualizarRespuesta);
         DatosRespuestaRespuesta datosRespuestaRespuesta = new DatosRespuestaRespuesta(respuesta);
         return ResponseEntity.ok(datosRespuestaRespuesta);
+    }
+
+    @GetMapping("/listado")
+    public ResponseEntity<Page<DatosListadoRespuesta>> listadoRespuesta(@PageableDefault(size = 10) Pageable paginacion) {
+        Page<Respuesta> respuestas = respuestaService.obtenerListadoRespuesta(paginacion);
+        return ResponseEntity.ok(respuestas.map(DatosListadoRespuesta::new));
     }
 
 }

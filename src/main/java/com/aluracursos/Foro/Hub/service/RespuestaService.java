@@ -5,6 +5,10 @@ import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -65,6 +69,11 @@ public class RespuestaService {
         respuesta.setFechaCreacion(LocalDateTime.now());
 
         return respuestaRepository.save(respuesta);
+    }
+
+    public Page<Respuesta> obtenerListadoRespuesta(Pageable paginacion) {
+        Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.asc("fechaCreacion")));
+        return respuestaRepository.findAll(paginacionConOrden);
     }
 }
 
