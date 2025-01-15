@@ -19,6 +19,9 @@ public class TokenService {
     @Value("${api.security.secret}")
     private String secret;
 
+    @Value("${api.security.expiration}")
+    private long expiration;
+
     public String generarToken(Usuario usuario){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -46,16 +49,16 @@ public class TokenService {
                     .verify(token);
             verifier.getSubject();
         } catch (JWTVerificationException exception) {
-            System.out.println(exception.toString());
+            throw new RuntimeException("Token inválido o expirado", exception);
         }
-        if(verifier.getSubject() == null){
-            throw new RuntimeException("Verifier invalido");
+        String subject = verifier.getSubject();
+        if (subject == null) {
+            throw new RuntimeException("Subject inválido");
         }
-        return verifier.getSubject();
+        return subject;
     }
 
     private Instant generarFechaExpiracion(){
-        return LocalDateTime.now().plusHours(2)
-                .toInstant(ZoneOffset.of("-05:00"));
+        return Instant.now().plusMillis(expiration);
     }
 }

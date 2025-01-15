@@ -16,7 +16,7 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    @Autowired //siempre es mejor a nivel de constructor
+    @Autowired
     private TokenService tokenService;
 
     @Autowired
@@ -24,19 +24,17 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//Obtener e token del header
         var AuthHeader = request.getHeader("Authorization");
         if(AuthHeader != null){
             var token = AuthHeader.replace("Bearer ","");
-            var nombreDeUsuario = tokenService.getSubject(token); //obtenemos el subject
+            var nombreDeUsuario = tokenService.getSubject(token);
             if(nombreDeUsuario != null){
-                //Token es valido
-                var usuario = usuarioRepository.findByCorreoElectronico(nombreDeUsuario); // encontramos al usuario
+                var usuario = usuarioRepository.findByCorreoElectronico(nombreDeUsuario);
                 var authentication = new UsernamePasswordAuthenticationToken(usuario, null,
-                        usuario.getAuthorities()); //autentificamos el usuario,forzamos un inicio de sesion
-                SecurityContextHolder.getContext().setAuthentication(authentication);//Seteamos manualmente la autenticacion
+                        usuario.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-        filterChain.doFilter(request,response);// unica forma de llamar al filtro
+        filterChain.doFilter(request,response);
     }
 }
