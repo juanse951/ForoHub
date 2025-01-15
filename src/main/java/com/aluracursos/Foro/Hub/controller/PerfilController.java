@@ -1,6 +1,7 @@
 package com.aluracursos.Foro.Hub.controller;
 
 import com.aluracursos.Foro.Hub.domain.usuario.*;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosActualizarPerfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosPerfilRespuesta;
 import com.aluracursos.Foro.Hub.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -19,11 +20,11 @@ public class PerfilController {
     private UsuarioService usuarioService;
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<DatosRespuestaUsuario> actualizarUsuario(@PathVariable Long id,
-                                                                   @RequestBody @Valid DatosActualizarUsuario datosActualizarUsuario) {
-        Usuario usuario = usuarioService.actualizarUsuario(id, datosActualizarUsuario);
-        DatosRespuestaUsuario datosRespuestaUsuario = new DatosRespuestaUsuario(usuario);
-        return ResponseEntity.ok(datosRespuestaUsuario);
+    public ResponseEntity<DatosPerfilRespuesta> actualizarUsuario(@PathVariable Long id,
+                                                                   @RequestBody @Valid DatosActualizarPerfil datosActualizarPerfil) {
+        Usuario usuario = usuarioService.actualizarPerfil(id, datosActualizarPerfil);
+        DatosPerfilRespuesta datosPerfilRespuesta = new DatosPerfilRespuesta(usuario);
+        return ResponseEntity.ok(datosPerfilRespuesta);
     }
 
     @GetMapping("/listado")

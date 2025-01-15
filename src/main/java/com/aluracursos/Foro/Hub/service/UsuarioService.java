@@ -1,10 +1,12 @@
 package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.usuario.*;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosActualizarPerfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosPerfilRespuesta;
 import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UsuarioService {
@@ -145,5 +149,27 @@ public class UsuarioService {
                 .map(usuario -> new DatosPerfilRespuesta(usuario));
     }
 
+
+    @Transactional
+    public Usuario actualizarPerfil(Long id, @Valid DatosActualizarPerfil datosActualizarPerfil) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("El Usuario con ID " + id + " no existe."));
+
+        if (datosActualizarPerfil.perfil() != null && !datosActualizarPerfil.perfil().name().trim().isEmpty()) {
+            try {
+                TipoPerfil perfilValido = TipoPerfil.fromString(datosActualizarPerfil.perfil().name());
+                usuario.setPerfil(perfilValido);
+            } catch (IllegalArgumentException e) {
+
+                String perfilesDisponibles = Stream.of(TipoPerfil.values())
+                        .map(TipoPerfil::getRole)
+                        .collect(Collectors.joining(", "));
+
+                throw new IllegalArgumentException("Perfil no válido: " + datosActualizarPerfil.perfil() +
+                        ". Verifica los perfiles disponibles: " + perfilesDisponibles);
+            }
+        }
+        return usuarioRepository.save(usuario);
+    }
 
 }

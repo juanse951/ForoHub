@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                                 .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
                                 .requestMatchers(HttpMethod.PUT, "/topico/actualizar/**", "/respuesta/actualizar/**", "/curso/actualizar/**")
                                 .hasAnyAuthority(TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
-                                .requestMatchers(HttpMethod.DELETE, "/topico/eliminar/**", "/respuesta/eliminar/**", "/usuario/eliminar/**", "/curso/eliminar/**")
+                                .requestMatchers(HttpMethod.DELETE, "/topico/eliminar/**", "/respuesta/eliminar/**", "/usuario/eliminar/**", "/curso/eliminar/**", "/perfil/actualizar/**")
                                 .hasAuthority(TipoPerfil.ADMIN.getRole())
                                 .requestMatchers(HttpMethod.GET, "/usuario/buscar/**", "/topico/buscar/**", "/respuesta/buscar/**", "/curso/buscar/**")
                                 .hasAnyAuthority(TipoPerfil.USER.getRole(), TipoPerfil.MODERATOR.getRole(), TipoPerfil.ADMIN.getRole())
