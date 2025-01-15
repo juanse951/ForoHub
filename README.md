@@ -19,9 +19,17 @@ Este proyecto es una API REST para la gestión de un foro. La API permite a los 
 ## Autor
 **Juan Sebastian Giraldo Aguirre**
 - [LinkedIn](https://www.linkedin.com/in/juanse951/)
-- [GitHub](https://github.com/juanse951)
 - [TikTok](https://www.tiktok.com/@paghaninitv)
 - juanse951@gmail.com
+ 
+| [<img src="https://avatars.githubusercontent.com/u/173567910?v=4" width=115><br><sub>GitHub</sub>](https://github.com/juanse951) |
+| :---: |
+
+
+
+
+
+
 
 ## Tecnologías Utilizadas
 - **Java 17** Versión 17 en adelante
