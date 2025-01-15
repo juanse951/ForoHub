@@ -54,5 +54,10 @@ public class RespuestaController {
         return ResponseEntity.ok(datosRespuestaRespuesta);
     }
 
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminarRespuesta(@PathVariable Long id) {
+        respuestaService.eliminarRespuesta(id);
+        return ResponseEntity.ok("La Respuesta con ID " + id + " fue eliminado exitosamente.");
+    }
 }
 

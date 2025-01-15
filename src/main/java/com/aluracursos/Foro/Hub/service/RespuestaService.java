@@ -83,6 +83,15 @@ public class RespuestaService {
                 .orElseThrow(() -> new RespuestaNotFoundByIdException("No se encontró la Respuesta con ID " + id));
     }
 
+    @Transactional
+    public void eliminarRespuesta(Long id) {
+        var optionalRespuesta = respuestaRepository.findById(id);
+        if (optionalRespuesta.isEmpty()) {
+            throw new RespuestaNotFoundByIdException("No se encontró la Respuesta con ID " + id);
+        }
+        respuestaRepository.deleteById(id);
+    }
+
 }
 
 
