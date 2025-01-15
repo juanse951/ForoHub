@@ -3,6 +3,19 @@
 ## Descripción
 Este proyecto es una API REST para la gestión de un foro. La API permite a los usuarios realizar operaciones CRUD sobre tópicos, respuestas, usuarios, cursos y perfiles. Además, incluye un sistema de autenticación y autorización basado en roles (TipoPerfil) junto con un excelente manejo de errores.
 
+## Índice
+1. [Tecnologías Utilizadas](#tecnologías-utilizadas)
+2. [Configuración del Entorno](#configuración-del-entorno)
+   - [Requisitos Previos](#requisitos-previos)
+   - [Configuración de Variables de Entorno](#configuración-de-variables-de-entorno)
+3. [Estructura del Proyecto](#estructura-del-proyecto)
+4. [Dependencias Principales](#dependencias-principales)
+5. [Configuración de Seguridad](#configuración-de-seguridad)
+   - [Autenticación](#autenticación)
+   - [Restricciones en Endpoints](#restricciones-en-endpoints)
+6. [Ejemplos de Endpoints](#ejemplos-de-endpoints)
+7. [Instalación y Configuración](#instalación-y-configuración)
+    
 ## Autor
 **Juan Sebastian Giraldo Aguirre**
 - [LinkedIn](https://www.linkedin.com/in/juanse951/)
@@ -187,7 +200,7 @@ Si las credenciales son válidas, la API devolverá un token JWT que puedes usar
 }
 ```
 
-## Endpoints
+## Restricciones en Endpoints
 ### Autenticación
 - **POST** `/login`: Permite a los usuarios autenticarse y obtener un token JWT. *Acceso público.*
 
