@@ -3,6 +3,8 @@ package com.aluracursos.Foro.Hub.service;
 import com.aluracursos.Foro.Hub.domain.respuesta.*;
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
+import com.aluracursos.Foro.Hub.infra.exceptions.RespuestaNotFoundByIdException;
+import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,6 +77,12 @@ public class RespuestaService {
         Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.asc("fechaCreacion")));
         return respuestaRepository.findAll(paginacionConOrden);
     }
+
+    public Respuesta obtenerRespuesta(Long id) {
+        return respuestaRepository.findById(id)
+                .orElseThrow(() -> new RespuestaNotFoundByIdException("No se encontró la Respuesta con ID " + id));
+    }
+
 }
 
 

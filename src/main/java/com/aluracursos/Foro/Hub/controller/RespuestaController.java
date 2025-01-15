@@ -1,7 +1,7 @@
 package com.aluracursos.Foro.Hub.controller;
 
 import com.aluracursos.Foro.Hub.domain.respuesta.*;
-import com.aluracursos.Foro.Hub.domain.usuario.DatosListadoUsuario;
+import com.aluracursos.Foro.Hub.domain.usuario.DatosRespuestaUsuario;
 import com.aluracursos.Foro.Hub.service.RespuestaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +45,13 @@ public class RespuestaController {
     public ResponseEntity<Page<DatosListadoRespuesta>> listadoRespuesta(@PageableDefault(size = 10) Pageable paginacion) {
         Page<Respuesta> respuestas = respuestaService.obtenerListadoRespuesta(paginacion);
         return ResponseEntity.ok(respuestas.map(DatosListadoRespuesta::new));
+    }
+
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<DatosRespuestaRespuesta> retornarDatosRespuesta(@PathVariable Long id) {
+        Respuesta respuesta = respuestaService.obtenerRespuesta(id);
+        DatosRespuestaRespuesta datosRespuestaRespuesta = new DatosRespuestaRespuesta(respuesta);
+        return ResponseEntity.ok(datosRespuestaRespuesta);
     }
 
 }
