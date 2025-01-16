@@ -193,7 +193,7 @@ A continuación se muestra un ejemplo de la solicitud de autenticación utilizan
 
 ```json
 {
-    "correoElectronico": "usuario",
+    "correoElectronico": "usuario@forohub.com",
     "contrasena": "contraseña@J"
 }
 ```
