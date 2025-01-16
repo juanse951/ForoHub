@@ -182,10 +182,10 @@ Authorization: Bearer <tu_token>
 Para que el proceso de autenticación funcione correctamente, asegúrate de que:
 
 #### Correo electronico y Contraseña:
-- Se haya creado previamente un usuario en la tabla `usuarios` de la base de datos.
+- Se haya creado previamente un Correo electronico en la tabla `usuarios` de la base de datos.
 - La contraseña debe estar almacenada de forma segura utilizando el algoritmo de hash **bcrypt**.
 
-**Ejemplo**: Puedes crear un usuario manualmente con una herramienta como **MySQL Workbench**, o hacerlo mediante un script en tu aplicación backend que utilice **bcrypt** para encriptar la contraseña.
+**Ejemplo**: Puedes crear un Correo electronico manualmente con una herramienta como **MySQL Workbench**, o hacerlo mediante un script en tu aplicación backend que utilice **bcrypt** para encriptar la contraseña.
 
 ### Ejemplo de Solicitud de Autenticación
 
@@ -368,7 +368,7 @@ Si las credenciales son válidas, la API devolverá un token JWT que puedes usar
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/juanse951/foro-hub-api.git
+   git clone https://github.com/juanse951/ForoHub.git
    ```
 2. Configura el archivo `application.properties` para la conexión a la base de datos MySQL:
    ```properties
