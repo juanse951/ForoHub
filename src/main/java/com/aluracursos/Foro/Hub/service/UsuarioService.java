@@ -2,7 +2,6 @@ package com.aluracursos.Foro.Hub.service;
 
 import com.aluracursos.Foro.Hub.domain.usuario.*;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosActualizarPerfil;
-import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosPerfilRespuesta;
 import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
@@ -144,12 +143,11 @@ public class UsuarioService {
         return matcher.matches();
     }
 
-    public Page<DatosPerfilRespuesta> obtenerIdNombresYPerfiles(Pageable paginacion) {
-        return usuarioRepository.findAll(paginacion)
-                .map(usuario -> new DatosPerfilRespuesta(usuario));
+    public Page<Usuario> obtenerIdNombresYPerfiles(Pageable paginacion) {
+        Pageable paginacionConOrden = PageRequest.of(paginacion.getPageNumber(), 10, Sort.by(Sort.Order.asc("id")));
+        return usuarioRepository.findAll(paginacionConOrden);
+
     }
-
-
     @Transactional
     public Usuario actualizarPerfil(Long id, @Valid DatosActualizarPerfil datosActualizarPerfil) {
         Usuario usuario = usuarioRepository.findById(id)

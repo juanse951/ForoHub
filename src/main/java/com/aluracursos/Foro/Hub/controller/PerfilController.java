@@ -2,6 +2,7 @@ package com.aluracursos.Foro.Hub.controller;
 
 import com.aluracursos.Foro.Hub.domain.usuario.*;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosActualizarPerfil;
+import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosListadoPerfil;
 import com.aluracursos.Foro.Hub.domain.usuario.perfil.DatosPerfilRespuesta;
 import com.aluracursos.Foro.Hub.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -30,9 +31,9 @@ public class PerfilController {
     }
 
     @GetMapping("/listado")
-    public ResponseEntity<Page<DatosPerfilRespuesta>> obtenerIdNombresYPerfiles(@PageableDefault(size = 10) Pageable paginacion) {
-        Page<DatosPerfilRespuesta> perfiles = usuarioService.obtenerIdNombresYPerfiles(paginacion);
-        return ResponseEntity.ok(perfiles);
+    public ResponseEntity<Page<DatosListadoPerfil>> obtenerIdNombresYPerfiles(@PageableDefault(size = 10) Pageable paginacion) {
+        Page<Usuario> perfiles = usuarioService.obtenerIdNombresYPerfiles(paginacion);
+        return ResponseEntity.ok(perfiles.map(DatosListadoPerfil::new));
     }
 
 }
