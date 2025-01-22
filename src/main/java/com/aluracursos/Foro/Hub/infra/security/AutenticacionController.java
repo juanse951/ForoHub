@@ -1,6 +1,8 @@
 package com.aluracursos.Foro.Hub.infra.security;
 
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/login")
+@Tag(name = "Login", description = "Gestion de inicio de sesion.")
 public class AutenticacionController {
 
     @Autowired
@@ -23,6 +26,10 @@ public class AutenticacionController {
     private TokenService tokenService;
 
     @PostMapping
+    @Operation(
+            summary = "Ingresa tus datos de inicio de sesion",
+            description = "Permite generar un inicio de sesion tras proporcionar un correo electronico y contraseña validos."
+    )
     public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario){
         Authentication authToken = new UsernamePasswordAuthenticationToken(
                 datosAutenticacionUsuario.correoElectronico(),datosAutenticacionUsuario.contrasena());
