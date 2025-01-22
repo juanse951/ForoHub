@@ -1,0 +1,58 @@
+[33ma3fcb7d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33mc2d64b5[m HEAD@{1}: merge origin/master: Merge made by the 'ort' strategy.
+[33ma3fcb7d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{2}: commit: se quita un espacio por que se intenta implementar en railway y esa variable de entorno no se me carga entonces vere si era por ese espacio
+[33m92ed6a1[m HEAD@{3}: commit: se agregan metaDatos en el SpringDocConfiguration
+[33m9f2d5ad[m HEAD@{4}: commit: 04 JWT en la documentación // se agrega en todos los controller @SecurityRequirement(name = "bearer-key")
+[33md0b243a[m HEAD@{5}: commit: se corrige el request "/usuario/actualizar/**" para que sea accesible por todos
+[33m3864cfe[m HEAD@{6}: commit: se corrige el request "/perfil/actualizar/**") para que solo sea accesible por el admin
+[33m731eb5a[m HEAD@{7}: commit: mejoras de codigo e implementacion de cariables de ambiente
+[33m4534b0d[m HEAD@{8}: commit: se crea el metodo actualizarPerfil para @PutMapping("/actualizar/{id}") y se especifica que solo el admin puede hacerlo
+[33m77a4921[m HEAD@{9}: commit: se crea el metodo obtenerIdNombresYPerfiles para @GetMapping("/listado")
+[33mca2b7fc[m HEAD@{10}: commit: se agregan las restricciones de las http requets#2
+[33m1fcb089[m HEAD@{11}: commit: se agregan las restricciones de las http requets// toca detallarlo mas pero funciona
+[33m1a22030[m HEAD@{12}: commit: se abren los httpp de swagger
+[33m710e47b[m HEAD@{13}: commit: ojo IMPORTANTE ERROR DE LLAMADO DE FILTROS PRIMERO EL NUESTRO DESPJUES EL DE SPRING
+[33m665c319[m HEAD@{14}: commit: orgamizando el login se me bloqueaba
+[33mcd3b122[m HEAD@{15}: commit: 05 Obteniendo el Token #1
+[33m326221a[m HEAD@{16}: commit: Creando el Security Filter
+[33m7ee5bf9[m HEAD@{17}: commit: Ajustes de generación en jwt #1 y creacion de variables de entorno
+[33ma6c48e1[m HEAD@{18}: commit: Generando un jwt
+[33m2c5d2bc[m HEAD@{19}: commit: mejoramos el metodo SecurityFilterChain y se agrega la dependencia de auth0
+[33mb0dea1a[m HEAD@{20}: commit: se crea el metodo eliminarRespuesta y el @DeleteMapping("/eliminar/{id}")
+[33md7b5509[m HEAD@{21}: commit: se crea el metodo obtenerRespuesta y el @GetMapping("/buscar/{id}") y RespuestaNotFoundByIdException
+[33ma3b51f8[m HEAD@{22}: commit: se crea el metodo obtenerListadoRespuesta y el @GetMapping("/listado")
+[33mdb63bea[m HEAD@{23}: commit: se crea el metodo actualizar respjuesta y el @PutMapping("/actualizar/{id}")
+[33medd2799[m HEAD@{24}: commit: revision y limpieza de codigo
+[33m581a189[m HEAD@{25}: commit: se elimina el autowired de respuesta service de topico por que me estaba creando un bucle e igual no estaba en uso// en RespuestaService se actualiza el metodo agregar respuesta //se crea el @PostMapping("/{topicoId}")// se agrega @JsonManagedReference- @JsonBackReference para manejar la serialización de relaciones bidireccionales en JSON, donde @JsonManagedReference se coloca en el lado "primario" de la relación (la entidad que se debe serializar), y @JsonBackReference se coloca en el lado "secundario" (para evitar la referencia circular durante la serialización).///
+[33mc625d40[m HEAD@{26}: commit: se crean mensajes de validacion//se crea el controller//se mapean las respuestas y el registro
+[33ma5989bd[m HEAD@{27}: commit: estructuracion de respuesta y su metodo de registro
+[33m3302c64[m HEAD@{28}: commit: se crea el enum para respuesta y se estructura de nuevo se modifican las migraciones internamente sin dejar registro solo por que es entorno de desarrollo eso no se puede jeje
+[33m559621e[m HEAD@{29}: commit: se agrega role moderador
+[33me2977cf[m HEAD@{30}: commit: se agrega el guardado en minusculas de los correo//se modifica el enum TipoPerfilpara que trabaje con el java security
+[33m747ddff[m HEAD@{31}: commit: se agrega logica para que eel primer usuario registrado sea el admin/ se debe modic¿ficar el metodo getAuthorities
+[33m5da59b4[m HEAD@{32}: commit: detalles esteticos para swagger
+[33md43d7ef[m HEAD@{33}: commit: swagger jeje no acepta el ValidationMessages.properties se deja normal los mensajes
+[33m125a13a[m HEAD@{34}: commit: se agregan mensajes personalzados para las actualizaciones
+[33m0c8b009[m HEAD@{35}: commit: se retira el valor predeterminado de categoria
+[33m9afde9b[m HEAD@{36}: commit: se ponen mensajes para swagger///se organiza la logica de actualizar curso para que muestre el id del curso que ya existe y donde encontrarlo en vez de mostrar el propio//se retira el valor predeterminado de categoria
+[33m80d8e6b[m HEAD@{37}: commit: se implemente la parte de actualizacion de categoria de forma eficiente
+[33m4b4f0fc[m HEAD@{38}: commit: se pasa la logica a Categoriaen cuento al formateo y envio de los datos
+[33me4fe213[m HEAD@{39}: commit: se usa el fromString de Categoria, se modifica el constructor para aceptar la categoría enviada por el cliente o establecer un valor por defecto si es null, se crea el metodo @GetMapping("/categorias") para validar las categorias disponibles, Manejo de errores en el servicio, y se agrega mensaje en ValidationMessages.properties
+[33mbdedff1[m HEAD@{40}: commit: se agregan mejoras en la entrega de informacion hacia el usuario
+[33m12a83c3[m HEAD@{41}: commit: se mejora el metodo de actualizar curso y se agrega una excepcion por duplcidad en la base de datos
+[33mc535f20[m HEAD@{42}: commit: se implementa @DeleteMapping("/eliminar/{id}") en curso
+[33m40dd6d2[m HEAD@{43}: commit: se implementa @GetMapping("/listado") en curso
+[33mc83daa2[m HEAD@{44}: commit: se implementa @PutMapping("/actualizar/{id}") en curso
+[33m47f8c0f[m HEAD@{45}: commit: se implementa @GetMapping("/buscar/{id}") en curso
+[33m2f831a1[m HEAD@{46}: commit: se hace que topico utilice totalemnte los otros services y se mejora la respuesta del topico
+[33m87ecbda[m HEAD@{47}: commit: se implementa una nueva excepcion para tratar error JsonParseException
+[33md117a5f[m HEAD@{48}: commit: se mejora el metodo registro y se implmenta limieza de espacios
+[33m02b3107[m HEAD@{49}: commit: se mejora la logica del topico service, separando las responsabilidades ya que el hacia validaciones que le correspondian a otros services
+[33ma6b82dd[m HEAD@{50}: commit: se genera el MÁS excepcion personalizadAS
+[33m3fc2c64[m HEAD@{51}: commit: se genera el excepcion personalizado para usuario
+[33md871204[m HEAD@{52}: commit: se cre e implementa el @DeleteMapping("/eliminar/{id}") de usuario y se cambia el orden de listado de usuarios
+[33mdd1c2ef[m HEAD@{53}: commit: se cre e implementa el @GetMapping("/buscar/{id}") de usuario
+[33m548ec74[m HEAD@{54}: commit: se cre e implementa el @GetMapping("/listado") de usuario
+[33m99bfe4e[m HEAD@{55}: commit: para mas orden se cambian los nombres de los Request
+[33m2e3aaa7[m HEAD@{56}: commit: Validación de la contraseña,Cuando la contraseña está vacía, no se valida, si tiene un valor, se valida contra el patrón, Si la contraseña no cumple con el patrón, se lanza una ConstraintViolationException/// se genera de forma manual para que en el registro pueda estar vacias si el usuario no la quiere cambiar y que el pattern manual lo permita// se retira del registro que el usuario pueda cambiar su tipo de perfil, solo se le mostrara el asignado
+[33m1c510d2[m HEAD@{57}: commit: en el Service usuario se agregan las verificaciones de correo existenye en registro y actualizacion y limpieda de nombres si por error el usuario genera espacios en registro// en registro se deja de usar el @email tambiem por que no me dejaba tener en cuenta si el usuario por error ponia espacio, entonces implemente el manual que habia usado para actualizacion/// para eso se creo un metodo en repository con otro nombre que fuera aceptado por Jpa para la busqueda por correo/// se pasa la logica de hashing de contraseña que estaba en USUARIO al metodo de service // se agrega un nuevo tratador de error para el mensaje de correo ya registrado y se corrigen mensajes del ValidationMessages.
