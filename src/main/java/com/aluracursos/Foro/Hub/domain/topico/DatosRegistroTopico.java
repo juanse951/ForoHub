@@ -9,11 +9,12 @@ public record DatosRegistroTopico(
 
         @NotBlank(message = "{titulo.obligatorio}")
         @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{titulo.error}")
-        @Schema(example = "__")
+        @Schema(example = "_😊_")
         String titulo,
 
         @NotBlank(message = "{mensaje.obligatorio}")
-        @Schema(example = "__")
+        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{mensaje.error}")
+        @Schema(example = "_😊_")
         String mensaje,
 
         @NotNull(message = "{autor.obligatorio}")

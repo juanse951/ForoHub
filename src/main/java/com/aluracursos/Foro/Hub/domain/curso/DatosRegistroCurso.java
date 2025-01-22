@@ -9,7 +9,7 @@ public record DatosRegistroCurso(
 
       @NotBlank(message = "{curso.obligatorio}")
       @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{curso.error}")
-      @Schema(example = "__")
+      @Schema(example = "_😊_")
       String nombre,
 
       @NotNull(message = "{categoria.obligatorio}")

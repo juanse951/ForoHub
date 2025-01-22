@@ -7,10 +7,11 @@ import jakarta.validation.constraints.Pattern;
 public record DatosActualizarTopico(
 
         @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{titulo.error}")
-        @Schema(example = "Déjalo en blanco para mantener o actualiza")
+        @Schema(example = "Déjalo en blanco para mantener o actualiza😊")
         String titulo,
 
-        @Schema(example = "Déjalo en blanco para mantener o actualiza")
+        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>?/|\\\\]*$", message = "{mensaje.error}")
+        @Schema(example = "Déjalo en blanco para mantener o actualiza😊")
         String mensaje,
 
         @NotNull(message = "{autor.obligatorio}")
