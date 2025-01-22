@@ -28,7 +28,7 @@ public class UsuarioController {
     @PostMapping("/registrar")
     @Operation(
             summary = "Registrar un Usuario",
-            description = "Permite registrar un usuario proporcionando el nombre, correo electronico y una contraseña valida."
+            description = "Permite registrar un usuario proporcionando el nombre, correo electronico y una contraseña valida.(USER, MODERATOR, ADMIN)"
     )
     public ResponseEntity registrarUsuario(@RequestBody @Valid DatosRegistroUsuario datosRegistroUsuario,
                                            UriComponentsBuilder uriComponentsBuilder) {
@@ -41,7 +41,7 @@ public class UsuarioController {
     @PutMapping("/actualizar/{id}")
     @Operation(
             summary = "Actualizar un Usuario",
-            description = "Permite actualizar los datos de un usuario existente proporcionando su ID, el nombre, el correo electronico y una contraseña valida."
+            description = "Permite actualizar los datos de un usuario existente proporcionando su ID, el nombre, el correo electronico y una contraseña valida.(USER, MODERATOR, ADMIN)"
     )
     public ResponseEntity<DatosRespuestaUsuario> actualizarUsuario(@Parameter(description = "ID del usuario a actualizar")
                                                                   @PathVariable Long id,
@@ -54,7 +54,7 @@ public class UsuarioController {
     @GetMapping("/listado")
     @Operation(
             summary = "Lista de usuarios registrados",
-            description = "Permite ver los datos de los usuarios existentes con su ID, nombre, correo electronico y perfil."
+            description = "Permite ver los datos de los usuarios existentes con su ID, nombre, correo electronico y perfil.(USER, MODERATOR, ADMIN)"
     )
     public ResponseEntity<Page<DatosListadoUsuario>> listadoUsuarios(Pageable paginacion) {
         Page<Usuario> usuarios = usuarioService.obtenerListadoUsuario(paginacion);
@@ -64,7 +64,7 @@ public class UsuarioController {
     @GetMapping("/buscar/{id}")
     @Operation(
             summary = "Busca un Usuario",
-            description = "Permite buscar un usuario proporcionando el ID."
+            description = "Permite buscar un usuario proporcionando el ID.(USER, MODERATOR, ADMIN)"
     )
     public ResponseEntity<DatosRespuestaUsuario> retornarDatosUsuario(@Parameter(description = "ID del usuario a buscar")
                                                                       @PathVariable Long id) {
@@ -76,7 +76,7 @@ public class UsuarioController {
     @DeleteMapping("/eliminar/{id}")
     @Operation(
             summary = "Elimina usuarios registrados",
-            description = "Permite eliminar un usuario existente por medio de su ID."
+            description = "Permite eliminar un usuario existente por medio de su ID.(ADMIN)"
     )
     public ResponseEntity<String> eliminarUsuario(@Parameter(description = "ID del usuario a eliminar")
                                                   @PathVariable Long id) {

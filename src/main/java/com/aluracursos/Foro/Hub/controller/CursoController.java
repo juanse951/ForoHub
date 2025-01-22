@@ -30,7 +30,7 @@ public class CursoController {
     @PostMapping("/registrar")
     @Operation(
             summary = "Registrar un Curso",
-            description = "Permite registrar un curso proporcionando el nombre y una categoria valida."
+            description = "Permite registrar un curso proporcionando el nombre y una categoria valida.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity registrarCurso(@RequestBody @Valid DatosRegistroCurso datosRegistroCurso,
                                          UriComponentsBuilder uriComponentsBuilder) {
@@ -43,7 +43,7 @@ public class CursoController {
     @GetMapping("/buscar/{id}")
     @Operation(
             summary = "Busca un Curso",
-            description = "Permite buscar un curso proporcionando el ID."
+            description = "Permite buscar un curso proporcionando el ID.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaCurso> retornarDatosCurso(@Parameter(description = "ID del curso a buscar")
                                                                   @PathVariable Long id) {
@@ -55,7 +55,7 @@ public class CursoController {
     @PutMapping("/actualizar/{id}")
     @Operation(
             summary = "Actualizar un Curso",
-            description = "Permite actualizar los datos de un curso existente proporcionando su ID, el nombre y una categoria valida."
+            description = "Permite actualizar los datos de un curso existente proporcionando su ID, el nombre y una categoria valida.(MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaCurso> actualizarCurso(@Parameter(description = "ID del curso a actualizar")
                                                                @PathVariable Long id,
@@ -68,7 +68,7 @@ public class CursoController {
     @GetMapping("/listado")
     @Operation(
             summary = "Lista de cursos registrados",
-            description = "Permite ver los datos de los cursos existentes con su ID, nombre y categoria."
+            description = "Permite ver los datos de los cursos existentes con su ID, nombre y categoria.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<Page<DatosListadoCurso>> listadoCurso(Pageable paginacion) {
         Page<Curso> cursos = cursoService.obtenerListadoCurso(paginacion);
@@ -78,7 +78,7 @@ public class CursoController {
     @DeleteMapping("/eliminar/{id}")
     @Operation(
             summary = "Elimina cursos registrados",
-            description = "Permite eliminar un curso existente por medio de su ID."
+            description = "Permite eliminar un curso existente por medio de su ID.(ADMIN)."
     )
     public ResponseEntity<String> eliminarCurso(@Parameter(description = "ID del curso a eliminar")
                                                 @PathVariable Long id) {
@@ -89,7 +89,7 @@ public class CursoController {
     @GetMapping("/categorias")
     @Operation(
             summary = "Categorias disponibles para registrar tus cursos",
-            description = "Permite ver la variedad de categorias en donde podria aplicar tu curso."
+            description = "Permite ver la variedad de categorias en donde podria aplicar tu curso.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<List<String>> obtenerCategorias() {
         List<String> categorias = Arrays.stream(Categoria.values())

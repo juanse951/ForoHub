@@ -28,7 +28,7 @@ public class RespuestaController {
     @PostMapping("/registrar/{topicoId}")
     @Operation(
             summary = "Registrar una Respuesta",
-            description = "Permite registrar una respuesta proporcionando el ID del topico, el mensaje y el ID del autor."
+            description = "Permite registrar una respuesta proporcionando el ID del topico, el mensaje y el ID del autor.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaRespuesta> registrarRespuesta(@Parameter(description = "ID del topico, que se le asignara esta respuesta")
                                                                       @PathVariable Long topicoId,
@@ -45,7 +45,7 @@ public class RespuestaController {
     @PutMapping("/actualizar/{id}")
     @Operation(
             summary = "Actualizar una Respuesta",
-            description = "Permite actualizar los datos de una respuesta existente proporcionando su ID, el mensaje y una solucion valida: Pendiente, No solucionado, Solucionado."
+            description = "Permite actualizar los datos de una respuesta existente proporcionando su ID, el mensaje y una solucion valida: Pendiente, No solucionado, Solucionado.(MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaRespuesta> actualizarRespuesta(@Parameter(description = "ID de la respuesta a actualizar")
                                                                        @PathVariable Long id,
@@ -58,7 +58,7 @@ public class RespuestaController {
     @GetMapping("/listado")
     @Operation(
             summary = "Lista de respuestas registradas",
-            description = "Permite ver los datos de las respuestas existentes con su ID, mensaje, topico, fecha de creacion, autor y solucion."
+            description = "Permite ver los datos de las respuestas existentes con su ID, mensaje, topico, fecha de creacion, autor y solucion.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<Page<DatosListadoRespuesta>> listadoRespuesta(Pageable paginacion) {
         Page<Respuesta> respuestas = respuestaService.obtenerListadoRespuesta(paginacion);
@@ -68,7 +68,7 @@ public class RespuestaController {
     @GetMapping("/buscar/{id}")
     @Operation(
             summary = "Busca una Respuesta",
-            description = "Permite buscar una respuesta proporcionando el ID."
+            description = "Permite buscar una respuesta proporcionando el ID.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaRespuesta> retornarDatosRespuesta(@Parameter(description = "ID de la respuesta a buscar")
                                                                           @PathVariable Long id) {
@@ -80,7 +80,7 @@ public class RespuestaController {
     @DeleteMapping("/eliminar/{id}")
     @Operation(
             summary = "Elimina respuestas registradas",
-            description = "Permite eliminar una respuesta existente por medio de su ID."
+            description = "Permite eliminar una respuesta existente por medio de su ID.(ADMIN)."
     )
     public ResponseEntity<String> eliminarRespuesta(@Parameter(description = "ID de la respuesta a eliminar")
                                                     @PathVariable Long id) {

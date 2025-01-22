@@ -28,7 +28,7 @@ public class PerfilController {
     @PutMapping("/actualizar/{id}")
     @Operation(
             summary = "Actualizar un Perfil",
-            description = "Permite actualizar los datos de un perfil existente proporcionando su ID y un tipo valido: USER/MODERATOR/ADMIN."
+            description = "Permite actualizar los datos de un perfil existente proporcionando su ID y un tipo valido.(ADMIN)."
     )
     public ResponseEntity<DatosPerfilRespuesta> actualizarUsuario(@Parameter(description = "ID del perfil a actualizar")
                                                                    @PathVariable Long id,
@@ -41,7 +41,7 @@ public class PerfilController {
     @GetMapping("/listado")
     @Operation(
             summary = "Lista de perfiles registrados",
-            description = "Permite ver los datos de los perfiles existentes con su ID, nombre y tipo: USER/MODERATOR/ADMIN."
+            description = "Permite ver los datos de los perfiles existentes con su ID, nombre y tipo.(USER/MODERATOR/ADMIN)."
     )
     public ResponseEntity<Page<DatosListadoPerfil>> obtenerIdNombresYPerfiles(Pageable paginacion) {
         Page<Usuario> perfiles = usuarioService.obtenerIdNombresYPerfiles(paginacion);

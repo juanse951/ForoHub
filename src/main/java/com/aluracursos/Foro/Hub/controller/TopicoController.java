@@ -28,7 +28,7 @@ public class TopicoController {
     @PostMapping("/registrar")
     @Operation(
             summary = "Registrar un Topico",
-            description = "Permite registrar un topico proporcionando el titulo, mensaje, el ID del autor y el ID del curso."
+            description = "Permite registrar un topico proporcionando el titulo, mensaje, el ID del autor y el ID del curso.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
                                                                 UriComponentsBuilder uriComponentsBuilder) {
@@ -42,7 +42,7 @@ public class TopicoController {
     @GetMapping("/listado")
     @Operation(
             summary = "Lista de topicos registrados",
-            description = "Permite ver los datos de los topicos existentes con su ID, titulo, mensaje, fecha de creacion, status, autor y curso."
+            description = "Permite ver los datos de los topicos existentes con su ID, titulo, mensaje, fecha de creacion, status, autor y curso.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<Page<DatosListadoTopico>> listadoTopicos(Pageable paginacion) {
         Page<Topico> topicos = topicoService.obtenerListadoTopicos(paginacion);
@@ -52,7 +52,7 @@ public class TopicoController {
     @GetMapping("/buscar/{id}")
     @Operation(
             summary = "Busca un Topico",
-            description = "Permite buscar un topico proporcionando el ID."
+            description = "Permite buscar un topico proporcionando el ID.(USER, MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaTopico> retornarDatosTopico(@Parameter(description = "ID del topico a buscar")
                                                                     @PathVariable Long id) {
@@ -64,7 +64,7 @@ public class TopicoController {
     @PutMapping("/actualizar/{id}")
     @Operation(
             summary = "Actualizar un Topico",
-            description = "Permite actualizar los datos de un topico existente proporcionando su ID, titulo, mensaje, el ID del autor y el ID del curso."
+            description = "Permite actualizar los datos de un topico existente proporcionando su ID, titulo, mensaje, el ID del autor y el ID del curso.(MODERATOR, ADMIN)."
     )
     public ResponseEntity<DatosRespuestaTopico> actualizarTopico(@Parameter(description = "ID del topico a actualizar")
                                                                  @PathVariable Long id,
@@ -77,7 +77,7 @@ public class TopicoController {
     @DeleteMapping("/eliminar/{id}")
     @Operation(
             summary = "Elimina topicos registrados",
-            description = "Permite eliminar un topico existente por medio de su ID."
+            description = "Permite eliminar un topico existente por medio de su ID.(ADMIN)."
     )
     public ResponseEntity<String> eliminarTopico(@Parameter(description = "ID del topico a eliminar")
                                                  @PathVariable Long id) {
