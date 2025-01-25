@@ -86,7 +86,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.29</version> <!-- Asegúrate de usar la versión más reciente -->
+			<version>8.0.33</version> <!-- Asegúrate de usar la versión más reciente -->
 		</dependency>
 
 		<dependency>
