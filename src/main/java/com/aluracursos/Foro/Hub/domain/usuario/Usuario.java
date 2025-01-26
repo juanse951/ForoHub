@@ -34,7 +34,7 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private TipoPerfil perfil;
 
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Topico> topicos = new ArrayList<>();
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)

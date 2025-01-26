@@ -4,7 +4,6 @@ import com.aluracursos.Foro.Hub.domain.respuesta.*;
 import com.aluracursos.Foro.Hub.domain.topico.Topico;
 import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.infra.exceptions.RespuestaNotFoundByIdException;
-import com.aluracursos.Foro.Hub.infra.exceptions.UsuarioNotFoundByIdException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
