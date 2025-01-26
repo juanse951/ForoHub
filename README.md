@@ -73,11 +73,11 @@ Este proyecto es una API REST para la gestión de un foro. La API permite a los 
   `spring.datasource.password=${DB_PASSWORD}`
 
 - **URL de la base de datos MySQL:**
-  Crea una variable de entorno `DB_HOST` que contenga la dirección del servidor de tu base de datos (por ejemplo, localhost o una URL de servidor remoto)
+  Crea una variable de entorno `DB_URL` que contenga la dirección del servidor de tu base de datos (por ejemplo, mysql://localhost:3306/ o una URL de servidor remoto)
 
 - **Nombre Base de Datos de MySQL:**
   Crea una variable de entorno `DB_NAME` con el nombre de la base de datos. En el archivo `application.properties`, configura:
-  `spring.datasource.url=jdbc:mysql://${DB_HOST}/${DB_NAME}`
+  `spring.datasource.url=jdbc:${DB_URL}${DB_NAME}`
 
   # Estructura del Proyecto
 
@@ -152,9 +152,6 @@ Esta estructura asegura la separación de responsabilidades, facilitando el mant
 
 - **Springdoc OpenAPI Starter WebMVC UI**  
   Genera automáticamente la documentación interactiva de la API utilizando OpenAPI, facilitando la visualización de los endpoints y la interacción con ellos a través de una interfaz web.
-
-- **Springdoc OpenAPI UI**  
-  Herramienta que crea una interfaz gráfica interactiva para la documentación de la API, permitiendo a los desarrolladores probar los endpoints de la API directamente desde la interfaz de usuario.
 
 - **MySQL Connector Java (Versión 8.0.29)**  
   Driver para conectar la aplicación con bases de datos MySQL en su versión específica, asegurando la compatibilidad entre la base de datos y la aplicación.
@@ -372,7 +369,7 @@ Si las credenciales son válidas, la API devolverá un token JWT que puedes usar
    ```
 2. Configura el archivo `application.properties` para la conexión a la base de datos MySQL:
    ```properties
-   spring.datasource.url=jdbc:mysql://${DB_HOST}/${DB_NAME}
+   spring.datasource.url=jdbc:${DB_URL}${DB_NAME}
    spring.datasource.username=${DB_USER}
    spring.datasource.password=${DB_PASSWORD}
    spring.jpa.hibernate.ddl-auto=update
