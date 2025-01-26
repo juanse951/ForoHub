@@ -16,14 +16,17 @@ public class ForoHubApplication {
 	}
 
 	@Configuration
-	public static class Myconfiguration {
+	public static class MyConfiguration {
 		@Bean
 		public WebMvcConfigurer corsConfigurer() {
 			return new WebMvcConfigurer() {
 				@Override
 				public void addCorsMappings(CorsRegistry registry) {
 					registry.addMapping("/**")
-							.allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+							.allowedOrigins("https://forohub.up.railway.app")
+							.allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
+							.allowedHeaders("*")
+							.allowCredentials(true);
 				}
 			};
 		}
