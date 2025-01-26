@@ -72,12 +72,17 @@ Este proyecto es una API REST para la gestión de un foro. La API permite a los 
   Crea una variable de entorno `DB_PASSWORD`. En el archivo `application.properties`, configura:  
   `spring.datasource.password=${DB_PASSWORD}`
 
-- **URL de la base de datos MySQL:**
-  Crea una variable de entorno `DB_URL` que contenga la dirección del servidor de tu base de datos (por ejemplo, mysql://localhost:3306/ o una URL de servidor remoto)
+- **Host de la base de datos MySQL:**
+  Crea una variable de entorno `DB_HOST` que contenga el host del servidor de tu base de datos (por ejemplo, localhost).
+
+- **Port de la base de datos MySQL:**
+  Crea una variable de entorno `DB_PORT` que contenga el puerto del servidor de tu base de datos (por ejemplo, 3306).
 
 - **Nombre Base de Datos de MySQL:**
-  Crea una variable de entorno `DB_NAME` con el nombre de la base de datos. En el archivo `application.properties`, configura:
-  `spring.datasource.url=jdbc:${DB_URL}${DB_NAME}`
+  Crea una variable de entorno `DB_NAME` con el nombre de la base de datos (por ejemplo, forohub).
+  
+  En el archivo `application.properties`, configura:
+  `spring.datasource.url = jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}`
 
   # Estructura del Proyecto
 
@@ -160,7 +165,7 @@ Esta estructura asegura la separación de responsabilidades, facilitando el mant
 El sistema de seguridad utiliza Spring Security y JWT para autenticar y autorizar las solicitudes. Los accesos a los endpoints están restringidos según los roles definidos:
 
 ### Nota Importante
-El primer usuario registrado en la base de datos será automáticamente asignado como **ADMIN**. Este usuario tendrá acceso completo a todas las funcionalidades del sistema.
+El primer usuario registrado en la base de datos será automáticamente asignado como **ADMIN** y no podrá ser **ELIMINADO**. Este usuario tendrá acceso completo a todas las funcionalidades del sistema.
 
 - **USER**: Acceso básico para crear, listar y buscar recursos.
 - **MODERATOR**: Permisos para actualizar ciertos recursos además de los permisos de USER.
@@ -210,7 +215,7 @@ Si las credenciales son válidas, la API devolverá un token JWT que puedes usar
 - **POST** `/login`: Permite a los usuarios autenticarse y obtener un token JWT. *Acceso público.*
 
 ### Gestión de Usuarios
-- **POST** `/usuario/registrar`: Registra un nuevo usuario. *Accesible por USER, MODERATOR, ADMIN.*
+- **POST** `/usuario/registrar`: Registra un nuevo usuario. *Acceso público.*
 - **GET** `/usuario/listado`: Lista todos los usuarios. *Accesible por USER, MODERATOR, ADMIN.*
 - **GET** `/usuario/buscar/{id}`: Busca un usuario por su ID. *Accesible por USER, MODERATOR, ADMIN.*
 - **PUT** `/usuario/actualizar/{id}`: Actualiza la información de un usuario. *Accesible por USER, MODERATOR, ADMIN.*
@@ -369,7 +374,7 @@ Si las credenciales son válidas, la API devolverá un token JWT que puedes usar
    ```
 2. Configura el archivo `application.properties` para la conexión a la base de datos MySQL:
    ```properties
-   spring.datasource.url=jdbc:${DB_URL}${DB_NAME}
+   spring.datasource.url = jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
    spring.datasource.username=${DB_USER}
    spring.datasource.password=${DB_PASSWORD}
    spring.jpa.hibernate.ddl-auto=update
