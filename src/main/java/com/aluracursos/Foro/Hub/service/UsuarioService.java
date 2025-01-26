@@ -183,4 +183,9 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    public Usuario obtenerUsuarioPorEmail(String correoElectronico) {
+        return usuarioRepository.findUsuarioByCorreoElectronico(correoElectronico)
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró el usuario con el correoElectronico " + correoElectronico));
+    }
+
 }

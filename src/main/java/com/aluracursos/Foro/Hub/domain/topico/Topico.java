@@ -49,7 +49,7 @@ public class Topico {
     @JsonManagedReference
     private List<Respuesta> respuestas = new ArrayList<>();
 
-    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor, List<Respuesta> respuestas) {
+    public Topico(DatosRegistroTopico datosRegistroTopico, Curso curso, Usuario autor) {
         this.titulo = datosRegistroTopico.titulo();
         this.mensaje = datosRegistroTopico.mensaje();
         this.curso = curso;

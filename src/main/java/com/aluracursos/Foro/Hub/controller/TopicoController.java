@@ -32,10 +32,8 @@ public class TopicoController {
     )
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
                                                                 UriComponentsBuilder uriComponentsBuilder) {
-        Topico topico = topicoService.crearTopico(datosRegistroTopico);
-
-        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico);
-        URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(topico.getId()).toUri();
+        DatosRespuestaTopico datosRespuestaTopico = topicoService.crearTopico(datosRegistroTopico);
+        URI url = uriComponentsBuilder.path("/topico/{id}").buildAndExpand(datosRespuestaTopico.id()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaTopico);
     }
 

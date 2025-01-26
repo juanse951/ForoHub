@@ -14,9 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class TopicoService {
@@ -40,7 +39,7 @@ public class TopicoService {
     private UsuarioService usuarioService;
 
     @Transactional
-    public Topico crearTopico(DatosRegistroTopico datosRegistroTopico) {
+    public DatosRespuestaTopico crearTopico(DatosRegistroTopico datosRegistroTopico) {
 
         String tituloLimpio = datosRegistroTopico.titulo() != null ? datosRegistroTopico.titulo().trim() : null;
         String mensajeLimpio = datosRegistroTopico.mensaje() != null ? datosRegistroTopico.mensaje().trim() : null;
@@ -56,20 +55,26 @@ public class TopicoService {
         }
 
         Curso curso = cursoService.obtenerCurso(datosRegistroTopico.curso_id());
-        Usuario autor = usuarioService.obtenerUsuario(datosRegistroTopico.autor_id());
 
-        var topico = topicoRepository.save(
-                new Topico(
-                        new DatosRegistroTopico(
-                                tituloLimpio,
-                                mensajeLimpio,
-                                datosRegistroTopico.curso_id(),
-                                datosRegistroTopico.autor_id()),
-                                curso,
-                                autor,
-                                new ArrayList<>())
-        );
-        return topico;
+        String emailUsuario = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario autor = usuarioService.obtenerUsuarioPorEmail(emailUsuario);
+
+        Topico topico = new Topico(datosRegistroTopico , curso, autor);
+        topico.setTitulo(tituloLimpio);
+        topico.setMensaje(mensajeLimpio);
+        topico.setCurso(curso);
+        topico.setAutor(autor);
+
+        topicoRepository.save(topico);
+
+        return new DatosRespuestaTopico(
+                    topico.getId(),
+                    topico.getTitulo(),
+                    topico.getMensaje(),
+                    topico.getFechaCreacion(),
+                    topico.getStatus().toString(),
+                    topico.getAutor().getNombre(),
+                    topico.getCurso().getNombre());
     }
 
     @Transactional

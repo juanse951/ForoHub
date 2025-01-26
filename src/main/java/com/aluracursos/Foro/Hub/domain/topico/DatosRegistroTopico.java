@@ -17,9 +17,6 @@ public record DatosRegistroTopico(
         @Schema(example = "_😊_")
         String mensaje,
 
-        @NotNull(message = "{autor.obligatorio}")
-        Long autor_id,
-
         @NotNull(message = "{curso.obligatorio}")
         Long curso_id
 ) {

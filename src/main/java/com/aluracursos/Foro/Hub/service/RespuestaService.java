@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,7 +33,8 @@ public class RespuestaService {
 
         Topico topico = topicoService.obtenerTopico(topicoId);
 
-        Usuario autor = usuarioService.obtenerUsuario(datosRegistroRespuesta.autor_id());
+        String emailUsuario = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario autor = usuarioService.obtenerUsuarioPorEmail(emailUsuario);
 
         String mensaje = datosRegistroRespuesta.mensaje().trim();
 
