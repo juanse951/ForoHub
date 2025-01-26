@@ -30,6 +30,7 @@ public class UsuarioController {
             summary = "Registrar un Usuario",
             description = "Permite registrar un usuario proporcionando el nombre, correo electronico y una contraseña valida.(PUBLIC)"
     )
+    @Tag(name = "Login y Registro")
     public ResponseEntity registrarUsuario(@RequestBody @Valid DatosRegistroUsuario datosRegistroUsuario,
                                            UriComponentsBuilder uriComponentsBuilder) {
 

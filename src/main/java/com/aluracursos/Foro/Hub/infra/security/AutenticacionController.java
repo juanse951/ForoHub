@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/login")
-@Tag(name = "Login", description = "Gestion de inicio de sesion.")
+@Tag(name = "Login y Registro", description = "Operaciones de Login y Registro de Usuario.")
 public class AutenticacionController {
 
     @Autowired
