@@ -15,20 +15,4 @@ public class ForoHubApplication {
 		SpringApplication.run(ForoHubApplication.class, args);
 	}
 
-	@Configuration
-	public static class MyConfiguration {
-		@Bean
-		public WebMvcConfigurer corsConfigurer() {
-			return new WebMvcConfigurer() {
-				@Override
-				public void addCorsMappings(CorsRegistry registry) {
-					registry.addMapping("/**")
-							.allowedOrigins("https://forohub.up.railway.app")
-							.allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
-							.allowedHeaders("*")
-							.allowCredentials(true);
-				}
-			};
-		}
-	}
 }
