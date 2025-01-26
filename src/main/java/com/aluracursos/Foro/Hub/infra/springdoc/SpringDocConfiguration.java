@@ -18,7 +18,7 @@ public class SpringDocConfiguration {
     public OpenAPI customOpenAPI() {
         Info info = new Info()
                 .title("Foro Hub API")
-                .description("API Rest del ForoHub, que contiene las funcionalidades CRUD necesarias para un óptimo desempeño.")
+                .description("API Rest del ForoHub, que contiene las funcionalidades CRUD necesarias para un óptimo desempeño.Puedes registrar un nuevo usuario (perfil USER) o usar el siguiente para pruebas: forohub@gmail.com , contraseña: 123456@ForoHub (ADMIN) ")
                 .contact(new Contact()
                         .name("Juan Sebastian Giraldo Aguirre")
                         .email("juanse951@gmail.com")
