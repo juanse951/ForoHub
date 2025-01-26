@@ -28,7 +28,7 @@ public class UsuarioController {
     @PostMapping("/registrar")
     @Operation(
             summary = "Registrar un Usuario",
-            description = "Permite registrar un usuario proporcionando el nombre, correo electronico y una contraseña valida.(USER, MODERATOR, ADMIN)"
+            description = "Permite registrar un usuario proporcionando el nombre, correo electronico y una contraseña valida.(PUBLIC)"
     )
     public ResponseEntity registrarUsuario(@RequestBody @Valid DatosRegistroUsuario datosRegistroUsuario,
                                            UriComponentsBuilder uriComponentsBuilder) {

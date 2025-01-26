@@ -28,7 +28,7 @@ public class AutenticacionController {
     @PostMapping
     @Operation(
             summary = "Ingresa tus datos de inicio de sesion",
-            description = "Permite generar un inicio de sesion tras proporcionar un correo electronico y contraseña validos."
+            description = "Permite generar un inicio de sesion tras proporcionar un correo electronico y contraseña validos.(PUBLIC)."
     )
     public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario){
         Authentication authToken = new UsernamePasswordAuthenticationToken(
