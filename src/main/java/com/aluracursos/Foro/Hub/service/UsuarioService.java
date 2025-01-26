@@ -126,6 +126,19 @@ public class UsuarioService {
         if (optionalUsuario.isEmpty()) {
             throw new UsuarioNotFoundByIdException("No se encontró el Usuario con ID " + id);
         }
+        Usuario usuario = optionalUsuario.get();
+
+        if (usuario.getPerfil() == TipoPerfil.ADMIN) {
+            Usuario primerAdmin = usuarioRepository.findByPerfil(TipoPerfil.ADMIN)
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+
+            if (primerAdmin != null && primerAdmin.getId().equals(usuario.getId())) {
+                throw new IllegalArgumentException("No puedes eliminar al primer administrador registrado.");
+            }
+        }
+
         usuarioRepository.deleteById(id);
     }
 
