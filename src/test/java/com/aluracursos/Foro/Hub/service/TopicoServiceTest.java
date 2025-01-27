@@ -10,6 +10,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -246,5 +250,33 @@ class TopicoServiceTest {
 
         assertEquals("No se encontró el tópico con ID " + id, exception.getMessage());
         verify(topicoRepository, never()).deleteById(99L);
+    }
+
+    @Test
+    void obtenerListadoTopicos_deberiaRetornarUnaPaginaDeTopicosCuandoExistenTopicos() {
+        Pageable paginacion = PageRequest.of(0, 10, Sort.by(Sort.Order.desc("fechaCreacion")));
+        Page<Topico> paginaDeTopicos = mock(Page.class);
+
+        when(topicoRepository.findAll(paginacion)).thenReturn(paginaDeTopicos);
+
+        Page<Topico> resultado = topicoService.obtenerListadoTopicos(paginacion);
+
+        assertNotNull(resultado);
+        assertEquals(paginaDeTopicos, resultado);
+        verify(topicoRepository, times(1)).findAll(paginacion);
+    }
+
+    @Test
+    void obtenerListadoTopicos_deberiaRetornarPaginaVaciaCuandoNoExistenTopicos() {
+        Pageable paginacion = PageRequest.of(0, 10, Sort.by(Sort.Order.desc("fechaCreacion")));
+        Page<Topico> paginaDeTopicos = Page.empty();
+
+        when(topicoRepository.findAll(paginacion)).thenReturn(paginaDeTopicos);
+
+        Page<Topico> resultado = topicoService.obtenerListadoTopicos(paginacion);
+
+        assertNotNull(resultado);
+        assertTrue(resultado.isEmpty());
+        verify(topicoRepository, times(1)).findAll(paginacion);
     }
 }
