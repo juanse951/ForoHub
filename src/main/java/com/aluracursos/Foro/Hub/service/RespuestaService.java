@@ -31,15 +31,17 @@ public class RespuestaService {
     @Transactional
     public Respuesta agregarRespuesta(Long topicoId, DatosRegistroRespuesta datosRegistroRespuesta) {
 
+        if (datosRegistroRespuesta.mensaje() == null || datosRegistroRespuesta.mensaje().trim().isEmpty()) {
+            throw new IllegalArgumentException("El mensaje no puede estar vacío.");
+        }
+
         Topico topico = topicoService.obtenerTopico(topicoId);
 
         String emailUsuario = SecurityContextHolder.getContext().getAuthentication().getName();
         Usuario autor = usuarioService.obtenerUsuarioPorEmail(emailUsuario);
 
-        String mensaje = datosRegistroRespuesta.mensaje().trim();
-
         Respuesta respuesta = new Respuesta();
-        respuesta.setMensaje(mensaje);
+        respuesta.setMensaje(datosRegistroRespuesta.mensaje().trim());
         respuesta.setFechaCreacion(LocalDateTime.now());
         respuesta.setSolucion(RespuestaStatus.PENDIENTE);
         respuesta.setAutor(autor);
