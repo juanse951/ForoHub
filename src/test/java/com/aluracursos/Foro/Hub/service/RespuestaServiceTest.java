@@ -6,6 +6,7 @@ import com.aluracursos.Foro.Hub.domain.usuario.Usuario;
 import com.aluracursos.Foro.Hub.infra.exceptions.RespuestaNotFoundByIdException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class RespuestaServiceTest {
 
     @Autowired
@@ -85,10 +87,11 @@ class RespuestaServiceTest {
         Long topicoId = 1L;
         DatosRegistroRespuesta datosRegistroRespuesta = new DatosRegistroRespuesta(null);
 
-        Exception excepcion = assertThrows(NullPointerException.class,
+        Exception excepcion = assertThrows(IllegalArgumentException.class,
                 () -> respuestaService.agregarRespuesta(topicoId, datosRegistroRespuesta));
 
         assertNotNull(excepcion);
+        assertEquals("El mensaje no puede estar vacío.", excepcion.getMessage());
     }
 
     @Test
