@@ -372,6 +372,7 @@ Si las credenciales son válidas, la API devolverá un token JWT que puedes usar
    ```bash
    git clone https://github.com/juanse951/ForoHub.git
    ```
+   
 2. Configura el archivo `application.properties` para la conexión a la base de datos MySQL:
    ```properties
    spring.datasource.url = jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -379,11 +380,17 @@ Si las credenciales son válidas, la API devolverá un token JWT que puedes usar
    spring.datasource.password=${DB_PASSWORD}
    spring.jpa.hibernate.ddl-auto=update
    ```
-3. Ejecuta la aplicación:
+   
+3. Importa la colección de Insomnia:
+   - Abre Insomnia.
+   - Ve a `Application > Preferences > Data > Import Data`.
+   - Selecciona el archivo `Foro-Hub\insomniaDocs\Insomnia_Collection.json`.
+     
+4. Ejecuta la aplicación:
    ```bash
    ./mvnw spring-boot:run
    ```
-4. Accede a la API en `http://localhost:8080` y a la documentación Swagger en: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
+5. Accede a la API en `http://localhost:8080` y a la documentación Swagger en: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
 
 
 ## Contribuciones
